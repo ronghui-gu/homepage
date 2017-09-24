@@ -20,7 +20,7 @@ img.imgleft { float: left; margin: 0 15px 15px 0; padding: 5px; border: 0px dash
 #container
 {
     margin: 0 auto;
-    width: 900px;
+    width: 1150px;
     background: #FFF;
 }
 
@@ -47,7 +47,7 @@ img.imgleft { float: left; margin: 0 15px 15px 0; padding: 5px; border: 0px dash
 #container #menucont
 {
     margin: 0 auto;
-    width: 900px;
+    width: 1150px;
     height: 50px;
     background-color: #444;
     border-bottom: 5px solid rgb(166,58,58);
@@ -133,7 +133,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 #container #maincont
 {
     margin: 0 auto;
-    width: 900px;
+    width: 1150px;
     line-height: 22px;
 }
 
@@ -165,7 +165,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 #container #maincont #mainleft
 {
     float: left;
-    width: 607px;
+    width: 707px;
     padding: 20px;
     border-right: 3px solid #444;
 }
@@ -173,7 +173,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 #container #maincont #mainleft #box
 {
     float: left;
-    width: 590px;
+    width: 690px;
     margin: 6px;
     padding: 9px;
     /*background: #BBB;*/
@@ -185,7 +185,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 #container #maincont #mainleft #box_black
 {
     float: left;
-    width: 590px;
+    width: 690px;
     margin: 6px;
     padding: 9px;
     /*background: #BBB;*/
@@ -210,7 +210,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 #container #maincont #mainright
 {
     float: left;
-    width: 210px;
+    width: 360px;
     padding: 20px;
 }
 
@@ -218,7 +218,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 {
     clear: both;
     margin: 0 auto;
-    width: 900px;
+    width: 1150px;
     padding: 20px 0px 5px 0px;
     border-top: 1px solid #DDD;
     font-size: 11px;
