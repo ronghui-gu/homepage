@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lecture1</title><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX","output/HTML-CSS"],
+    extensions: ["[a11y]/accessibility-menu.js"],
+    'HTML-CSS': {
+      availableFonts: [],
+      webFont: 'TeX',
+      undefinedFamily: "serif",
+      mtextFontInherit: true,
+    },
+    TeX: {
+  "Macros": {},
+  "equationNumbers": {},
+  "extensions": [
+    "AMSmath.js",
+    "AMSsymbols.js",
+    "noErrors.js",
+    "noUndefined.js"
+  ]
+},
+    showMathMenu: true
+  });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"></script>
+    <style>.emoji {
+  max-width: 1em !important;
+}
+del {
+  text-decoration: none;
+  position: relative;
+}
+del::after {
+  border-bottom: 1px solid black;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+ul.contains-task-list li.task-list-item {
+  position: relative;
+  list-style-type: none;
+}
+ul.contains-task-list li.task-list-item input.task-list-item-checkbox {
+  position: absolute;
+  transform: translateX(-100%);
+  width: 30px;
+}
+span.critic.comment {
+  position: relative;
+}
+span.critic.comment::before {
+  content: '\1f4ac';
+  position: initial;
+}
+span.critic.comment > span {
+  display: none;
+}
+span.critic.comment:hover > span {
+  display: initial;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid;
+  border-radius: 5px;
+  max-height: 4em;
+  overflow: auto;
+}
+span.critic.comment:focus > span {
+  display: initial;
+  text-decoration: underline;
+  position: initial;
+  top: auto;
+  left: auto;
+  border: initial;
+  border-radius: initial;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: transparent;
+}
+
+body {
+  overflow: initial !important;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  line-height: 1.6;
+  word-wrap: break-word;
+  padding: 30px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+}
+body > *:first-child {
+  margin-top: 0 !important;
+}
+body > *:last-child {
+  margin-bottom: 0 !important;
+}
+body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+body .absent {
+  color: #c00;
+}
+body .anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+body .anchor:focus {
+  outline: none;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+body h1 .octicon-link,
+body h2 .octicon-link,
+body h3 .octicon-link,
+body h4 .octicon-link,
+body h5 .octicon-link,
+body h6 .octicon-link {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+body h1:hover .anchor,
+body h2:hover .anchor,
+body h3:hover .anchor,
+body h4:hover .anchor,
+body h5:hover .anchor,
+body h6:hover .anchor {
+  padding-left: 8px;
+  margin-left: -30px;
+  text-decoration: none;
+}
+body h1:hover .anchor .octicon-link,
+body h2:hover .anchor .octicon-link,
+body h3:hover .anchor .octicon-link,
+body h4:hover .anchor .octicon-link,
+body h5:hover .anchor .octicon-link,
+body h6:hover .anchor .octicon-link {
+  display: inline-block;
+}
+body h1 tt,
+body h2 tt,
+body h3 tt,
+body h4 tt,
+body h5 tt,
+body h6 tt,
+body h1 code,
+body h2 code,
+body h3 code,
+body h4 code,
+body h5 code,
+body h6 code {
+  font-size: inherit;
+}
+body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+body h1 .anchor {
+  line-height: 1;
+}
+body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+body h2 .anchor {
+  line-height: 1;
+}
+body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+body h3 .anchor {
+  line-height: 1.2;
+}
+body h4 {
+  font-size: 1.25em;
+}
+body h4 .anchor {
+  line-height: 1.2;
+}
+body h5 {
+  font-size: 1em;
+}
+body h5 .anchor {
+  line-height: 1.1;
+}
+body h6 {
+  font-size: 1em;
+  color: #777;
+}
+body h6 .anchor {
+  line-height: 1.1;
+}
+body p,
+body blockquote,
+body ul,
+body ol,
+body dl,
+body table,
+body pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+body ul,
+body ol {
+  padding-left: 2em;
+}
+body ul.no-list,
+body ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+body ul ul,
+body ul ol,
+body ol ol,
+body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+body li > p {
+  margin-top: 16px;
+}
+body dl {
+  padding: 0;
+}
+body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+body blockquote > :first-child {
+  margin-top: 0;
+}
+body blockquote > :last-child {
+  margin-bottom: 0;
+}
+body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+body table th {
+  font-weight: bold;
+}
+body table th,
+body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body .emoji {
+  max-width: none;
+}
+body span.frame {
+  display: block;
+  overflow: hidden;
+}
+body span.frame > span {
+  display: block;
+  float: left;
+  width: auto;
+  padding: 7px;
+  margin: 13px 0 0;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+body span.frame span img {
+  display: block;
+  float: left;
+}
+body span.frame span span {
+  display: block;
+  padding: 5px 0 0;
+  clear: both;
+  color: #333;
+}
+body span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+body span.align-center > span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: center;
+}
+body span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+body span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+body span.align-right > span {
+  display: block;
+  margin: 13px 0 0;
+  overflow: hidden;
+  text-align: right;
+}
+body span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+body span.float-left {
+  display: block;
+  float: left;
+  margin-right: 13px;
+  overflow: hidden;
+}
+body span.float-left span {
+  margin: 13px 0 0;
+}
+body span.float-right {
+  display: block;
+  float: right;
+  margin-left: 13px;
+  overflow: hidden;
+}
+body span.float-right > span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: right;
+}
+body code,
+body tt {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+body code:before,
+body tt:before,
+body code:after,
+body tt:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+body code br,
+body tt br {
+  display: none;
+}
+body del code {
+  text-decoration: inherit;
+}
+body pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+body .highlight {
+  margin-bottom: 16px;
+}
+body .highlight pre,
+body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+body pre {
+  word-wrap: normal;
+}
+body pre code,
+body pre tt {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+body pre code:before,
+body pre tt:before,
+body pre code:after,
+body pre tt:after {
+  content: normal;
+}
+body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
+}
+span.critic.comment > span {
+  background-color: #fff;
+}
+a {
+  color: #337ab7;
+}
+
+pre.editor-colors {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: rgba(153, 187, 255, 0.04);
+}
+pre.editor-colors .invisible {
+  color: #abb2bf;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #528bff;
+}
+pre.editor-colors .selection .region {
+  background-color: #3e4451;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #528bff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region {
+  border-radius: 2px;
+  background-color: rgba(82, 139, 255, 0.24);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region {
+  border: 2px solid #528bff;
+  transition-duration: .1s;
+}
+pre.editor-colors .gutter .line-number {
+  color: #636d83;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #abb2bf;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(224, 82, 82, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #abb2bf;
+}
+.syntax--comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #5c6370;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #98c379;
+}
+.syntax--keyword {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--control {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #61afef;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #d19a66;
+}
+.syntax--storage {
+  color: #c678dd;
+}
+.syntax--storage.syntax--type.syntax--annotation,
+.syntax--storage.syntax--type.syntax--primitive {
+  color: #c678dd;
+}
+.syntax--storage.syntax--modifier.syntax--package,
+.syntax--storage.syntax--modifier.syntax--import {
+  color: #abb2bf;
+}
+.syntax--constant {
+  color: #d19a66;
+}
+.syntax--constant.syntax--variable {
+  color: #d19a66;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--numeric {
+  color: #d19a66;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #56b6c2;
+}
+.syntax--variable {
+  color: #e06c75;
+}
+.syntax--variable.syntax--interpolation {
+  color: #be5046;
+}
+.syntax--variable.syntax--parameter {
+  color: #abb2bf;
+}
+.syntax--string {
+  color: #98c379;
+}
+.syntax--string.syntax--regexp {
+  color: #56b6c2;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #e5c07b;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #e06c75;
+}
+.syntax--punctuation.syntax--definition.syntax--comment {
+  color: #5c6370;
+}
+.syntax--punctuation.syntax--definition.syntax--method-parameters,
+.syntax--punctuation.syntax--definition.syntax--function-parameters,
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--separator,
+.syntax--punctuation.syntax--definition.syntax--seperator,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #abb2bf;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #61afef;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #be5046;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #abb2bf;
+}
+.syntax--support.syntax--class {
+  color: #e5c07b;
+}
+.syntax--support.syntax--type {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #e06c75;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #d19a66;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #61afef;
+}
+.syntax--meta.syntax--class {
+  color: #e5c07b;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--definition.syntax--variable {
+  color: #e06c75;
+}
+.syntax--meta.syntax--link {
+  color: #d19a66;
+}
+.syntax--meta.syntax--require {
+  color: #61afef;
+}
+.syntax--meta.syntax--selector {
+  color: #c678dd;
+}
+.syntax--meta.syntax--separator {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--tag {
+  color: #abb2bf;
+}
+.syntax--underline {
+  text-decoration: underline;
+}
+.syntax--none {
+  color: #abb2bf;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #523d14 !important;
+  background-color: #e0c285 !important;
+}
+.syntax--invalid.syntax--illegal {
+  color: white !important;
+  background-color: #e05252 !important;
+}
+.syntax--markup.syntax--bold {
+  color: #d19a66;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #c678dd;
+}
+.syntax--markup.syntax--deleted {
+  color: #e06c75;
+}
+.syntax--markup.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #e06c75;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #61afef;
+}
+.syntax--markup.syntax--link {
+  color: #56b6c2;
+}
+.syntax--markup.syntax--inserted {
+  color: #98c379;
+}
+.syntax--markup.syntax--quote {
+  color: #d19a66;
+}
+.syntax--markup.syntax--raw {
+  color: #98c379;
+}
+.syntax--source.syntax--c .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cpp .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--css .syntax--property-name,
+.syntax--source.syntax--css .syntax--property-value {
+  color: #828997;
+}
+.syntax--source.syntax--css .syntax--property-name.syntax--support,
+.syntax--source.syntax--css .syntax--property-value.syntax--support {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--source.syntax--embedded.syntax--source {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--constant.syntax--language,
+.syntax--source.syntax--elixir .syntax--constant.syntax--numeric,
+.syntax--source.syntax--elixir .syntax--constant.syntax--definition {
+  color: #61afef;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--definition,
+.syntax--source.syntax--elixir .syntax--variable.syntax--anonymous {
+  color: #c678dd;
+}
+.syntax--source.syntax--elixir .syntax--parameter.syntax--variable.syntax--function {
+  color: #d19a66;
+  font-style: italic;
+}
+.syntax--source.syntax--elixir .syntax--quoted {
+  color: #98c379;
+}
+.syntax--source.syntax--elixir .syntax--keyword.syntax--special-method,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--section,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--source.syntax--empty {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--readwrite.syntax--module .syntax--punctuation {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--regexp.syntax--section,
+.syntax--source.syntax--elixir .syntax--regexp.syntax--string {
+  color: #be5046;
+}
+.syntax--source.syntax--elixir .syntax--separator,
+.syntax--source.syntax--elixir .syntax--keyword.syntax--operator {
+  color: #d19a66;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--constant {
+  color: #e5c07b;
+}
+.syntax--source.syntax--elixir .syntax--array,
+.syntax--source.syntax--elixir .syntax--scope,
+.syntax--source.syntax--elixir .syntax--section {
+  color: #828997;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #61afef;
+}
+.syntax--source.syntax--go .syntax--storage.syntax--type.syntax--string {
+  color: #c678dd;
+}
+.syntax--source.syntax--ini .syntax--keyword.syntax--other.syntax--definition.syntax--ini {
+  color: #e06c75;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--modifier.syntax--import {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--type {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--keyword.syntax--operator.syntax--instanceof {
+  color: #c678dd;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair {
+  color: #e06c75;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair > .syntax--punctuation {
+  color: #abb2bf;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--delete,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--in,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--of,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--instanceof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--new,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--typeof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--void {
+  color: #c678dd;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #98c379;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--interpolation {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation.syntax--begin,
+.syntax--ng.syntax--interpolation.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--function {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation .syntax--function.syntax--begin,
+.syntax--ng.syntax--interpolation .syntax--function.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--bool {
+  color: #d19a66;
+}
+.syntax--ng.syntax--interpolation .syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--pipe,
+.syntax--ng.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--tag {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--attribute-name {
+  color: #e5c07b;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string {
+  color: #c678dd;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--begin,
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--end {
+  color: #abb2bf;
+}
+.syntax--source.syntax--ruby .syntax--constant.syntax--other.syntax--symbol > .syntax--punctuation {
+  color: inherit;
+}
+.syntax--source.syntax--php .syntax--class.syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--source.syntax--python .syntax--keyword.syntax--operator.syntax--logical.syntax--python {
+  color: #c678dd;
+}
+.syntax--source.syntax--python .syntax--variable.syntax--parameter {
+  color: #d19a66;
+}
+
+/*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+</style>
+
+  </head>
+  <body>
+    <h1>Lecture 1: Propositional Logic</h1>
+<p>COMS E6998 Formal Verification of System Software<br>
+Fall 2018<br>
+Ronghui Gu</p>
+<h2>1. Logical Statements</h2>
+<p>Propositional logic involves <strong>only</strong> declarative statements.</p>
+<ul>
+<li>
+<p>Declarative statements can be declared to be either true or false (but not both).</p>
+<ul>
+<li>“The train is late”</li>
+<li>“There are no taxis in the station”</li>
+</ul>
+</li>
+<li>
+<p><strong>Not all</strong> statements are declarative. The following cannot be declared true/false.</p>
+<ul>
+<li>“Let’s go to the cinema” (proposal)</li>
+<li>“It will probably rain tomorrow” (likelihood)</li>
+<li>“Where is Eric?” (question)</li>
+<li>“Fantastic!” (exclamation)</li>
+</ul>
+</li>
+</ul>
+<p>Complex propositions can be constructed by simple ones using operators.<br>
+<span class="math"><script type="math/tex">p</script></span> : “<strong>If</strong> the train is late <strong>and</strong> there are no taxis in the station, <strong>then</strong> Bob is late to work.”</p>
+<p>We can examine whether such propositions are true or false when we know the values of the basic propositions.</p>
+<p>English (or any human language) is imprecise and subtle (verb tenses, etc.) and error prone.
+A more mathematical language for logic would make the above arguments clear (Propositional Logic).</p>
+<h2>2. Symbolic Propositional Logical</h2>
+<ul>
+<li>Declarative statement is just a “string of symbols”</li>
+<li>Consider some statements are atomic. Name atomic propositions with distinct mathematical symbols (lowercase English letters): <span class="math"><script type="math/tex">p, p_1, q, q_2</script></span></li>
+<li>We form complex propositions using the following operators
+<ul>
+<li>Negation</li>
+<li>Disjunction</li>
+<li>Conjunction</li>
+<li>Implication</li>
+<li>Parentheses</li>
+</ul>
+</li>
+<li>We will call atomic and complex propositions “formulas”:
+<span class="math"><script type="math/tex">(p \wedge ~q) \rightarrow r</script></span></li>
+</ul>
+<h2>3. Syntax</h2>
+<p>To be rigorous, we need to define grammar (or meta-) variables that stand for any term derivable from the grammar: <span class="math"><script type="math/tex">A, B, ...</script></span></p>
+<p><strong>Definition</strong>  The logical formulas of Propositional Logic are exactly those
+accepted by the following grammar in Backus Naur Form (BNF):</p>
+<span class="math"><script type="math/tex; mode=display">A::=p\ |\ (\neg A)\ |\ (A \wedge A)\ |\ (A \vee A)\ |\ (A \rightarrow A)
+</script></span>
+<p>We can draw a parse tree for the formula.</p>
+<h2>4. Semantics</h2>
+<p>Now we are going to look at the truth values of propositional logic formulas <span class="math"><script type="math/tex">A</script></span>. We will write this as <span class="math"><script type="math/tex">sem(A)</script></span></p>
+<p><strong>Definition</strong></p>
+<ul>
+<li>The set of truth values contains two elements <span class="math"><script type="math/tex">T</script></span> and <span class="math"><script type="math/tex">F</script></span></li>
+<li>The meaning of an atomic formula is a single value from the set of truth values.</li>
+<li>The meaning of each logical operator is a predefined function</li>
+<li>The valuation or model of a formula <span class="math"><script type="math/tex">A</script></span> is an assignment of each propositional atom in <span class="math"><script type="math/tex">A</script></span> to a truth value.</li>
+</ul>
+<p>A model of the formula <span class="math"><script type="math/tex">A = \neg p \wedge (q \vee p)</script></span> can be any of the following:</p>
+<ul>
+<li><span class="math"><script type="math/tex">p: T, q: T</script></span></li>
+<li><span class="math"><script type="math/tex">p: F, q: F</script></span></li>
+<li>…</li>
+</ul>
+<p>We can write truth tables of composed operators using multiple columns.</p>
+<p><strong>Q</strong>: Create the truth table of the formula:
+<span class="math"><script type="math/tex">(p \rightarrow \neg q) → (q∨¬p)</script></span></p>
+<p><strong>Q</strong>: Give a model that makes the above formula true.</p>
+<p><strong>Definition</strong></p>
+<ul>
+<li><span class="math"><script type="math/tex">A</script></span> is <em>satisfiable</em> when it has a model which makes it true.</li>
+<li><span class="math"><script type="math/tex">A</script></span> is <em>valid</em> or a <em>tautology</em> when it has no model which makes it false.</li>
+<li><span class="math"><script type="math/tex">A</script></span> is <em>invalid</em> or a <em>contradiction</em> when it has no model which makes it true.</li>
+</ul>
+<p><strong>Q</strong>: which of the above are properties of
+<span class="math"><script type="math/tex">(p → ¬q) → (q∨¬p)</script></span></p>
+<p><strong>Q</strong>: show that if <span class="math"><script type="math/tex">A_1 ∧(A_2 ∧A_3)</script></span> is satisfiable then <span class="math"><script type="math/tex">(A_1 ∧A_2)∧A_3</script></span> is satisfiable.</p>
+<p><strong>Q</strong>: Let <span class="math"><script type="math/tex">(A_1 ∧ A_2) → A_3</script></span> be valid. Is it necessary that <span class="math"><script type="math/tex">A_3</script></span> is satisfiable?</p>
+<h1>5. Reasoning</h1>
+<p>Our goal is to use the logic to derive logical conclusions from logical premises (assumptions).</p>
+<p>Two ways to do this:</p>
+<ul>
+<li><strong>Semantic reasoning</strong>: using the truth values.
+We already did this in the associativity questions.</li>
+<li><strong>Syntactic reasoning</strong>: using syntactic axioms and derivation rules. The preferred way because it’s easier. We’ll see this in the next lecture.</li>
+</ul>
+<p><strong>Definition</strong>
+We write “<span class="math"><script type="math/tex">A_1,...,A_n \models B</script></span>” to mean that
+any valuation giving to all <span class="math"><script type="math/tex">A_1, . . . , A_n</script></span> the value <span class="math"><script type="math/tex">T</script></span> also gives <span class="math"><script type="math/tex">B</script></span> the value <span class="math"><script type="math/tex">T</script></span>.</p>
+<p>This is called semantic entailment.</p>
+<ul>
+<li>We call A1,…,An the preconditions.</li>
+<li>We call <span class="math"><script type="math/tex">B</script></span> the conclusion.</li>
+<li>We assume that any valuation makes the empty premises <span class="math"><script type="math/tex">T</script></span>.</li>
+<li>We will write <span class="math"><script type="math/tex">A≡B</script></span> when <span class="math"><script type="math/tex">A\models B</script></span> and <span class="math"><script type="math/tex">B\models A</script></span>. This is called semantic equivalence.</li>
+</ul>
+<p><strong>Lemma</strong><br>
+<span class="math"><script type="math/tex">A</script></span> is valid iff <span class="math"><script type="math/tex">\models A</script></span>.</p>
+<p><strong>Lemma</strong><br>
+<span class="math"><script type="math/tex">A</script></span> is invalid iff <span class="math"><script type="math/tex">\models ¬A</script></span>.</p>
+<p><strong>Lemma</strong><br>
+<span class="math"><script type="math/tex">\models A→B</script></span> iff <span class="math"><script type="math/tex">A\models B</script></span>.</p>
+<p><strong>Lemma</strong><br>
+<span class="math"><script type="math/tex">A_1 ∧A_2 \models B</script></span> iff <span class="math"><script type="math/tex">A_1,A_2 \models B</script></span>.</p>
+<p><strong>Lemma</strong><br>
+<span class="math"><script type="math/tex">A \models B_1 ∨B_2</script></span> iff <span class="math"><script type="math/tex">A\models B_1</script></span> or <span class="math"><script type="math/tex">A\models B_2</script></span>.</p>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p → q \models ¬q → ¬p</script></span></p>
+<ul>
+<li>Brute force algorithm for checking semantic entailment is exponential to the number of atomic propositions. <span class="math"><script type="math/tex">2^n</script></span> (<span class="math"><script type="math/tex">n</script></span> is the number of atomic propositions)</li>
+<li>an indirect proof can be quicker</li>
+</ul>
+<h3>Indirect Proof</h3>
+<ul>
+<li>assume entailment is falsifiable</li>
+<li>check if that’s possible</li>
+</ul>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">(p → (q ∨ r)) , (q → s) , p \models ¬ r → s</script></span></p>
+<h2>6. Syntactic Logical Proofs</h2>
+<p>Three different entailments:</p>
+<ul>
+<li><span class="math"><script type="math/tex">A→B</script></span>: This is merely syntax. Its semantics is defined as <span class="math"><script type="math/tex">sem(A→B)</script></span></li>
+<li><span class="math"><script type="math/tex">A_1 ... A_n \models B</script></span>: This means <span class="math"><script type="math/tex">A_1 ... A_n</script></span> model <span class="math"><script type="math/tex">B</script></span>.</li>
+<li><span class="math"><script type="math/tex">A_1 ... A_n ⊢ B</script></span>: from <span class="math"><script type="math/tex">A_1 ... A_n</script></span>, we can <em>syntactically</em> derive (or prove) <span class="math"><script type="math/tex">B</script></span> (using the inference rules of propositional logic)</li>
+</ul>
+<h3>6.1 Natural Deduction</h3>
+<p>There is a standard calculus for axioms of this form called Natural Deduction</p>
+<span class="math"><script type="math/tex; mode=display">\frac{A_1 \ \cdots \  A_n}{B} \text{ Rule Name}
+</script></span>
+<p>Inference rules: If we have formulas <span class="math"><script type="math/tex">A_1 . . . A_n</script></span> then we can derive formula <span class="math"><script type="math/tex">B</script></span>.</p>
+<p>Examples:<br>
+<strong>Axiom (∧i)</strong>
+If we have any formulas <span class="math"><script type="math/tex">A_1</script></span> and <span class="math"><script type="math/tex">A_2</script></span> then we can derive the formula
+<span class="math"><script type="math/tex">A_1 ∧ A_2</script></span></p>
+<span class="math"><script type="math/tex; mode=display">\frac{A_1 \quad A_2}{A_1 ∧ A_2} \text{ ∧i}
+</script></span>
+<p><strong>Axiom (∧e1)</strong>
+If we have formula <span class="math"><script type="math/tex">A_1 ∧ A_2</script></span> then we can derive the formula <span class="math"><script type="math/tex">A_1</script></span></p>
+<span class="math"><script type="math/tex; mode=display">\frac{A_1 ∧ A_2}{A_1} \text{ ∧e1}
+</script></span>
+<p><strong>Axiom (∧e2)</strong>
+If we have formula <span class="math"><script type="math/tex">A_1 ∧ A_2</script></span> then we can derive the formula <span class="math"><script type="math/tex">A_2</script></span></p>
+<span class="math"><script type="math/tex; mode=display">\frac{A_1 ∧ A_2}{A_2} \text{ ∧e2}
+</script></span>
+<p><strong>Q</strong>: Prove “<span class="math"><script type="math/tex">(p∧q)∧r, s∧t ⊢ q∧s</script></span>” using above axioms.<br>
+<strong>Proof</strong></p>
+<ol>
+<li><span class="math"><script type="math/tex">(p ∧ q) ∧ r</script></span>   (Precondition)</li>
+<li><span class="math"><script type="math/tex">s∧t</script></span> (Precondition)</li>
+<li><span class="math"><script type="math/tex">p ∧ q</script></span> (∧e1, 1)</li>
+<li><span class="math"><script type="math/tex">q</script></span> (∧e2, 3)</li>
+<li><span class="math"><script type="math/tex">s</script></span> (∧e1, 2)</li>
+<li><span class="math"><script type="math/tex">q ∧ s</script></span> (∧i, 4, 5)</li>
+</ol>
+<p><strong>Simple inference rules</strong>: given formulas derive a formula<br>
+<strong>Complex inference rules</strong>: given proofs and formulas derive a formula</p>
+<h3>6.2 Disjunction</h3>
+<p>The introduction rules of <span class="math"><script type="math/tex">∨</script></span> are simple rules.</p>
+<span class="math"><script type="math/tex; mode=display">\frac{A_1 }{A_1 ∨ A_2} \text{ ∨ i1} \qquad \frac{A_2 }{A_1 ∨ A_2} \text{ ∨ i2}
+</script></span>
+<p>The elimination rules of <span class="math"><script type="math/tex">∨</script></span> are complex rules.</p>
+<span class="math"><script type="math/tex; mode=display">\frac{\begin{array}{c}  \\  \\ \\ \\ A_1 ∨ A_2 \end{array} \quad \boxed{\begin{array}{c} A_1\\ .\\.\\.\\ B \end{array}}
+ \quad \boxed{\begin{array}{c} A_2\\ .\\.\\.\\ B \end{array}}
+}{B} \text{ ∨ e} </script></span>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p∨q ⊢ q∨p</script></span></p>
+<h3>6.3 Implication</h3>
+<p>Elimination of <span class="math"><script type="math/tex">→</script></span> (aka modus ponens)</p>
+<span class="math"><script type="math/tex; mode=display">\frac{A  \quad A→B}{B} \text{ →e}
+</script></span>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p→q→r, p, q⊢r</script></span><br>
+<strong>Q</strong>: show <span class="math"><script type="math/tex">p→q→r, p, p→q⊢r</script></span></p>
+<p>Introduction of <span class="math"><script type="math/tex">→</script></span>:
+“If we can prove <span class="math"><script type="math/tex">B</script></span> by assuming <span class="math"><script type="math/tex">A</script></span>, then <span class="math"><script type="math/tex">A</script></span> implies <span class="math"><script type="math/tex">B</script></span>.”</p>
+<span class="math"><script type="math/tex; mode=display">\frac{\boxed{\begin{array}{c} A\\ .\\.\\.\\ B \end{array}}
+}{A →B} \text{ →i} </script></span>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p→q⊢p→r→q</script></span><br>
+<strong>Q</strong>: show ⊢ p → q → p</p>
+<p>Thus, we can replace “all the proofs” with “implications”.</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ A_1∨A_2 \quad A_1→B  \quad A_2→B  
+}{B} \text{ v e} </script></span>
+<p>If we prove <span class="math"><script type="math/tex">A_1,...A_n ⊢ B</script></span> then we can use in our proofs a derivable rule (aka a theorem)</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ A_1 \quad \cdots  \quad A_n
+}{B} \text{ theorem} </script></span>
+<p>For example, we can prove the following theorem (called modus tollens)</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ A_1 → A_2 \quad ¬A_2
+}{¬A_1} \text{ MT} </script></span>
+<h3>6.4 Negation</h3>
+<p>Writing contradictions in the logic:</p>
+<ul>
+<li><span class="math"><script type="math/tex">p∧¬p</script></span></li>
+<li><span class="math"><script type="math/tex">p∧¬q∧(p→q)</script></span></li>
+<li><strong>Contradictions</strong> are formulas whose semantics returns <span class="math"><script type="math/tex">F</script></span> for all models. They are <strong>unsatisfiable</strong>.</li>
+<li><strong>Contradictions</strong> are all semantically equivalent.</li>
+<li>We should be able to prove one from the other.</li>
+</ul>
+<p>We will pick an atomic proposition (say <span class="math"><script type="math/tex">p</script></span>) and name the following:</p>
+<ul>
+<li>we write <span class="math"><script type="math/tex">⊥</script></span> (pronounced “bottom”) to represent <span class="math"><script type="math/tex">p ∧ ¬p</script></span></li>
+<li>we also write <span class="math"><script type="math/tex">⊤</script></span> (pronounced “top”) to represent <span class="math"><script type="math/tex">¬(p ∧ ¬p)</script></span></li>
+</ul>
+<p>We will allow to introduce <span class="math"><script type="math/tex">⊥</script></span> from any contradiction.</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ A \quad ¬A
+}{⊥} \text{ ¬e} </script></span>
+<p>To introduce a negation <span class="math"><script type="math/tex">¬A</script></span> we must show that from <span class="math"><script type="math/tex">A</script></span> we can derive bottom (a contradiction).</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ A → ⊥
+}{¬A} \text{ ¬i} </script></span>
+<p>Finally, from bottom we are allowed to derive anything:</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ \quad ⊥ \quad
+}{A} \text{ ⊥e} </script></span>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p∧¬q ⊢ ¬(¬p ∨ q)</script></span><br>
+<strong>Q</strong> show <span class="math"><script type="math/tex">p→q⊢¬q→¬p</script></span></p>
+<h3>6.5 Double Negation</h3>
+<p>We know that <span class="math"><script type="math/tex">sem(¬¬A) = sem(A)</script></span>, for any <span class="math"><script type="math/tex">A</script></span>. That is, <span class="math"><script type="math/tex">¬¬A ≡ A</script></span>.</p>
+<p>Can we derive:</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ \quad A \quad
+}{¬ ¬ A} \text{ ¬¬i}</script></span>
+<p>Can we derive:</p>
+<span class="math"><script type="math/tex; mode=display">\frac{ \quad ¬ ¬ A \quad
+}{A} \text{ ¬¬e}</script></span>
+<ul>
+<li>If our logic does <strong>not</strong> include <span class="math"><script type="math/tex">¬¬e</script></span> then it is called <strong>intuitionistic</strong> logic.</li>
+<li>If our logic does include <span class="math"><script type="math/tex">¬¬e</script></span> then it is called <strong>classical</strong> logic.</li>
+</ul>
+<h2>7 Meta-theory of propositional logic</h2>
+<h3>7.1 Soundness</h3>
+<p><strong>Q</strong>: Is every provable statement <span class="math"><script type="math/tex">A_1, . . . , A_n ⊢ B</script></span> valid according to the semantics of the logic?<br>
+In other words is the proof system sound?</p>
+<p><strong>Theorem (Soundness of proof rules)</strong><br>
+For any provable statement <span class="math"><script type="math/tex">A_1, . . . , A_n ⊢ B</script></span> it is valid that <span class="math"><script type="math/tex">A_1,...,A_n \models B</script></span>.<br>
+Proof by a form of induction.</p>
+<h3>7.2 Completeness</h3>
+<p><strong>Q</strong>: Do we have enough proof rules so that, any valid <span class="math"><script type="math/tex">A_1,...,A_n \models B</script></span>, we can be proved syntactically as <span class="math"><script type="math/tex">A_1, . . . , A_n ⊢ B</script></span>? In other words is the proof system complete?</p>
+<p><strong>Theorem (Completeness of proof rules)</strong><br>
+For any valid sequent <span class="math"><script type="math/tex">A_1,...,A_n \models B</script></span> it is provable that <span class="math"><script type="math/tex">A_1,...,A_n ⊢ B</script></span>.<br>
+<strong>Proof</strong>:</p>
+<ol>
+<li>Eliminate premises:
+<span class="math"><script type="math/tex">φ_1, φ_2, . . . , φ_n \models ψ</script></span> implies
+<span class="math"><script type="math/tex">\models φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span>.</li>
+<li>Show provability:
+<span class="math"><script type="math/tex">\models φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span> implies
+<span class="math"><script type="math/tex">⊢ φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span>.</li>
+</ol>
+<ul>
+<li><span class="math"><script type="math/tex">γl(p_1), γl(p_2), . . . , γl(p_n) ⊢ γl(φ)</script></span> is provable</li>
+<li><span class="math"><script type="math/tex">\models φ  \Rightarrow γl(φ) = φ</script></span></li>
+<li><span class="math"><script type="math/tex">γl(p_1), γl(p_2), . . . , γl(p_n) ⊢ φ</script></span> by removing each <span class="math"><script type="math/tex">p_i</script></span> using Law of the Excluded Middle.</li>
+</ul>
+<ol start="3">
+<li>Reintroduce premises:
+<span class="math"><script type="math/tex">⊢ φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span> implies
+<span class="math"><script type="math/tex">φ_1, φ_2, . . . , φ_n ⊢ ψ</script></span></li>
+</ol>
+<h3>7.3 Decidability</h3>
+<p><strong>Q</strong>: is it possible to write an algorithm that decides whether <span class="math"><script type="math/tex">A_1,...,A_n ⊢ B</script></span> is a valid sequent?</p>
+<p>We only need an algorithm to decide whether <span class="math"><script type="math/tex">\models A</script></span>:<br>
+<span class="math"><script type="math/tex">A_1,...,A_n ⊢ B</script></span> by a theorem, is equivalent to<br>
+<span class="math"><script type="math/tex">⊢ A_1 → . . . → A_n → B</script></span> by soundness and completeness, is equivalent to <span class="math"><script type="math/tex">\models A_1 →...→A_n →B</script></span>.</p>
+<p>There are many ways to do this. One is to turn formulas into <strong>Conjunctive Normal Form (CNF)</strong>.</p>
+<h3>7.4 CNF</h3>
+<p>CNF is a a formula which has the following structure:</p>
+<ul>
+<li>It contains literals L which are either atoms (e.g., <span class="math"><script type="math/tex">p</script></span>) or their
+negation (e.g., <span class="math"><script type="math/tex">¬p</script></span>)</li>
+<li>It composes literals into clauses using disjunction (<span class="math"><script type="math/tex">∨</script></span>)</li>
+<li>It composes clauses into a formula using conjunction (<span class="math"><script type="math/tex">∧</script></span>)</li>
+</ul>
+<p><strong>Example</strong>:
+<span class="math"><script type="math/tex">(q ∨ p ∨ r) ∧ (¬p ∨ s ∨ p) ∧ (¬s)</script></span></p>
+<p>CNF formulas do not contain:</p>
+<ul>
+<li>double negation</li>
+<li>implication</li>
+</ul>
+<h4>7.4.1 Validity</h4>
+<p>A CNF formula is valid iff every clause contains a literal and its negation. (Why?)</p>
+<p>Valid formulas:</p>
+<ul>
+<li><span class="math"><script type="math/tex">(p ∨ ¬p)</script></span></li>
+<li><span class="math"><script type="math/tex">(q ∨ p ∨ r ∨ ¬q) ∧ (¬p ∨ s ∨ p) ∧ (¬s ∨ s)</script></span></li>
+</ul>
+<p>Not valid formulas:</p>
+<ul>
+<li><span class="math"><script type="math/tex">p</script></span></li>
+<li><span class="math"><script type="math/tex">(p ∨ q)</script></span></li>
+<li><span class="math"><script type="math/tex">(q ∨ p ∨ r ∨ ¬q) ∧ (¬p ∨ s ∨ p) ∧ (s)</script></span></li>
+</ul>
+<p>The above gives an efficient algorithm to check validity of CNF formulas (O(n) to the size of the formula).</p>
+<h4>7.4.2 CNF conversion</h4>
+<p>Every fomula can be transformed to an equivalent CNF formula by the following method:</p>
+<ol>
+<li>replace implication using the theorem: <span class="math"><script type="math/tex">A → B ≡ ¬A ∨ B</script></span></li>
+<li>push all negations inwards using De Morgan laws:
+<span class="math"><script type="math/tex">¬(A1 ∧A2) ≡ ¬A1 ∨¬A2 ¬(A1 ∨A2) ≡ ¬A1 ∧¬A2</script></span></li>
+<li>remove double negations: <span class="math"><script type="math/tex">¬¬A ≡ A</script></span></li>
+<li>distribute <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">and</code> over <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">or</code>: <span class="math"><script type="math/tex">(A1 ∧ A2) ∨ B ≡ (A1 ∨ B) ∧ (A2 ∨ B)</script></span></li>
+</ol>
+<p>The above conversion outputs in the worst case an exponentially large formula (O(2n) to the size of the input formula).</p>
+<p>Convert to CNF and check the validity of the formulas:</p>
+<ul>
+<li><span class="math"><script type="math/tex">(p→q)→(¬q→¬p)</script></span></li>
+<li><span class="math"><script type="math/tex">¬p∧q→p∧(r→q)</script></span></li>
+<li><span class="math"><script type="math/tex">p→q→r</script></span></li>
+<li><span class="math"><script type="math/tex">(p→q→r)→(p∧q→r)</script></span></li>
+<li><span class="math"><script type="math/tex">⊥→p</script></span></li>
+<li><span class="math"><script type="math/tex">p→⊤</script></span></li>
+</ul>
+<h4>7.4.3 Satisfiability</h4>
+<p><strong>Satisfiability</strong>: Given <span class="math"><script type="math/tex">A</script></span>, is there a model which makes <span class="math"><script type="math/tex">A</script></span> true?
+<strong>Q</strong>: Can we decide satisfiability?</p>
+<p><strong>Theorem</strong>
+The satisfiability problem is decidable, and NP-complete<br>
+So there are known algorithms but they are not efficient in the worst case.</p>
+<p>SAT is the first problem that was proven to be NP-complete; see Cook–Levin theorem. This means that all problems in the complexity class NP, which includes a wide range of natural decision and optimization problems, are at most as difficult to solve as SAT. There is no known algorithm that efficiently solves each SAT problem, and it is generally believed that no such algorithm exists; yet this belief has not been proven mathematically, and resolving the question of whether SAT has a polynomial-time algorithm is equivalent to the P versus NP problem, which is a famous open problem in the theory of computing.</p>
+<p>The exponential time hypothesis asserts that no algorithm can solve 3-SAT (or indeed k-SAT for any k &gt; 2) in exp(o(n)) time (i.e., fundamentally faster than exponential in n).</p>
+<p><strong>Algorithms for Satisfiability</strong><br>
+Given a sentence in CNF, how can we prove it is
+satisfiable?</p>
+<ul>
+<li>Enumerate all possible assignments and see if
+sentence is true for any of them. The number
+of possible assignments grows exponentially in the
+number of variables.</li>
+<li>Consider a search tree where at each level we
+consider the possible assignments to one variable,
+say P. On one branch, we assume P is f and on the
+other that it is t.</li>
+<li>Given an assignment for a variable, we can simplify
+the sentence and then repeat the process for
+another variable.</li>
+</ul>
+<p><span class="math"><script type="math/tex">(P ∨Q) ∧(P ∨¬Q∨R) ∧(T ∨¬R) ∧(¬P ∨¬T)
+∧(P ∨S) ∧(T ∨R∨S) ∧(¬S ∨T)</script></span><br>
+If we assign <span class="math"><script type="math/tex">P=F</script></span>, we get</p>
+<ul>
+<li><span class="math"><script type="math/tex">P ∨Q \Rightarrow Q</script></span></li>
+<li><span class="math"><script type="math/tex">P ∨¬Q∨R \Rightarrow ¬Q∨R</script></span></li>
+<li><span class="math"><script type="math/tex">¬P ∨ ¬T</script></span> removed</li>
+<li><span class="math"><script type="math/tex">P ∨S \Rightarrow S</script></span></li>
+</ul>
+<p>The result is<br>
+<span class="math"><script type="math/tex">(Q) ∧(¬Q∨R) ∧(T ∨¬R) ∧(S) ∧(T ∨R∨S) ∧(¬S ∨T)</script></span></p>
+<p>This algorithm is called DPLL, which stands for the names of the inventors of the algorithm (Davis, Putnam, Logeman and Loveland).</p>
+<p>Properties of satisfiability algorithms:</p>
+<ul>
+<li>Sound – if it gives you an answer, it’s correct</li>
+<li>Complete – it always gives you an answer</li>
+<li>DPLL is sound and complete</li>
+</ul>
+<p>Other algorithms: GSAT, WALKSAT,…</p>
+<p>But there are efficient algorithms for a <strong>some CNF formulas</strong>: Horn clauses</p>
+<p>A CNF formula is a horn formula if all its clauses have at most one positive literal:</p>
+<ul>
+<li><span class="math"><script type="math/tex">¬p∨¬q∨r</script></span> becomes <span class="math"><script type="math/tex">p∧q → r</script></span></li>
+<li><span class="math"><script type="math/tex">¬p∨¬q</script></span> becomes <span class="math"><script type="math/tex">p∧q → ⊥</script></span></li>
+<li><span class="math"><script type="math/tex">p</script></span> becomes <span class="math"><script type="math/tex">⊤ → p</script></span></li>
+</ul>
+<p>Algorithm: Inputs a Horn formula and maintains a list of literals, <span class="math"><script type="math/tex">⊥</script></span>, and <span class="math"><script type="math/tex">⊤</script></span> in the formula.<br>
+It marks the literals in this list as follows:</p>
+<ol>
+<li>it marks <span class="math"><script type="math/tex">⊤</script></span> if it exists in the list</li>
+<li>If there is a conjuct<br>
+<span class="math"><script type="math/tex">L_1 ∧ . . . L_n → L′</script></span>
+and all <span class="math"><script type="math/tex">L_1, . . ., L_n</script></span> are marked then mark L′. Repeat (2) until no
+more such conjuncts.</li>
+<li>if <span class="math"><script type="math/tex">⊥</script></span> marked then output “unsatisfiable” and stop</li>
+<li>else output “satisfiable” and stop</li>
+</ol>
+<p>This is a O(n) algorithm.</p>
+<p><strong>Q</strong>: show</p>
+<ul>
+<li><span class="math"><script type="math/tex">(p∧q∧s → p)∧(q∧r → p)∧(p∧s → s)</script></span></li>
+<li><span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(q∧r → p)∧(⊤ → s)</script></span></li>
+<li><span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(p∧s → q)∧(s → p)∧(⊤ → s)</script></span></li>
+<li><span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(s → p)∧(⊤ → s)</script></span></li>
+</ul>
+
+  </body>
+</html>
