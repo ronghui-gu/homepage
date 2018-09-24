@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>index</title><script type="text/x-mathjax-config">
+    <title>Assignment1</title><script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     jax: ["input/TeX","output/HTML-CSS"],
     extensions: ["[a11y]/accessibility-menu.js"],
@@ -944,83 +944,41 @@ pre.editor-colors .fold-marker:after {
 
   </head>
   <body>
-    <h1>COMS E6998 Formal Verification of System Software</h1>
-<h3>Fall 2018</h3>
-<h2>General Information</h2>
-<p>Instructor: <a href="https://www.cs.columbia.edu/~rgu/">Ronghui Gu</a><br>
-Office: 515 CSB<br>
-Lectures: Mudd 233, Tue, 6:10pm ~ 8:00pm<br>
-Office hours: Wed &amp; Thu (2:00pm ~ 3:00pm) and by appointment</p>
-<h3>This course is about …</h3>
+    <h1>Assignment 1</h1>
+<p>COMS E6998 Formal Verification of System Software<br>
+Fall 2018<br>
+Ronghui Gu</p>
+<h2>Submission</h2>
 <ul>
-<li>Techniques for improving <strong>reliability</strong> of computer systems
+<li>Due 10/02/2018 at 6:10 pm</li>
+<li>Submit the hardcopy homework (printed or hand-written documents) <strong>in class</strong></li>
+<li>Academic Honesty
 <ul>
-<li>Applicable to both software and hardware</li>
-<li>Focus on <strong>software</strong></li>
-</ul>
-</li>
-<li>Theories about formal verification (especially about the theorem proving)</li>
-<li>How to use <strong>Coq</strong> to realize these theories</li>
-</ul>
-<h3>This course is not about …</h3>
-<ul>
-<li>Programming languages and type systems</li>
-<li>Software engineering methodology</li>
-<li>Dynamic analysis</li>
-<li>Software testing</li>
-</ul>
-<h3>v.s. CSEE E6863 Formal Verification HW/SW Systems</h3>
-<ul>
-<li>Mostly focus on hardware</li>
-<li>Focus more on automated techniques</li>
-<li>Focus more on practices</li>
-</ul>
-<h3>Prerequisites</h3>
-<ul>
-<li>General proficiency in discrete mathematics</li>
-<li>C/C++ programming skills</li>
-<li>COMS W4115 Programming Languages and Translators</li>
-</ul>
-<h3>Textbooks</h3>
-<ul>
-<li>Logic in Computer Science: modelling and reasoning about systems
-by Michael Huth and Mark Ryan
-<ul>
-<li><a href="http://www.cs.bham.ac.uk/research/projects/lics/">http://www.cs.bham.ac.uk/research/projects/lics/</a></li>
-<li>You don’t need to buy the textbook since all the materials will be covered by the lecture notes.</li>
-</ul>
-</li>
-<li>Software Foundations by Benjamin C. Pierce et al.
-<ul>
-<li><a href="https://softwarefoundations.cis.upenn.edu/index.html">https://softwarefoundations.cis.upenn.edu/index.html</a></li>
-<li>This textbook is for the second half of the semester but you are highly recommended starting reading it during the first half.</li>
+<li>The computer science department has very strict policies. Please read the department <a href="http://www.cs.columbia.edu/education/honesty/">Academic Honesty page</a>.</li>
+<li>You MUST submit original homework written by you and you alone.</li>
+<li>Do not look at anybody else’s answer. Do not show anybody your answer, or leave your answer where somebody else could see it.</li>
+<li>Cases of non-original submission will receive a 0 and will be referred to the Judicial Committee.</li>
 </ul>
 </li>
 </ul>
-<h3>Grades</h3>
-<ul>
-<li>30%: midterm</li>
-<li>70%: 6 to 7 assignments</li>
-<li>No final</li>
-</ul>
-<h3>TENTATIVE Syllabus (Subject to change!)</h3>
-<p>09/04 Intro (<a href="./Lecture0.html">Lecture Notes 0</a>) &amp; Propositional Logic I<br>
-09/11 Propositional Logic II &amp; SAT  (<a href="./Lecture1.html">Lecture Notes 1</a>)<br>
-09/18 First-Order Logic I (<a href="./Lecture2.html">Lecture Notes 2</a>)<br>
-09/25 First-Order Logic II<br>
-10/02 Hoare Logic I<br>
-10/09 Hoare Logic II
-10/16 Midterm<br>
-10/23 Coq (Basics &amp; Data structures)<br>
-10/30 Coq (Tactics)<br>
-11/06 <strong>Holiday (no class)</strong><br>
-11/13 Coq (Logic &amp; Inductively defined propositions)<br>
-11/20 Coq (Modeling a language &amp; Program equivalence)<br>
-11/27 Coq (Hoare Logic I)  /04 Coq (Hoare Logic II)</p>
-<h3>Assignments</h3>
-<ul>
-<li><a href="./assignments/Assignment1.html">Assignment 1</a>: due 10/02/2018 at 6:10 pm</li>
-</ul>
+<h2>Problem 1</h2>
+<p>Show “<span class="math"><script type="math/tex">(p → (q ∨ r)) , (q → s) , p \models ¬ r → s</script></span>” using semantic reasoning (you can use indirect proof).</p>
+<h2>Problem 2</h2>
+<p>Show “<span class="math"><script type="math/tex">(p → (q ∨ r)) , (q → s) , p \models ¬ r → s</script></span>” using syntactic reasoning.</p>
+<h2>Problem 3</h2>
+<p>Convert <span class="math"><script type="math/tex">((p \rightarrow q) ∨ (r ∧ s)) \rightarrow (¬q ∧ (p \rightarrow t))</script></span> into CNF.</p>
+<h2>Problem 4</h2>
+<p>Check the  satisfiability of</p>
+<span class="math"><script type="math/tex; mode=display">(p ∨ q ∨ r ∨ s) ∧ (¬p ∨ q ∨ ¬r) ∧ (¬q ∨ ¬r ∨ s) ∧ (p ∨ ¬q ∨ r ∨ s) \\
+∧ (q ∨ ¬r ∨ ¬s) ∧ (¬p ∨ ¬r ∨ s) ∧ (¬p ∨ ¬s) ∧ (p ∨ ¬q)</script></span>
+<p>using DPLL. You should explain at each step which literal you split on, e.g., <span class="math"><script type="math/tex">s</script></span>-literal or <span class="math"><script type="math/tex">\neg s</script></span>-literal, and what the resulting clauses are.</p>
+<h2>Problem 5</h2>
+<p>Check the satisfiability of <span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(q∧s → p)∧(q → s)∧(⊤ → q)</script></span>.</p>
+<h2>Problem 6</h2>
+<p>Assume <span class="math"><script type="math/tex">\mathcal{F}:=\{O, S, +\}</script></span> and <span class="math"><script type="math/tex">\mathcal{P}:=\{=, <,>,\leq, \geq,...\}</script></span>, prove</p>
+<span class="math"><script type="math/tex; mode=display">t_1 = t_2, t_2 = t_3 ⊢  (t + t_3) = (t + t_1)
+</script></span>
+<p>using (ref) and (=<span class="math"><script type="math/tex">e</script></span>) rules alone.</p>
 
   </body>
 </html>
