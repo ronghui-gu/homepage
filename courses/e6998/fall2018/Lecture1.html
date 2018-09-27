@@ -1053,7 +1053,45 @@ any valuation giving to all <span class="math"><script type="math/tex">A_1, . . 
 <span class="math"><script type="math/tex">A_1 ∧A_2 \models B</script></span> iff <span class="math"><script type="math/tex">A_1,A_2 \models B</script></span>.</p>
 <p><strong>Lemma</strong><br>
 <span class="math"><script type="math/tex">A \models B_1 ∨B_2</script></span> iff <span class="math"><script type="math/tex">A\models B_1</script></span> or <span class="math"><script type="math/tex">A\models B_2</script></span>.</p>
-<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p → q \models ¬q → ¬p</script></span></p>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p → q \models ¬q → ¬p</script></span><br>
+<strong>Proof.</strong></p>
+<table>
+<thead>
+<tr>
+<th><span class="math"><script type="math/tex">p</script></span></th>
+<th style="text-align:center"><span class="math"><script type="math/tex">q</script></span></th>
+<th style="text-align:right"><span class="math"><script type="math/tex">p → q</script></span></th>
+<th><span class="math"><script type="math/tex">¬q → ¬p</script></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T</td>
+<td style="text-align:center">T</td>
+<td style="text-align:right"><strong>T</strong></td>
+<td><strong>T</strong></td>
+</tr>
+<tr>
+<td>T</td>
+<td style="text-align:center">F</td>
+<td style="text-align:right">F</td>
+<td>_</td>
+</tr>
+<tr>
+<td>F</td>
+<td style="text-align:center">F</td>
+<td style="text-align:right"><strong>T</strong></td>
+<td><strong>T</strong></td>
+</tr>
+<tr>
+<td>F</td>
+<td style="text-align:center">T</td>
+<td style="text-align:right">F</td>
+<td>_</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math"><script type="math/tex">\Box</script></span></p>
 <ul>
 <li>Brute force algorithm for checking semantic entailment is exponential to the number of atomic propositions. <span class="math"><script type="math/tex">2^n</script></span> (<span class="math"><script type="math/tex">n</script></span> is the number of atomic propositions)</li>
 <li>an indirect proof can be quicker</li>
@@ -1063,7 +1101,33 @@ any valuation giving to all <span class="math"><script type="math/tex">A_1, . . 
 <li>assume entailment is falsifiable</li>
 <li>check if that’s possible</li>
 </ul>
-<p><strong>Q</strong>: show <span class="math"><script type="math/tex">(p → (q ∨ r)) , (q → s) , p \models ¬ r → s</script></span></p>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">(p → (q ∨ r)) , (q → s) , p \models ¬ r → s</script></span><br>
+<strong>Proof.</strong></p>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. Set all the preconditions to be T.</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">We have :</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">| p → (q ∨ r)  |  q → s  | p | ¬ r → s |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|--------------|---------|---|---------|</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|     T        |    T    | T |    _    |</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Thus, p must be T. And the entailment is simplified as:</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">| q ∨ r | q → s | ¬ r → s |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|-------|-------|---------|</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|   T   |   T   |    _    |</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. Case analysis over q:</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2.1 If q is T, since q → s is T, we know s is T. Thus:</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|   s   | ¬ r → s |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|-------|---------|</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|   T   |    T    |</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2.2 If q is F, since q ∨ r is T, we know r is T. Thus:</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|   r   | ¬ r → s |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|-------|---------|</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">|   T   |    T    |</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
 <h2>6. Syntactic Logical Proofs</h2>
 <p>Three different entailments:</p>
 <ul>
@@ -1090,16 +1154,16 @@ If we have formula <span class="math"><script type="math/tex">A_1 ∧ A_2</scrip
 If we have formula <span class="math"><script type="math/tex">A_1 ∧ A_2</script></span> then we can derive the formula <span class="math"><script type="math/tex">A_2</script></span></p>
 <span class="math"><script type="math/tex; mode=display">\frac{A_1 ∧ A_2}{A_2} \text{ ∧e2}
 </script></span>
-<p><strong>Q</strong>: Prove “<span class="math"><script type="math/tex">(p∧q)∧r, s∧t ⊢ q∧s</script></span>” using above axioms.<br>
-<strong>Proof</strong></p>
-<ol>
-<li><span class="math"><script type="math/tex">(p ∧ q) ∧ r</script></span>   (Precondition)</li>
-<li><span class="math"><script type="math/tex">s∧t</script></span> (Precondition)</li>
-<li><span class="math"><script type="math/tex">p ∧ q</script></span> (∧e1, 1)</li>
-<li><span class="math"><script type="math/tex">q</script></span> (∧e2, 3)</li>
-<li><span class="math"><script type="math/tex">s</script></span> (∧e1, 2)</li>
-<li><span class="math"><script type="math/tex">q ∧ s</script></span> (∧i, 4, 5)</li>
-</ol>
+<p><strong>Q</strong>: Prove “<span class="math"><script type="math/tex">(p∧q)∧r, s∧t ⊢ q∧s</script></span>” using above axioms.</p>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. (p ∧ q) ∧ r  (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. s ∧ t        (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. p ∧ q        (∧e1, 1)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. q            (∧e2, 3)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">5. s            (∧e1, 2)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">6. q ∧ s        (∧i, 4, 5)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
 <p><strong>Simple inference rules</strong>: given formulas derive a formula<br>
 <strong>Complex inference rules</strong>: given proofs and formulas derive a formula</p>
 <h3>6.2 Disjunction</h3>
@@ -1111,6 +1175,18 @@ If we have formula <span class="math"><script type="math/tex">A_1 ∧ A_2</scrip
  \quad \boxed{\begin{array}{c} A_2\\ .\\.\\.\\ B \end{array}}
 }{B} \text{ ∨ e} </script></span>
 <p><strong>Q</strong>: show <span class="math"><script type="math/tex">p∨q ⊢ q∨p</script></span></p>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. p ∨ q      (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. | p        (Hyp)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. | q ∨ p    (∨i2, 2)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. | q        (Hyp)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">5. | q ∨ p    (∨i1, 4)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">6. q ∨ p      (∨i, 2~3, 4~5)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
 <h3>6.3 Implication</h3>
 <p>Elimination of <span class="math"><script type="math/tex">→</script></span> (aka modus ponens)</p>
 <span class="math"><script type="math/tex; mode=display">\frac{A  \quad A→B}{B} \text{ →e}
@@ -1121,8 +1197,21 @@ If we have formula <span class="math"><script type="math/tex">A_1 ∧ A_2</scrip
 “If we can prove <span class="math"><script type="math/tex">B</script></span> by assuming <span class="math"><script type="math/tex">A</script></span>, then <span class="math"><script type="math/tex">A</script></span> implies <span class="math"><script type="math/tex">B</script></span>.”</p>
 <span class="math"><script type="math/tex; mode=display">\frac{\boxed{\begin{array}{c} A\\ .\\.\\.\\ B \end{array}}
 }{A →B} \text{ →i} </script></span>
-<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p→q⊢p→r→q</script></span><br>
-<strong>Q</strong>: show ⊢ p → q → p</p>
+<p><strong>Q</strong>: show <span class="math"><script type="math/tex">p→q⊢p→r→q</script></span></p>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. p → q        (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. | p          (Hyp)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">     </span><span class="syntax--meta syntax--paragraph syntax--text">-----------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. | | r        (Hyp)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. | | q        (→e, 1, 2)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">     </span><span class="syntax--meta syntax--paragraph syntax--text">-----------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">5. | r → q      (→i, 3~4)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">6. p → r → q    (→i, 2~5)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
+<p><strong>Q</strong>: show ⊢ p → q → p</p>
 <p>Thus, we can replace “all the proofs” with “implications”.</p>
 <span class="math"><script type="math/tex; mode=display">\frac{ A_1∨A_2 \quad A_1→B  \quad A_2→B  
 }{B} \text{ v e} </script></span>
@@ -1183,21 +1272,21 @@ For any valid sequent <span class="math"><script type="math/tex">A_1,...,A_n \mo
 <strong>Proof</strong>:</p>
 <ol>
 <li>Eliminate premises:
-<span class="math"><script type="math/tex">φ_1, φ_2, . . . , φ_n \models ψ</script></span> implies
-<span class="math"><script type="math/tex">\models φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span>.</li>
+<span class="math"><script type="math/tex">A_1, A_2, . . . , A_n \models B</script></span> implies
+<span class="math"><script type="math/tex">\models A_1 → (A_2 → . . . → (A_n → B))</script></span>.</li>
 <li>Show provability:
-<span class="math"><script type="math/tex">\models φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span> implies
-<span class="math"><script type="math/tex">⊢ φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span>.</li>
+<span class="math"><script type="math/tex">\models A_1 → (A_2 → . . . → (A_n → B))</script></span> implies
+<span class="math"><script type="math/tex">⊢ A_1 → (A_2 → . . . → (A_n → B))</script></span>.</li>
 </ol>
 <ul>
-<li><span class="math"><script type="math/tex">γl(p_1), γl(p_2), . . . , γl(p_n) ⊢ γl(φ)</script></span> is provable</li>
-<li><span class="math"><script type="math/tex">\models φ  \Rightarrow γl(φ) = φ</script></span></li>
-<li><span class="math"><script type="math/tex">γl(p_1), γl(p_2), . . . , γl(p_n) ⊢ φ</script></span> by removing each <span class="math"><script type="math/tex">p_i</script></span> using Law of the Excluded Middle.</li>
+<li><span class="math"><script type="math/tex">γ_l(p_1), γ_l(p_2), . . . , γ_l(p_n) ⊢ γ_l(B)</script></span> is provable</li>
+<li><span class="math"><script type="math/tex">\models B  \Rightarrow γ_l(B) = B</script></span></li>
+<li><span class="math"><script type="math/tex">γ_l(p_1), γ_l(p_2), . . . , γ_l(p_n) ⊢ B</script></span> by removing each <span class="math"><script type="math/tex">p_i</script></span> using Law of the Excluded Middle.</li>
 </ul>
 <ol start="3">
 <li>Reintroduce premises:
-<span class="math"><script type="math/tex">⊢ φ_1 → (φ_2 → . . . → (φ_n → ψ))</script></span> implies
-<span class="math"><script type="math/tex">φ_1, φ_2, . . . , φ_n ⊢ ψ</script></span></li>
+<span class="math"><script type="math/tex">⊢ A_1 → (A_2 → . . . → (A_n → B))</script></span> implies
+<span class="math"><script type="math/tex">A_1, A_2, . . . , A_n ⊢ B</script></span>    <span class="math"><script type="math/tex">\quad\Box</script></span></li>
 </ol>
 <h3>7.3 Decidability</h3>
 <p><strong>Q</strong>: is it possible to write an algorithm that decides whether <span class="math"><script type="math/tex">A_1,...,A_n ⊢ B</script></span> is a valid sequent?</p>
@@ -1239,7 +1328,7 @@ negation (e.g., <span class="math"><script type="math/tex">¬p</script></span>)<
 <ol>
 <li>replace implication using the theorem: <span class="math"><script type="math/tex">A → B ≡ ¬A ∨ B</script></span></li>
 <li>push all negations inwards using De Morgan laws:
-<span class="math"><script type="math/tex">¬(A1 ∧A2) ≡ ¬A1 ∨¬A2 ¬(A1 ∨A2) ≡ ¬A1 ∧¬A2</script></span></li>
+<span class="math"><script type="math/tex">¬(A1 ∧A2) ≡ ¬A1 ∨¬A2\qquad ¬(A1 ∨A2) ≡ ¬A1 ∧¬A2</script></span></li>
 <li>remove double negations: <span class="math"><script type="math/tex">¬¬A ≡ A</script></span></li>
 <li>distribute <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">and</code> over <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">or</code>: <span class="math"><script type="math/tex">(A1 ∧ A2) ∨ B ≡ (A1 ∨ B) ∧ (A2 ∨ B)</script></span></li>
 </ol>
@@ -1247,6 +1336,14 @@ negation (e.g., <span class="math"><script type="math/tex">¬p</script></span>)<
 <p>Convert to CNF and check the validity of the formulas:</p>
 <ul>
 <li><span class="math"><script type="math/tex">(p→q)→(¬q→¬p)</script></span></li>
+</ul>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">(p→q)→(¬q→¬p)</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">≡ ¬(¬p ∨ q) ∨ (¬¬q ∨ ¬¬p)         (rule 1)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">≡ (¬¬p ∧ ¬q) ∨ (¬¬q ∨ ¬¬p)        (rule 2)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">≡ (p ∧ ¬q) ∨ (q ∨ p)              (rule 3)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">≡ (p ∨ (q ∨ p)) ∧ (¬q ∨ (q ∨ p))  (rule 4)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">≡ (p ∨ q) ∧ (¬q ∨ q ∨ p)          (simplified)</span></span></span></pre>
+<ul>
 <li><span class="math"><script type="math/tex">¬p∧q→p∧(r→q)</script></span></li>
 <li><span class="math"><script type="math/tex">p→q→r</script></span></li>
 <li><span class="math"><script type="math/tex">(p→q→r)→(p∧q→r)</script></span></li>
@@ -1307,7 +1404,7 @@ If we assign <span class="math"><script type="math/tex">P=F</script></span>, we 
 It marks the literals in this list as follows:</p>
 <ol>
 <li>it marks <span class="math"><script type="math/tex">⊤</script></span> if it exists in the list</li>
-<li>If there is a conjuct<br>
+<li>If there is a conjunct<br>
 <span class="math"><script type="math/tex">L_1 ∧ . . . L_n → L′</script></span>
 and all <span class="math"><script type="math/tex">L_1, . . ., L_n</script></span> are marked then mark L′. Repeat (2) until no
 more such conjuncts.</li>
@@ -1318,6 +1415,18 @@ more such conjuncts.</li>
 <p><strong>Q</strong>: show</p>
 <ul>
 <li><span class="math"><script type="math/tex">(p∧q∧s → p)∧(q∧r → p)∧(p∧s → s)</script></span></li>
+</ul>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. ⊤ is marked</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. No conjunct satisfies rule 2.</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. since ⊥ is not marked, the formula is satisfiable</span></span></span></pre>
+<ul>
+<li><span class="math"><script type="math/tex">(p∧s → ⊥)∧(s → p)∧(⊤ → s)</script></span></li>
+</ul>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. ⊤ is marked</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. From clause (⊤ → s), s is marked</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. From clause (s → p), p is marked</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. From clause (p∧s → ⊥), ⊥ is marked. Thus the formula is unsatisfiable</span></span></span></pre>
+<ul>
 <li><span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(q∧r → p)∧(⊤ → s)</script></span></li>
 <li><span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(p∧s → q)∧(s → p)∧(⊤ → s)</script></span></li>
 <li><span class="math"><script type="math/tex">(p∧q∧s → ⊥)∧(s → p)∧(⊤ → s)</script></span></li>

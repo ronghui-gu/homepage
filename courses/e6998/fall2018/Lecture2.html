@@ -1052,9 +1052,17 @@ Ronghui Gu</p>
 <p><strong>Q</strong>: prove the following rules:</p>
 <span class="math"><script type="math/tex; mode=display">\frac{t_1=t_2}{t_2=t_1}\ (=\text{sym}) \qquad \frac{t_1=t_2 \quad t_2=t_3}{t_1=t_3}\ (=\text{trans})
 </script></span>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof of (=sym)</span></span></span>
+<span class=""></span> 
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. t1 = t2                    (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. t1 = t1 := (x = t1)[t1/x]  (ref)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. t2 = t1 := (x = t1)[t2/x]  (=e, 1, 2)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
 <p><strong>Q</strong>: Assume <span class="math"><script type="math/tex">\mathcal{F}:=\{O, S, +\}</script></span> and <span class="math"><script type="math/tex">\mathcal{P}:=\{=, <,>,\leq, \geq,...\}</script></span>, prove</p>
 <span class="math"><script type="math/tex; mode=display">t_1 = t_2 ⊢  (t + t_2) = (t + t_1)
 </script></span>
+<p><strong>Q</strong>: Prove <span class="math"><script type="math/tex">(x+1=1+x), [(x+1)>1 \rightarrow x>0]⊢(1+x)>1 \rightarrow x>0</script></span></p>
 <h3>2.3 Quantification rules</h3>
 <p>Universal quantification elimination rule:</p>
 <span class="math"><script type="math/tex; mode=display">\frac{\forall x.A}{A[t/x]}\ \forall e
@@ -1064,26 +1072,298 @@ Ronghui Gu</p>
 <li><strong>Q</strong>: prove <span class="math"><script type="math/tex">P(t), (\forall x. P(x)\rightarrow  Q(x)) ⊢ \neg Q(t)</script></span></li>
 </ul>
 <p>Universal quantification introduction rule:</p>
-<span class="math"><script type="math/tex; mode=display">\frac{A[x_0/x] \text{ where } x_0 \text{ is fresh in } A}{\forall x.A}\ \forall i
+<span class="math"><script type="math/tex; mode=display">\frac{\boxed{\begin{array}{c} x_0\\ ...\\ A[x_0/x] \end{array}} \text{ where } x_0 \text{ is fresh in } A}{\forall x.A}\ \forall i
 </script></span>
 <ul>
-<li><span class="math"><script type="math/tex">x_0</script></span>  represents an <strong>arbitrary term</strong></li>
+<li><span class="math"><script type="math/tex">x_0</script></span> is a <em>dummy variable</em> that represents an <strong>arbitrary term</strong></li>
 <li>Thus, to prove <span class="math"><script type="math/tex">\forall x.A</script></span>, we need to prove <span class="math"><script type="math/tex">A[x_0/x]</script></span> for an arbitrary term <span class="math"><script type="math/tex">x_0</script></span></li>
-<li><strong>Q</strong>: prove <span class="math"><script type="math/tex">\forall x.P(x), (\forall x. P(x)\rightarrow Q(x)) ⊢ \forall x. Q(x)</script></span></li>
+<li><strong>Q</strong>: prove <span class="math"><script type="math/tex">[\forall x.P(x)], [\forall x. P(x)\rightarrow Q(x)] ⊢ \forall x. Q(x)</script></span></li>
 </ul>
 <p>Existential introduction rule:</p>
 <span class="math"><script type="math/tex; mode=display">\frac{A[t/x]}{\exists x.A}\ \exists i
 </script></span>
 <ul>
-<li>pick an convenient <span class="math"><script type="math/tex">t</script></span> and prove  <span class="math"><script type="math/tex">A[t/x]</script></span></li>
+<li>pick an <strong>convenient</strong> <span class="math"><script type="math/tex">t</script></span> and prove  <span class="math"><script type="math/tex">A[t/x]</script></span></li>
 <li><strong>Q</strong>: prove <span class="math"><script type="math/tex">⊢ \exists x. x = 0</script></span></li>
 </ul>
 <p>Existential elimination rule:</p>
-<span class="math"><script type="math/tex; mode=display">\frac{\exists x.A \quad A[x_0/x]\rightarrow C \text{ where } x_0 \text{ is fresh in } A\&C}{C}\ \exists i
+<span class="math"><script type="math/tex; mode=display">\frac{\exists x.A \qquad \boxed{\begin{array}{c} x_0\quad A[x_0/x]\\ ...\\ C \end{array}}\text{ where } x_0 \text{ is fresh in } A\&C}{C}\ \exists i
 </script></span>
 <ul>
-<li><span class="math"><script type="math/tex">x_0</script></span> represents unknown term
-“Any natural number is smaller than some number”</li>
+<li><span class="math"><script type="math/tex">x_0</script></span> represents unknown term</li>
+<li><strong>Q</strong>: prove <span class="math"><script type="math/tex">\forall y. \exists x.f(x) = g(y) ⊢ \exists x. g(5) = f(x)</script></span></li>
+</ul>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. ∀y. ∃x. f(x) = g(y)  (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. ∃x. f(x) = g(5)      (∀e, 1)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-----------------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. | x0                 (Hyp)        |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. | f(x0) = g(5)       (Hyp)        |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">5. | g(5) = f(x0)       (=sym, 4)    |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">6. | ∃x. g(5) = f(x)    (∃i, 5)      |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">-----------------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">7. ∃x. g(5) = f(x)      (∃e, 2, 3~6)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
+<p><strong>Q</strong>: Assume <span class="math"><script type="math/tex">\mathcal{F}:=\{O, S\}</script></span> and <span class="math"><script type="math/tex">\mathcal{P}:=\{=, <,>,\leq, \geq,...\}</script></span>, and assume</p>
+<span class="math"><script type="math/tex; mode=display">\frac{}{\quad x<S\ x \quad}<S
+</script></span>
+<p>express and prove in FOL over <span class="math"><script type="math/tex">\mathcal{F}</script></span> and <span class="math"><script type="math/tex">\mathcal{P}</script></span>:<br>
+“Any natural number is smaller than some number”</p>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">------------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. | x0            (hypothesis) |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. | x0 &lt; S x0     (&lt;S, 1)      |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. | ∃y. x0 &lt; y    (∃i, 2)      |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">------------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. ∀x. ∃y. x &lt; y   (∀i, 1~3)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
+<p><strong>Q</strong>: Prove</p>
+<span class="math"><script type="math/tex; mode=display">[∀x.Q(x)\rightarrow R(x)],\ [∃y. P(y) ∧ Q(y)]\ ⊢\ ∃x. P(x) ∧ R(x) 
+</script></span>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. ∀x. Q(x) → R(x)    (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. ∃y. P(y) ∧ Q(y)    (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">---------------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. | x0               (Hyp)        |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">4. | P(x0) ∧ Q(x0)    (Hyp)        |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">5. | P(x0)            (∧e1, 4)     |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">6. | Q(x0) → R(x0)    (∀e, 1, 3)   |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">7. | Q(x0)            (∧e2, 4)     |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">8. | R(x0)            (→e, 6, 7)   |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">9. | P(x0) ∧ R(x0)    (∧i, 5, 8)   |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">10.| ∃x. P(x) ∧ R(x)  (∃i, 9)      |</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">   </span><span class="syntax--meta syntax--paragraph syntax--text">---------------------------------</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">11. ∃x. P(x) ∧ R(x)   (∃e, 2. 3~10)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
+<p><strong>Q</strong>: <span class="math"><script type="math/tex">¬∀x.A ⊣⊢ ∃x.¬A</script></span><br>
+<strong>Q</strong>: <span class="math"><script type="math/tex">¬∃x.A ⊣⊢ ∀x.¬A</script></span></p>
+<h2>3. Classical vs. Intuitionistic logic</h2>
+<p>Consider the formula</p>
+<span class="math"><script type="math/tex; mode=display">∃x.(P(x) → ∀y.P(y))
+</script></span>
+<p>To prove this we need use rule <span class="math"><script type="math/tex">∃i</script></span> and provide a term <span class="math"><script type="math/tex">t</script></span> for which we can show</p>
+<span class="math"><script type="math/tex; mode=display">(P(t) → ∀y.P(y))
+</script></span>
+<p>Classically this is a tautology:</p>
+<ul>
+<li>If <span class="math"><script type="math/tex">∀y.P(y)</script></span> holds then we can pick <strong>arbitrarily</strong> term <span class="math"><script type="math/tex">t_0</script></span> and show</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">P(t_0) → ∀y.P(y)
+</script></span>
+<p>using rule <span class="math"><script type="math/tex">→ i</script></span> (also see truth table of implication).</p>
+<ul>
+<li>If <span class="math"><script type="math/tex">¬∀y.P(y)</script></span> then there exists a term <span class="math"><script type="math/tex">t_1</script></span> such that <span class="math"><script type="math/tex">¬P(t_1)</script></span>, which we can use to show</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">P(t_1) → ∀y.P(y)
+</script></span>
+<p><span class="math"><script type="math/tex">\quad \Box</script></span></p>
+<p>However notice how we didn’t have to provide any concrete term <span class="math"><script type="math/tex">t_1</script></span> in the second case to complete the proof of <span class="math"><script type="math/tex">∃x.(P(x) → ∀y.P(y))</script></span>
+Let’s see this again:</p>
+<ul>
+<li>
+<p>If <span class="math"><script type="math/tex">¬∀y.P(y)</script></span> then there exists a term <span class="math"><script type="math/tex">t_1</script></span> such that <span class="math"><script type="math/tex">¬P(t_1)</script></span>, which we can use to show <span class="math"><script type="math/tex">P(t1) → ∀y.P(y)</script></span></p>
+<ul>
+<li>Assume logic’s terms <span class="math"><script type="math/tex">\mathcal{F}</script></span> contain natural numbers and predicates <span class="math"><script type="math/tex">\mathcal{P}</script></span> standard predicates over them.</li>
+<li>if <span class="math"><script type="math/tex">P(x)</script></span> = even(x) then <span class="math"><script type="math/tex">t_1</script></span> can be 3</li>
+<li>if <span class="math"><script type="math/tex">P(x)</script></span> = <span class="math"><script type="math/tex">x \leq 1000</script></span> then <span class="math"><script type="math/tex">t_1</script></span> can be 1001</li>
+<li>…</li>
+</ul>
+</li>
+<li>
+<p>We can’t provide a <span class="math"><script type="math/tex">t_1</script></span> if we don’t know <span class="math"><script type="math/tex">P</script></span> and the parameters <span class="math"><script type="math/tex">\mathcal{F}</script></span>, <span class="math"><script type="math/tex">\mathcal{P}</script></span>, but there is always one.</p>
+</li>
+<li>
+<p><strong>Classical logic is OK</strong> with that!</p>
+</li>
+<li>
+<p><strong>Intuitionistic logic is not</strong>! It requires us to give a concrete <span class="math"><script type="math/tex">t_1</script></span>, before we know what <span class="math"><script type="math/tex">P</script></span> is.</p>
+</li>
+</ul>
+<p><strong>Theorem</strong>
+There are irrational <span class="math"><script type="math/tex">a</script></span> and <span class="math"><script type="math/tex">b</script></span> for which <span class="math"><script type="math/tex">a^b</script></span> is rational.<br>
+<strong>Proof</strong>
+We know that 2 is irrational (known theorem of arithmetic which we will not prove here).<br>
+Suppose <span class="math"><script type="math/tex">\sqrt{2}^\sqrt{2}</script></span> is rational. Then pick <span class="math"><script type="math/tex">a = b = \sqrt{2}</script></span> and we’re done.<br>
+Otherwise <span class="math"><script type="math/tex">\sqrt{2}^\sqrt{2}</script></span> is irrational. Pick <span class="math"><script type="math/tex">a = 2</script></span>
+and <span class="math"><script type="math/tex">b = \sqrt{2}^\sqrt{2}</script></span>.</p>
+<span class="math"><script type="math/tex; mode=display">a^b= \left( \sqrt{2}^\sqrt{2} \right)^\sqrt{2} =\sqrt{2}^{\sqrt{2} \times \sqrt{2}} =\sqrt{2}^2=2
+</script></span>
+<p>which is rational. <span class="math"><script type="math/tex">\quad \Box</script></span></p>
+<p>Correct but we never identified two definitely irrational numbers a and b. In fact knowing whether <span class="math"><script type="math/tex">\sqrt{2}^\sqrt{2}</script></span> is rational is a difficult problem!</p>
+<p><strong>Riemann hypothesis</strong> Michael Atiyah, Proof by Contradiction</p>
+<h2>4. Semantics of FOL</h2>
+<p>Let <span class="math"><script type="math/tex">Γ</script></span> be a list of formulas <span class="math"><script type="math/tex">φ_1,...,φ_n</script></span></p>
+<ul>
+<li><span class="math"><script type="math/tex">Γ ⊢ ψ</script></span> means that there is a proof of <span class="math"><script type="math/tex">ψ</script></span> from premises <span class="math"><script type="math/tex">Γ</script></span> using the natural deduction rules.</li>
+<li>In propositional logic we also defined <span class="math"><script type="math/tex">Γ \models ψ</script></span> to mean that any model (valuation) which makes <span class="math"><script type="math/tex">Γ</script></span> true, also makes <span class="math"><script type="math/tex">ψ</script></span> true.
+<ul>
+<li>we used finite truth-tables as the semantics of formulas</li>
+</ul>
+</li>
+<li>In propositional logic we showed soundness and completeness:
+<ul>
+<li><span class="math"><script type="math/tex">Γ⊢ψ \texttt{ iff } Γ\models ψ</script></span></li>
+</ul>
+</li>
+<li>How can we define a semantic entailment <span class="math"><script type="math/tex">Γ \models ψ</script></span> in FOL?
+<ul>
+<li>What is the semantics of formulas?</li>
+<li>What sort of models can we consider for quantifiers <span class="math"><script type="math/tex">∀x.φ</script></span> and <span class="math"><script type="math/tex">∃x.φ</script></span>?</li>
+</ul>
+</li>
+</ul>
+<h2>4.1 Usefulness of semantics</h2>
+<p>Syntactic entailment is useful to show existence of proofs.<br>
+Semantic entailment is useful to show absence of proofs.
+How can we show that <span class="math"><script type="math/tex">Γ \not ⊢ ψ</script></span> ?</p>
+<ul>
+<li>we need to consider all possible (infinite) proofs</li>
+</ul>
+<p>How can we show that <span class="math"><script type="math/tex">Γ \not\modelsψ</script></span>?</p>
+<ul>
+<li>we need to find one model that makes <span class="math"><script type="math/tex">Γ</script></span> true and <span class="math"><script type="math/tex">ψ</script></span> false.</li>
+</ul>
+<h2>4.2 Model</h2>
+<p>What should be the semantics of <span class="math"><script type="math/tex">∀x.P(x, y)</script></span>?<br>
+It depends on the semantics of the parameters of FOL: the set of terms <span class="math"><script type="math/tex">\mathcal{F}</script></span> and predicates <span class="math"><script type="math/tex">\mathcal{P}</script></span>.</p>
+<p><strong>Definition</strong>
+A model <span class="math"><script type="math/tex">\mathcal{M}</script></span> of <span class="math"><script type="math/tex">(\mathcal{F} , \mathcal{P})</script></span> consists of the following:</p>
+<ul>
+<li>A non-empty set <span class="math"><script type="math/tex">\mathcal{V}</script></span>: the universe of concrete values.</li>
+<li>for each nullary function <span class="math"><script type="math/tex">c ∈ \mathcal{F}</script></span>, a concrete element <span class="math"><script type="math/tex">c^\mathcal{M} ∈ \mathcal{V}</script></span></li>
+<li>for each <span class="math"><script type="math/tex">f ∈ \mathcal{F}</script></span> with arity <span class="math"><script type="math/tex">n > 0</script></span>, a concrete mathematical function <span class="math"><script type="math/tex">f^\mathcal{M} : \mathcal{V}^n → \mathcal{V}</script></span>, taking <span class="math"><script type="math/tex">n</script></span>-tuple of <span class="math"><script type="math/tex">\mathcal{V}</script></span>-values to <span class="math"><script type="math/tex">\mathcal{V}</script></span>-values</li>
+<li>for each <span class="math"><script type="math/tex">P∈\mathcal{P}</script></span> with arity <span class="math"><script type="math/tex">n>0</script></span>, a concrete mathematical function <span class="math"><script type="math/tex">P^M: \mathcal{V}^n \rightarrow \{T, F\}</script></span>, taking <span class="math"><script type="math/tex">n</script></span>-tuple of <span class="math"><script type="math/tex">\mathcal{V}</script></span>-values to truth values.</li>
+</ul>
+<p><strong>Example Model</strong> Natural numbers:</p>
+<span class="math"><script type="math/tex; mode=display">\mathcal{F}=\{O, S\} \qquad \mathcal{P} =\{ < \}
+</script></span>
+<p>A model <span class="math"><script type="math/tex">\mathcal{M}</script></span> may be:</p>
+<ol>
+<li><span class="math"><script type="math/tex">\mathcal{V}=\{0,1,2,\cdots\}</script></span></li>
+<li><span class="math"><script type="math/tex">O^\mathcal{M} := 0</script></span></li>
+<li><span class="math"><script type="math/tex">S^\mathcal{M} := fun(x) \Rightarrow (x+1)</script></span></li>
+<li><span class="math"><script type="math/tex"><^\mathcal{M} := fun(x,y) \Rightarrow \text{if } x < y \text{ then T else F}</script></span></li>
+</ol>
+<p><strong>Q</strong>: What <span class="math"><script type="math/tex">\mathcal{M}</script></span> is like if <span class="math"><script type="math/tex">A=\{"@", "@@", "@@@",\cdots\}</script></span></p>
+<h2>4.3 Semantics of formulas</h2>
+<p>We will give semantics to <strong>closed formulas</strong> (no free variables) using the semantics of <strong>open formulas</strong>.</p>
+<p>The semantics of <span class="math"><script type="math/tex">∀x.φ</script></span> means that for all values <span class="math"><script type="math/tex">v ∈ \mathcal{V}, φ[v/x]</script></span> is true. However it’s not a valid syntax to have formulas containing semantic values from <span class="math"><script type="math/tex">v</script></span>. We need to use environments.</p>
+<p><strong>Definition</strong><br>
+<span class="math"><script type="math/tex">\mathcal{E}</script></span> is an environment if it is a function that maps syntactic variables to semantic values. (lookup tables)</p>
+<p><strong>Definition</strong>
+Given a model <span class="math"><script type="math/tex">\mathcal{M}</script></span> for a pair <span class="math"><script type="math/tex">(\mathcal{F}, \mathcal{P})</script></span> and given an environment <span class="math"><script type="math/tex">\mathcal{E}</script></span>, we define the satisfaction relation <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ</script></span> for each logical formula <span class="math"><script type="math/tex">φ</script></span> over the pair <span class="math"><script type="math/tex">(\mathcal{F}, \mathcal{P})</script></span> and <span class="math"><script type="math/tex">\mathcal{E}</script></span> as follows.</p>
+<ul>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} P(t_1,\cdots,t_n)</script></span> holds
+if <span class="math"><script type="math/tex">P^\mathcal{M}(a_1,\cdots,a_n) = T</script></span>, where <span class="math"><script type="math/tex">a_1,\cdots,a_n</script></span>
+are the <span class="math"><script type="math/tex">\mathcal{V}</script></span>-value of <span class="math"><script type="math/tex">t_1,\cdots,t_n</script></span> under <span class="math"><script type="math/tex">\mathcal{E}</script></span>.</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_1 \wedge φ_2</script></span> holds if
+<span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_1</script></span> holds and <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_2</script></span> holds</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_1 \vee φ_2</script></span> holds if
+<span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_1</script></span> or <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_2</script></span> holds</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} \neg φ</script></span> holds if
+<span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} \neg φ</script></span> does not hold</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_1 \rightarrow φ_2</script></span> holds if
+<span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_2</script></span> holds whenever <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ_1</script></span> holds</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} \forall x. φ</script></span> holds if
+<span class="math"><script type="math/tex">\mathcal{M} \models_{\mathcal{E}\cup\{x \mapsto v\} } φ</script></span> holds
+for <strong>all</strong> <span class="math"><script type="math/tex">v \in \mathcal{V}</script></span></p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} \exists x. φ</script></span> holds if
+<span class="math"><script type="math/tex">\mathcal{M} \models_{\mathcal{E}\cup\{x \mapsto v\} } φ</script></span> holds
+for <strong>some</strong> <span class="math"><script type="math/tex">v \in \mathcal{V}</script></span></p>
+</li>
+</ul>
+<h2>5. Results of FOL</h2>
+<p><strong>Theorem (Soundness)</strong><br>
+For a given <span class="math"><script type="math/tex">(\mathcal{F} , \mathcal{P})</script></span>, if <span class="math"><script type="math/tex">⊢ φ</script></span> then <span class="math"><script type="math/tex">\models φ</script></span>
+which means for any model <span class="math"><script type="math/tex">\mathcal{M}</script></span> of <span class="math"><script type="math/tex">(\mathcal{F} , \mathcal{P})</script></span> and any environment <span class="math"><script type="math/tex">\mathcal{E}</script></span>, we have <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ</script></span>.</p>
+<p><strong>Theorem (Strong soundness)</strong><br>
+For a given <span class="math"><script type="math/tex">(\mathcal{F} , \mathcal{P})</script></span>, if <span class="math"><script type="math/tex">Γ ⊢ ψ</script></span> then <span class="math"><script type="math/tex">Γ \models φ</script></span> which means for any model <span class="math"><script type="math/tex">\mathcal{M}</script></span> of <span class="math"><script type="math/tex">(\mathcal{F} , \mathcal{P})</script></span> and any environment <span class="math"><script type="math/tex">\mathcal{E}</script></span>, if <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} Γ</script></span> then <span class="math"><script type="math/tex">\mathcal{M} \models_\mathcal{E} φ</script></span>.</p>
+<p>This involves properties that are true in all models. How can we talk about properties of certain models (e.g., numbers with some standard predicates over them)?<br>
+A: Encode the necessary properties of these models in <span class="math"><script type="math/tex">Γ</script></span>. <span class="math"><script type="math/tex">Γ</script></span> can contain the axioms we want to hold in these models.</p>
+<ul>
+<li>famous axiomatisation of natural numbers: Peano axioms</li>
+</ul>
+<p><strong>Peano Axioms</strong><br>
+Terms: <span class="math"><script type="math/tex">\mathcal{F}=\{O, S\}</script></span>
+Axioms:</p>
+<ul>
+<li>
+<p>refl, sym, trans of equality</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">O</script></span> is a natural number</p>
+</li>
+<li>
+<p>if <span class="math"><script type="math/tex">n</script></span> is a natural number, <span class="math"><script type="math/tex">S(n)</script></span> is a natural number</p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">∀x.¬(S(x) = O)</script></span></p>
+</li>
+<li>
+<p><span class="math"><script type="math/tex">∀x.∀y.S(x) = S(y) \leftrightarrow x = y</script></span></p>
+</li>
+<li>
+<p>If <span class="math"><script type="math/tex">K</script></span> is a set such that</p>
+<ul>
+<li><span class="math"><script type="math/tex">O \in K</script></span></li>
+<li>for every natural number <span class="math"><script type="math/tex">n</script></span>, <span class="math"><script type="math/tex">n \in K \rightarrow S(n)\in K</script></span></li>
+</ul>
+<p>then <span class="math"><script type="math/tex">K</script></span> contains every natural number</p>
+</li>
+</ul>
+<p>The Peano axioms can be augmented with other operations:</p>
+<ul>
+<li>Addition
+<ul>
+<li><span class="math"><script type="math/tex">a+O =a</script></span></li>
+<li><span class="math"><script type="math/tex">a + S(b) = S (a + b)</script></span></li>
+</ul>
+</li>
+<li>Multiplication
+<ul>
+<li><span class="math"><script type="math/tex">a \times O = O</script></span></li>
+<li><span class="math"><script type="math/tex">a \times S(b) = a + (a \times b)</script></span></li>
+</ul>
+</li>
+</ul>
+<h4>Gödel’s 1st incompleteness theorem</h4>
+<p><strong>Theorem (Incompleteness)</strong>
+Any set of axioms Γ which is consistent (no contradictions such as 0 = 1 are derivable) and contains “enough arithmetic” cannot be complete.
+That is, there are true facts φ about arithmetic for which Γ ̸⊢ φ.</p>
+<p><strong>Proof.</strong>
+Göedel gave a way to encode first-order logic itself in any axiomatisation <span class="math"><script type="math/tex">Γ</script></span> containing Peano (or any other encoding of) natural numbers.<br>
+Hence for any such system he was able to write an encoding of the formula:</p>
+<span class="math"><script type="math/tex; mode=display">φ = “φ\text{ is not provable in the logic.}”
+</script></span>
+<p>If <span class="math"><script type="math/tex">Γ ⊢ φ</script></span> then obviously the logic is inconsistent (<span class="math"><script type="math/tex">Γ ⊢ φ ∧ ¬φ</script></span>).<br>
+If <span class="math"><script type="math/tex">Γ\not⊢ φ</script></span> then obviously the logic is incomplete (<span class="math"><script type="math/tex">φ</script></span> is true but not provable).</p>
+<h4>Gödel’s completeness theorem</h4>
+<p><strong>Theorem (Completeness)</strong><br>
+<span class="math"><script type="math/tex">\models φ</script></span> then <span class="math"><script type="math/tex">⊢ φ</script></span>.</p>
+<ul>
+<li>This means that anything that is true for all models, can be syntactically proven. Examples:
+<ul>
+<li>Yes: <span class="math"><script type="math/tex">¬∀x.φ(x) → ∃x.¬φ(x)</script></span></li>
+<li>No: 1 + 1 = 2</li>
+<li>No: The Goldbach conjecture: “Every even integer greater than 2 can be expressed as the sum of two primes”</li>
+</ul>
+</li>
 </ul>
 
   </body>
