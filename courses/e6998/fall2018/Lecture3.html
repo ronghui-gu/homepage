@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lecture3</title><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX","output/HTML-CSS"],
+    extensions: ["[a11y]/accessibility-menu.js"],
+    'HTML-CSS': {
+      availableFonts: [],
+      webFont: 'TeX',
+      undefinedFamily: "serif",
+      mtextFontInherit: true,
+    },
+    TeX: {
+  "Macros": {},
+  "equationNumbers": {},
+  "extensions": [
+    "AMSmath.js",
+    "AMSsymbols.js",
+    "noErrors.js",
+    "noUndefined.js"
+  ]
+},
+    showMathMenu: true
+  });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"></script>
+    <style>.emoji {
+  max-width: 1em !important;
+}
+del {
+  text-decoration: none;
+  position: relative;
+}
+del::after {
+  border-bottom: 1px solid black;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+ul.contains-task-list li.task-list-item {
+  position: relative;
+  list-style-type: none;
+}
+ul.contains-task-list li.task-list-item input.task-list-item-checkbox {
+  position: absolute;
+  transform: translateX(-100%);
+  width: 30px;
+}
+span.critic.comment {
+  position: relative;
+}
+span.critic.comment::before {
+  content: '\1f4ac';
+  position: initial;
+}
+span.critic.comment > span {
+  display: none;
+}
+span.critic.comment:hover > span {
+  display: initial;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid;
+  border-radius: 5px;
+  max-height: 4em;
+  overflow: auto;
+}
+span.critic.comment:focus > span {
+  display: initial;
+  text-decoration: underline;
+  position: initial;
+  top: auto;
+  left: auto;
+  border: initial;
+  border-radius: initial;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: transparent;
+}
+
+body {
+  overflow: initial !important;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  line-height: 1.6;
+  word-wrap: break-word;
+  padding: 30px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+}
+body > *:first-child {
+  margin-top: 0 !important;
+}
+body > *:last-child {
+  margin-bottom: 0 !important;
+}
+body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+body .absent {
+  color: #c00;
+}
+body .anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+body .anchor:focus {
+  outline: none;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+body h1 .octicon-link,
+body h2 .octicon-link,
+body h3 .octicon-link,
+body h4 .octicon-link,
+body h5 .octicon-link,
+body h6 .octicon-link {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+body h1:hover .anchor,
+body h2:hover .anchor,
+body h3:hover .anchor,
+body h4:hover .anchor,
+body h5:hover .anchor,
+body h6:hover .anchor {
+  padding-left: 8px;
+  margin-left: -30px;
+  text-decoration: none;
+}
+body h1:hover .anchor .octicon-link,
+body h2:hover .anchor .octicon-link,
+body h3:hover .anchor .octicon-link,
+body h4:hover .anchor .octicon-link,
+body h5:hover .anchor .octicon-link,
+body h6:hover .anchor .octicon-link {
+  display: inline-block;
+}
+body h1 tt,
+body h2 tt,
+body h3 tt,
+body h4 tt,
+body h5 tt,
+body h6 tt,
+body h1 code,
+body h2 code,
+body h3 code,
+body h4 code,
+body h5 code,
+body h6 code {
+  font-size: inherit;
+}
+body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+body h1 .anchor {
+  line-height: 1;
+}
+body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+body h2 .anchor {
+  line-height: 1;
+}
+body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+body h3 .anchor {
+  line-height: 1.2;
+}
+body h4 {
+  font-size: 1.25em;
+}
+body h4 .anchor {
+  line-height: 1.2;
+}
+body h5 {
+  font-size: 1em;
+}
+body h5 .anchor {
+  line-height: 1.1;
+}
+body h6 {
+  font-size: 1em;
+  color: #777;
+}
+body h6 .anchor {
+  line-height: 1.1;
+}
+body p,
+body blockquote,
+body ul,
+body ol,
+body dl,
+body table,
+body pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+body ul,
+body ol {
+  padding-left: 2em;
+}
+body ul.no-list,
+body ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+body ul ul,
+body ul ol,
+body ol ol,
+body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+body li > p {
+  margin-top: 16px;
+}
+body dl {
+  padding: 0;
+}
+body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+body blockquote > :first-child {
+  margin-top: 0;
+}
+body blockquote > :last-child {
+  margin-bottom: 0;
+}
+body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+body table th {
+  font-weight: bold;
+}
+body table th,
+body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body .emoji {
+  max-width: none;
+}
+body span.frame {
+  display: block;
+  overflow: hidden;
+}
+body span.frame > span {
+  display: block;
+  float: left;
+  width: auto;
+  padding: 7px;
+  margin: 13px 0 0;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+body span.frame span img {
+  display: block;
+  float: left;
+}
+body span.frame span span {
+  display: block;
+  padding: 5px 0 0;
+  clear: both;
+  color: #333;
+}
+body span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+body span.align-center > span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: center;
+}
+body span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+body span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+body span.align-right > span {
+  display: block;
+  margin: 13px 0 0;
+  overflow: hidden;
+  text-align: right;
+}
+body span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+body span.float-left {
+  display: block;
+  float: left;
+  margin-right: 13px;
+  overflow: hidden;
+}
+body span.float-left span {
+  margin: 13px 0 0;
+}
+body span.float-right {
+  display: block;
+  float: right;
+  margin-left: 13px;
+  overflow: hidden;
+}
+body span.float-right > span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: right;
+}
+body code,
+body tt {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+body code:before,
+body tt:before,
+body code:after,
+body tt:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+body code br,
+body tt br {
+  display: none;
+}
+body del code {
+  text-decoration: inherit;
+}
+body pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+body .highlight {
+  margin-bottom: 16px;
+}
+body .highlight pre,
+body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+body pre {
+  word-wrap: normal;
+}
+body pre code,
+body pre tt {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+body pre code:before,
+body pre tt:before,
+body pre code:after,
+body pre tt:after {
+  content: normal;
+}
+body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
+}
+span.critic.comment > span {
+  background-color: #fff;
+}
+a {
+  color: #337ab7;
+}
+
+pre.editor-colors {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: rgba(153, 187, 255, 0.04);
+}
+pre.editor-colors .invisible {
+  color: #abb2bf;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #528bff;
+}
+pre.editor-colors .selection .region {
+  background-color: #3e4451;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #528bff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region {
+  border-radius: 2px;
+  background-color: rgba(82, 139, 255, 0.24);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region {
+  border: 2px solid #528bff;
+  transition-duration: .1s;
+}
+pre.editor-colors .gutter .line-number {
+  color: #636d83;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #abb2bf;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(224, 82, 82, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #abb2bf;
+}
+.syntax--comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #5c6370;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #98c379;
+}
+.syntax--keyword {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--control {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #61afef;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #d19a66;
+}
+.syntax--storage {
+  color: #c678dd;
+}
+.syntax--storage.syntax--type.syntax--annotation,
+.syntax--storage.syntax--type.syntax--primitive {
+  color: #c678dd;
+}
+.syntax--storage.syntax--modifier.syntax--package,
+.syntax--storage.syntax--modifier.syntax--import {
+  color: #abb2bf;
+}
+.syntax--constant {
+  color: #d19a66;
+}
+.syntax--constant.syntax--variable {
+  color: #d19a66;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--numeric {
+  color: #d19a66;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #56b6c2;
+}
+.syntax--variable {
+  color: #e06c75;
+}
+.syntax--variable.syntax--interpolation {
+  color: #be5046;
+}
+.syntax--variable.syntax--parameter {
+  color: #abb2bf;
+}
+.syntax--string {
+  color: #98c379;
+}
+.syntax--string > .syntax--source,
+.syntax--string .syntax--embedded {
+  color: #abb2bf;
+}
+.syntax--string.syntax--regexp {
+  color: #56b6c2;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #e5c07b;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #e06c75;
+}
+.syntax--punctuation.syntax--definition.syntax--comment {
+  color: #5c6370;
+}
+.syntax--punctuation.syntax--definition.syntax--method-parameters,
+.syntax--punctuation.syntax--definition.syntax--function-parameters,
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--separator,
+.syntax--punctuation.syntax--definition.syntax--seperator,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #abb2bf;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #61afef;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #be5046;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #abb2bf;
+}
+.syntax--support.syntax--class {
+  color: #e5c07b;
+}
+.syntax--support.syntax--type {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #e06c75;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #d19a66;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #61afef;
+}
+.syntax--meta.syntax--class {
+  color: #e5c07b;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--definition.syntax--variable {
+  color: #e06c75;
+}
+.syntax--meta.syntax--link {
+  color: #d19a66;
+}
+.syntax--meta.syntax--require {
+  color: #61afef;
+}
+.syntax--meta.syntax--selector {
+  color: #c678dd;
+}
+.syntax--meta.syntax--separator {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--tag {
+  color: #abb2bf;
+}
+.syntax--underline {
+  text-decoration: underline;
+}
+.syntax--none {
+  color: #abb2bf;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #523d14 !important;
+  background-color: #e0c285 !important;
+}
+.syntax--invalid.syntax--illegal {
+  color: white !important;
+  background-color: #e05252 !important;
+}
+.syntax--markup.syntax--bold {
+  color: #d19a66;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #c678dd;
+}
+.syntax--markup.syntax--deleted {
+  color: #e06c75;
+}
+.syntax--markup.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #e06c75;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #61afef;
+}
+.syntax--markup.syntax--link {
+  color: #56b6c2;
+}
+.syntax--markup.syntax--inserted {
+  color: #98c379;
+}
+.syntax--markup.syntax--quote {
+  color: #d19a66;
+}
+.syntax--markup.syntax--raw {
+  color: #98c379;
+}
+.syntax--source.syntax--c .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cpp .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--css .syntax--property-name,
+.syntax--source.syntax--css .syntax--property-value {
+  color: #828997;
+}
+.syntax--source.syntax--css .syntax--property-name.syntax--support,
+.syntax--source.syntax--css .syntax--property-value.syntax--support {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--source.syntax--embedded.syntax--source {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--constant.syntax--language,
+.syntax--source.syntax--elixir .syntax--constant.syntax--numeric,
+.syntax--source.syntax--elixir .syntax--constant.syntax--definition {
+  color: #61afef;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--definition,
+.syntax--source.syntax--elixir .syntax--variable.syntax--anonymous {
+  color: #c678dd;
+}
+.syntax--source.syntax--elixir .syntax--parameter.syntax--variable.syntax--function {
+  color: #d19a66;
+  font-style: italic;
+}
+.syntax--source.syntax--elixir .syntax--quoted {
+  color: #98c379;
+}
+.syntax--source.syntax--elixir .syntax--keyword.syntax--special-method,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--section,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--source.syntax--empty {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--readwrite.syntax--module .syntax--punctuation {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--regexp.syntax--section,
+.syntax--source.syntax--elixir .syntax--regexp.syntax--string {
+  color: #be5046;
+}
+.syntax--source.syntax--elixir .syntax--separator,
+.syntax--source.syntax--elixir .syntax--keyword.syntax--operator {
+  color: #d19a66;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--constant {
+  color: #e5c07b;
+}
+.syntax--source.syntax--elixir .syntax--array,
+.syntax--source.syntax--elixir .syntax--scope,
+.syntax--source.syntax--elixir .syntax--section {
+  color: #828997;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #61afef;
+}
+.syntax--source.syntax--go .syntax--storage.syntax--type.syntax--string {
+  color: #c678dd;
+}
+.syntax--source.syntax--ini .syntax--keyword.syntax--other.syntax--definition.syntax--ini {
+  color: #e06c75;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--modifier.syntax--import {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--type {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--keyword.syntax--operator.syntax--instanceof {
+  color: #c678dd;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair {
+  color: #e06c75;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair > .syntax--punctuation {
+  color: #abb2bf;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--delete,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--in,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--of,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--instanceof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--new,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--typeof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--void {
+  color: #c678dd;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #98c379;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--interpolation {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation.syntax--begin,
+.syntax--ng.syntax--interpolation.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--function {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation .syntax--function.syntax--begin,
+.syntax--ng.syntax--interpolation .syntax--function.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--bool {
+  color: #d19a66;
+}
+.syntax--ng.syntax--interpolation .syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--pipe,
+.syntax--ng.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--tag {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--attribute-name {
+  color: #e5c07b;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string {
+  color: #c678dd;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--begin,
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--end {
+  color: #abb2bf;
+}
+.syntax--source.syntax--ruby .syntax--constant.syntax--other.syntax--symbol > .syntax--punctuation {
+  color: inherit;
+}
+.syntax--source.syntax--php .syntax--class.syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--source.syntax--python .syntax--keyword.syntax--operator.syntax--logical.syntax--python {
+  color: #c678dd;
+}
+.syntax--source.syntax--python .syntax--variable.syntax--parameter {
+  color: #d19a66;
+}
+
+/*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+</style>
+
+  </head>
+  <body>
+    <h1>Lecture 3: Hoare Logic</h1>
+<p>COMS E6998 Formal Verification of System Software<br>
+Fall 2018<br>
+Ronghui Gu</p>
+<h2>1. What is Hoare Logic</h2>
+<p>Goal of formal verification: software without bugs.</p>
+<ul>
+<li>We have seen how to reason about mathematical properties in FOL</li>
+<li>From now on, we will see <strong>how to reason about simple imperative programs</strong>
+<ul>
+<li>FOL for specifications</li>
+</ul>
+</li>
+</ul>
+<h3>1.1 Intro to Hoare Logic</h3>
+<p>The goal is to prove the following specification:</p>
+<ul>
+<li>"Program <span class="math"><script type="math/tex">C</script></span> computes a number <span class="math"><script type="math/tex">y</script></span> which  is less than the input <span class="math"><script type="math/tex">x</script></span>"</li>
+<li>“Program <span class="math"><script type="math/tex">C</script></span> computes an array of integers that is increasingly ordered”</li>
+</ul>
+<p>using the following logical formalism:</p>
+<span class="math"><script type="math/tex; mode=display">\{P\}\ C\ \{Q\}
+</script></span>
+<ul>
+<li><span class="math"><script type="math/tex">P</script></span> and <span class="math"><script type="math/tex">Q</script></span> are called assertions, which are fornulae in a base logic (FOL in our case)</li>
+<li><span class="math"><script type="math/tex">P</script></span> is the <strong>Precondition</strong> and <span class="math"><script type="math/tex">Q</script></span> is the <strong>Postcondition</strong></li>
+<li><span class="math"><script type="math/tex">C</script></span> is a program</li>
+<li>Meaning: if the precondition <span class="math"><script type="math/tex">P</script></span> is satisfied, after executing the program <span class="math"><script type="math/tex">C</script></span>, the postcondition <span class="math"><script type="math/tex">Q</script></span> holds.</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><span class="math"><script type="math/tex">\{⊤\}\ y := x - 1\ \{y  <x\}</script></span></li>
+<li><span class="math"><script type="math/tex">\{⊤\}\ C\ \{\forall i. (0\leq i < |a|-1) \rightarrow a[i]\leq a[i+1]\}</script></span></li>
+</ul>
+<h3>1.2 A simple imperative language</h3>
+<p><strong>Language Syntax</strong>:</p>
+<ul>
+<li>Expressions:</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">\begin{align}
+eop :=& + \ | \ - \ | \times \ | \cdots \\
+E:=& c\ |\ x\ |\ - E\ |\ E_1\ eop\ E_2
+\end{align}
+</script></span>
+<ul>
+<li>Boolean Conditions:</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">\begin{align}
+cop :=& < \ | > \ | \ \leq \ | \geq  \ | = \ |\ !\!=\\
+bop :=& \wedge \ | \vee \ | \ \rightarrow \\
+B:=& \textbf{true}\ |\ \textbf{false} \ |\ E_1\ cop\ E_2 \ |\ \neg B \ |\ B_1\ bop\ B_2
+\end{align}
+</script></span>
+<ul>
+<li>Program Statements:</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">C := \textbf{skip} \ | \ x:=E \ |\ C_1; C_2 \ | \ \textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2 \ | \ \textbf{while } B\ C 
+</script></span>
+<p><strong>Language Semantics</strong>:</p>
+<ul>
+<li>
+<p>State <span class="math"><script type="math/tex">s</script></span>: a map from <em>variables</em> to <em>values</em></p>
+<ul>
+<li>For this simple language, we assume the machine only has a <em>heap</em>. No memory and no registers.</li>
+<li>Also, we only consider <strong>integer values</strong>.</li>
+</ul>
+</li>
+<li>
+<p>Program semantics is defined as a labeled transition system</p>
+<span class="math"><script type="math/tex; mode=display">s \xrightarrow{C} s' 
+</script></span>
+<p>which states that, starting from the initial state <span class="math"><script type="math/tex">s</script></span>, the execution of program <span class="math"><script type="math/tex">C</script></span> will result in the final state <span class="math"><script type="math/tex">s'</script></span>.</p>
+<span class="math"><script type="math/tex; mode=display">\frac{s':= s\{x:[\![ E ]\!]^{s} \}}{s \xrightarrow{x:=E} s'}  \qquad
+\frac{s \xrightarrow{C_1} s'' \quad s'' \xrightarrow{C_2} s'}{s \xrightarrow{C_1; C_2} s'} </script></span>
+<span class="math"><script type="math/tex; mode=display">\frac{[\![ B ]\!]^s = \textbf{true}\quad s \xrightarrow{C_1} s'}
+{s \xrightarrow{\textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2} s'}  \qquad
+\frac{[\![ B ]\!]^s = \textbf{false}\quad s \xrightarrow{C_2} s'}
+{s \xrightarrow{\textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2} s'} </script></span>
+<span class="math"><script type="math/tex; mode=display">\frac{[\![ B ]\!]^s = \textbf{true}\quad s \xrightarrow{C;\textbf{while } B\ C } s'}
+{s \xrightarrow{\textbf{while } B\ C} s'}
+\qquad
+\frac{[\![ B ]\!]^s = \textbf{false}}
+{s \xrightarrow{\textbf{while } B\ C} s} </script></span>
+</li>
+</ul>
+<h3>1.3 Assertion language</h3>
+<p><strong>Assertion</strong>: A logical formula describing a set of valuations on program variables with some interesting property.</p>
+<ul>
+<li>expressed in the underlying logic</li>
+<li>in this course, we use FOL</li>
+</ul>
+<p><strong>Assertion semantics</strong>: if the integer model <span class="math"><script type="math/tex">\mathcal{M}</script></span> and the environment (i.e., state) <span class="math"><script type="math/tex">s</script></span> models the assertion <span class="math"><script type="math/tex">A</script></span></p>
+<span class="math"><script type="math/tex; mode=display">\mathcal{M} \models_s A\  \Leftrightarrow\ s \models A
+</script></span>
+<h3>1.4 Hoare Triple Semantics</h3>
+<p>The <strong>partial correctness</strong> Hoare triple <span class="math"><script type="math/tex">\{P\}\ C\ \{Q\}</script></span> is valid iff</p>
+<span class="math"><script type="math/tex; mode=display">\forall s\models P.\forall s'. s \overset{C}{\leadsto} s'
+\rightarrow s'\models Q\</script></span>
+<p>The <strong>total correctness</strong> Hoare triple <span class="math"><script type="math/tex">[P]\ C\ [Q]</script></span> is valid iff</p>
+<span class="math"><script type="math/tex; mode=display">\forall s\models P.\exists s'. s \overset{C}{\leadsto} s'
+\wedge s'\models Q\</script></span>
+<p>For program <span class="math"><script type="math/tex">C</script></span> without loops, we have</p>
+<span class="math"><script type="math/tex; mode=display">\{P\}\ C\ \{Q\} \Leftrightarrow  [P]\ C\ [Q]
+</script></span>
+<h2>2 Hoare Logic Inference Rules</h2>
+<ul>
+<li><strong>Weakening Rule</strong></li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">\frac{P\rightarrow P'\quad \{P'\}\ C\ \{Q'\}\quad Q\rightarrow Q'}
+{\{P\}\ C\ \{Q\}}\text{WEAK}
+</script></span>
+<ul>
+<li><strong>Assignment Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{}
+{\{A[E/x]\}\ x:=E\ \{A\}}\text{ASG}
+</script></span>
+<em>Example</em>:<span class="math"><script type="math/tex; mode=display">\{(z\times y > 5) \wedge (\exists x, y = x^x)\}
+\ x:= z*y\ \{(x > 5) \wedge (\exists x, y = x^x)\}</script></span>
+<strong>Forward assignment rule</strong>:<span class="math"><script type="math/tex; mode=display">\frac{}
+{\{A\}\ x:=E\ \{\exists x_0, A[x_0/x] \wedge x = E[x_0/x]\}}\text{ASG-FWD}
+</script></span>
+</li>
+<li><strong>Sequential Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{\{P\}\ C_1\ \{A\} \quad \{A\}\ C_2\ \{Q\}}
+{\{P\}\ C_1; C_2\ \{Q\}}\text{SEQ}
+</script></span>
+<em>Example</em>:<span class="math"><script type="math/tex; mode=display">\frac{\{y+z > 4\}\ y:=y+z\ \{y>3\} \quad \{y>3\}\ x:=y+2\ \{x>5\}}
+{\{y+z+2>5\}\ y:=y+z;x:=y+2\ \{x>5\}}
+</script></span>
+</li>
+<li><strong>Conditional Branch Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{\{P \wedge B\}\ C_1\ \{Q\} \quad \{P \wedge \neg B\}\ C_2\ \{Q\}}
+{\{P\}\ \textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2\ \{Q\}}\text{IF}
+</script></span>
+<em>Example</em>:<span class="math"><script type="math/tex; mode=display">\frac{\{⊤ \wedge x > 0\}\ y:= x\ \{y \geq 0\} \quad \{⊤ \wedge \neg (x > 0)\}\ y:= -x\ \{y \geq 0\}}
+{\{⊤\}\ \textbf{if } x > 0 \textbf{ then } y:= x \textbf{ else } y:= -x\ \{y \geq 0\}}
+</script></span>
+<strong>Q:</strong> What if <span class="math"><script type="math/tex">\{P \wedge B\}\ C_1\ \{Q_1\}</script></span>
+and <span class="math"><script type="math/tex">\{P \wedge \neg B\}\ C_2\ \{Q_2\}</script></span>?</li>
+<li><strong>Partial Correctness of Loops Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{\{I \wedge B\}\ C\ \{I\}}
+{\{I\}\ \textbf{while } B\ C\ \{I \wedge \neg B\}}\text{While}
+</script></span>
+<ul>
+<li>
+<p><span class="math"><script type="math/tex">I</script></span> is the loop invariants.</p>
+</li>
+<li>
+<p>Take it in this way, the inference rule is to derive the pre- and postconditions of “<span class="math"><script type="math/tex">\textbf{while } B\ C</script></span>”:</p>
+<ul>
+<li>Suppose <span class="math"><script type="math/tex">\{P\} \textbf{while } B\ C \{Q\}</script></span></li>
+<li>If <span class="math"><script type="math/tex">P \rightarrow \neg B</script></span>, the loop becomes a <span class="math"><script type="math/tex">\textbf{skip}</script></span>, thus <span class="math"><script type="math/tex">\{P\} \textbf{while } B\ C \{P\}</script></span>, which is equivalent to:</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">\{P\} \textbf{while } B\ C \{P \wedge \neg B\}
+</script></span>
+<ul>
+<li>If <span class="math"><script type="math/tex">P \rightarrow B</script></span>, the loop body <span class="math"><script type="math/tex">C</script></span> is executed
+<ul>
+<li>We know that if <span class="math"><script type="math/tex">Q'</script></span> holds after the completion of <span class="math"><script type="math/tex">C</script></span>, this <span class="math"><script type="math/tex">Q'</script></span> has to meet the precondition of starting the next iteration of <span class="math"><script type="math/tex">C</script></span> (as long as <span class="math"><script type="math/tex">B</script></span> is true)
+and eventually after any number of iterations of <span class="math"><script type="math/tex">C</script></span> (until <span class="math"><script type="math/tex">B</script></span> is false).</li>
+<li>Thus, we know that <span class="math"><script type="math/tex">\{Q' \wedge \neg B\}\ C\ \{Q'\}</script></span> and when the loop terminates the postcondition is <span class="math"><script type="math/tex">Q' \wedge B</script></span>.</li>
+<li>Since the precondition of while loop should be the precondition of <span class="math"><script type="math/tex">C</script></span> (when <span class="math"><script type="math/tex">B</script></span> holds), we know that:</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">\{Q'\} \textbf{while } B\ C \{Q' \wedge \neg B\}
+</script></span>
+</li>
+<li>We write <span class="math"><script type="math/tex">I = P = Q'</script></span> and call them loop invariants:<span class="math"><script type="math/tex; mode=display">\{I\} \textbf{while } B\ C \{I \wedge \neg B\}
+</script></span>
+</li>
+</ul>
+</li>
+<li>
+<p>Partial Correctness Semantics:</p>
+<ul>
+<li>if loop does not terminate, Hoare triple is vacuously satisfied</li>
+<li>if it terminates, <span class="math"><script type="math/tex">I \wedge \neg B</script></span> must be satisfied</li>
+</ul>
+</li>
+<li>
+<p><strong>Example</strong>:</p>
+</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">\frac{\{x_0=x+z \wedge z\neq 0\}\ x:=x+1; z:=z-1\ \{x_0 = x +z\}}
+{\{x_0=x+z\}\ \textbf{while } (z !\!= 0) \{x:=x+1; z:=z-1\}\
+\{x_0 = x+z \wedge z=0\}}
+</script></span>
+<ul>
+<li>Logical (ghost) variables: variable <span class="math"><script type="math/tex">x_0</script></span> is used only in formulas to “remember” some value</li>
+<li>program variables: variables used by the program
+from the starting state.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Q</strong> Prove <span class="math"><script type="math/tex">\{x>0\}\ \text{Fact1}\ \{y:= x! \}</script></span> where</p>
+<pre class="editor-colors lang-C"><span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> Program Fact1 is</span></span></span>
+<span class=""><span class="syntax--source syntax--c">y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span><span class="syntax--source syntax--c">z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">0</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">while</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--begin syntax--bracket syntax--round syntax--c">(</span>z <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">!=</span> x<span class="syntax--punctuation syntax--section syntax--parens syntax--end syntax--bracket syntax--round syntax--c">)</span> <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> z <span class="syntax--keyword syntax--operator syntax--c">+</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> y <span class="syntax--keyword syntax--operator syntax--c">*</span> z<span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span></pre>
+<pre class="editor-colors lang-C"><span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> Proof.</span></span></span>
+<span class=""><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x &gt; 0 }                (PRE)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { 1 = 0! }               (WEAK)</span></span></span>
+<span><span class="syntax--source syntax--c">y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = 0! }               (ASG)</span></span></span>
+<span><span class="syntax--source syntax--c">z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">0</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = z! }               (ASG)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">while</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--begin syntax--bracket syntax--round syntax--c">(</span>z <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">!=</span> x<span class="syntax--punctuation syntax--section syntax--parens syntax--end syntax--bracket syntax--round syntax--c">)</span> <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = z! ∧ z != x}     (WHILE)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y * (z+1) = (z+1)!}  (WEAK)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> z <span class="syntax--keyword syntax--operator syntax--c">+</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y * z = z! }         (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> y <span class="syntax--keyword syntax--operator syntax--c">*</span> z<span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = z! }             (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = z! ∧ ~(z != x)}    (WHILE)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> {y = x!}                 (WEAK)</span></span></span></pre>
+<h2>3 Meta Theory of Hoare Logic</h2>
+<p><strong>Theorem (Soundness)</strong><br>
+Hoare Logic is sound: <span class="math"><script type="math/tex">⊢\{P\}C\{Q\}\ \Rightarrow\ \models \{P\}C\{Q\}</script></span></p>
+<ul>
+<li>Reason about the number of steps required to terminate loop for the loop rule.
+Then use induction on the structure of the proof tree.</li>
+</ul>
+<p><strong>Theorem (Relative Completeness)</strong><br>
+If there is a complete proof system for proving assertions in the underlying logic, then all valid Hoare triples have a proof</p>
+<ul>
+<li>Hoare logic is no more incomplete than our language of assertions</li>
+<li>First Order Logic is incomplete!</li>
+<li>The result uses weakest pre-condition</li>
+</ul>
+<h3>3.1 Weakest Precondition</h3>
+<p>Intuitively, the largest set of states (represented as an assertion) starting from which if a program <span class="math"><script type="math/tex">C</script></span> is executed, the resulting states satisfy a given post-condition <span class="math"><script type="math/tex">Q</script></span>, which is denoted as “<span class="math"><script type="math/tex">wp(C, Q)</script></span>”.</p>
+<p><strong>Definition</strong><br>
+Given <span class="math"><script type="math/tex">C</script></span> and <span class="math"><script type="math/tex">Q</script></span>, a weakest precondition <span class="math"><script type="math/tex">wp(C, Q)</script></span> is an assertion
+such that</p>
+<ul>
+<li>it is a precondition: <span class="math"><script type="math/tex">\models \{wp(C, Q)\}\ C\ \{Q\}</script></span></li>
+<li>it is weakest: <span class="math"><script type="math/tex">\forall P</script></span> if  <span class="math"><script type="math/tex">\models \{P\}\ C\ \{Q\}</script></span> then
+<span class="math"><script type="math/tex">\models P \rightarrow wp(C, Q)</script></span></li>
+</ul>
+<p>Weakest precondition:</p>
+<ul>
+<li>exists</li>
+<li>unique</li>
+<li>can be expressed in our assertion logic</li>
+<li>can be proved using inference rule</li>
+</ul>
+<h4>3.1.1 Weakest Precondition Exists</h4>
+<ul>
+<li>Assignment: <span class="math"><script type="math/tex">wp(x:=E, Q) = Q[E/x]</script></span></li>
+<li>Seq: <span class="math"><script type="math/tex">wp(C1;C2, Q) = wp(C1, wp(C2, Q))</script></span></li>
+<li>Condition:
+<span class="math"><script type="math/tex">wp(\textbf{if }B\textbf{ then }C1\textbf{ else }C2, Q)
+= (B\wedge wp(C1,Q)) \vee (~B\wedge wp(C2,Q))</script></span></li>
+<li>Loops:<span class="math"><script type="math/tex; mode=display">wp(\textbf{while }B\ C, Q) = \bigwedge_{k\geq 0} P_k
+</script></span>
+<ul>
+<li><span class="math"><script type="math/tex">P_0</script></span> = true</li>
+<li><span class="math"><script type="math/tex">P_k+1 = (B \wedge wp(C, P_k)) \vee (~B \wedge Q)</script></span></li>
+</ul>
+</li>
+</ul>
+
+  </body>
+</html>
