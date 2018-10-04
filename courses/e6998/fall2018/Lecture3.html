@@ -1017,20 +1017,20 @@ B:=& \textbf{true}\ |\ \textbf{false} \ |\ E_1\ cop\ E_2 \ |\ \neg B \ |\ B_1\ b
 </li>
 <li>
 <p>Program semantics is defined as a labeled transition system</p>
-<span class="math"><script type="math/tex; mode=display">s \xrightarrow{C} s' 
+<span class="math"><script type="math/tex; mode=display">s \overset{C}{\leadsto} s' 
 </script></span>
 <p>which states that, starting from the initial state <span class="math"><script type="math/tex">s</script></span>, the execution of program <span class="math"><script type="math/tex">C</script></span> will result in the final state <span class="math"><script type="math/tex">s'</script></span>.</p>
-<span class="math"><script type="math/tex; mode=display">\frac{s':= s\{x:[\![ E ]\!]^{s} \}}{s \xrightarrow{x:=E} s'}  \qquad
-\frac{s \xrightarrow{C_1} s'' \quad s'' \xrightarrow{C_2} s'}{s \xrightarrow{C_1; C_2} s'} </script></span>
-<span class="math"><script type="math/tex; mode=display">\frac{[\![ B ]\!]^s = \textbf{true}\quad s \xrightarrow{C_1} s'}
-{s \xrightarrow{\textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2} s'}  \qquad
-\frac{[\![ B ]\!]^s = \textbf{false}\quad s \xrightarrow{C_2} s'}
-{s \xrightarrow{\textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2} s'} </script></span>
-<span class="math"><script type="math/tex; mode=display">\frac{[\![ B ]\!]^s = \textbf{true}\quad s \xrightarrow{C;\textbf{while } B\ C } s'}
-{s \xrightarrow{\textbf{while } B\ C} s'}
+<span class="math"><script type="math/tex; mode=display">\frac{s':= s\{x:[\![ E ]\!]^{s} \}}{s \overset{x:=E}{\leadsto} s'}  \qquad
+\frac{s \overset{C_1}{\leadsto} s'' \quad s'' \overset{C_2}{\leadsto} s'}{s \overset{C_1; C_2}{\leadsto} s'} </script></span>
+<span class="math"><script type="math/tex; mode=display">\frac{[\![ B ]\!]^s = \textbf{true}\quad s \overset{C_1}{\leadsto} s'}
+{s \overset{\textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2}{\leadsto} s'}  \qquad
+\frac{[\![ B ]\!]^s = \textbf{false}\quad s \overset{C_2}{\leadsto} s'}
+{s \overset{\textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2}{\leadsto} s'} </script></span>
+<span class="math"><script type="math/tex; mode=display">\frac{[\![ B ]\!]^s = \textbf{true}\quad s \overset{C;\textbf{while } B\ C }{\leadsto} s'}
+{s \overset{\textbf{while } B\ C}{\leadsto} s'}
 \qquad
 \frac{[\![ B ]\!]^s = \textbf{false}}
-{s \xrightarrow{\textbf{while } B\ C} s} </script></span>
+{s \overset{\textbf{while } B\ C}{\leadsto} s} </script></span>
 </li>
 </ul>
 <h3>1.3 Assertion language</h3>

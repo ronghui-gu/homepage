@@ -616,6 +616,10 @@ pre.editor-colors .fold-marker:after {
 .syntax--string {
   color: #98c379;
 }
+.syntax--string > .syntax--source,
+.syntax--string .syntax--embedded {
+  color: #abb2bf;
+}
 .syntax--string.syntax--regexp {
   color: #56b6c2;
 }
@@ -1344,8 +1348,8 @@ Axioms:</p>
 </ul>
 <h4>Gödel’s 1st incompleteness theorem</h4>
 <p><strong>Theorem (Incompleteness)</strong>
-Any set of axioms Γ which is consistent (no contradictions such as 0 = 1 are derivable) and contains “enough arithmetic” cannot be complete.
-That is, there are true facts φ about arithmetic for which Γ ̸⊢ φ.</p>
+Any set of axioms <span class="math"><script type="math/tex">Γ</script></span> which is consistent (no contradictions such as 0 = 1 are derivable) and contains “enough arithmetic” cannot be complete.
+That is, there are true facts φ about arithmetic for which <span class="math"><script type="math/tex">Γ\not⊢ φ</script></span>.</p>
 <p><strong>Proof.</strong>
 Göedel gave a way to encode first-order logic itself in any axiomatisation <span class="math"><script type="math/tex">Γ</script></span> containing Peano (or any other encoding of) natural numbers.<br>
 Hence for any such system he was able to write an encoding of the formula:</p>
