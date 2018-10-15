@@ -1066,6 +1066,13 @@ Ronghui Gu</p>
 <p><strong>Q</strong>: Assume <span class="math"><script type="math/tex">\mathcal{F}:=\{O, S, +\}</script></span> and <span class="math"><script type="math/tex">\mathcal{P}:=\{=, <,>,\leq, \geq,...\}</script></span>, prove</p>
 <span class="math"><script type="math/tex; mode=display">t_1 = t_2 ⊢  (t + t_2) = (t + t_1)
 </script></span>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof of</span></span></span>
+<span class=""></span> 
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. t1 = t2                                    (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. t + t1 = t + t1 := (t + x = t + t1)[t1/x]  (ref)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. t + t2 = t + t1 := (t + x = t + t1)[t2/x]  (=e, 1, 2)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
 <p><strong>Q</strong>: Prove <span class="math"><script type="math/tex">(x+1=1+x), [(x+1)>1 \rightarrow x>0]⊢(1+x)>1 \rightarrow x>0</script></span></p>
 <h3>2.3 Quantification rules</h3>
 <p>Universal quantification elimination rule:</p>
@@ -1073,8 +1080,16 @@ Ronghui Gu</p>
 </script></span>
 <ul>
 <li>Can only replace with free variables: <span class="math"><script type="math/tex">A:= \forall x. \exists y. x < y</script></span>, what is <span class="math"><script type="math/tex">A[y/x]</script></span>?</li>
-<li><strong>Q</strong>: prove <span class="math"><script type="math/tex">P(t), (\forall x. P(x)\rightarrow  Q(x)) ⊢ \neg Q(t)</script></span></li>
+<li><strong>Q</strong>: prove <span class="math"><script type="math/tex">P(t), (\forall x. P(x)\rightarrow  Q(x)) ⊢  Q(t)</script></span></li>
 </ul>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Proof of</span></span></span>
+<span class=""></span> 
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">1. P(t)               (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">2. ∀x. P(x) → Q(x)    (Pre)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. P(t) → Q(t)        (∀e, 2)</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">3. Q(t)               (→e, 1, 3)</span></span></span>
+<span></span> 
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">Qed</span></span></span></pre>
 <p>Universal quantification introduction rule:</p>
 <span class="math"><script type="math/tex; mode=display">\frac{\boxed{\begin{array}{c} x_0\\ ...\\ A[x_0/x] \end{array}} \text{ where } x_0 \text{ is fresh in } A}{\forall x.A}\ \forall i
 </script></span>

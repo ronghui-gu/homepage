@@ -1060,31 +1060,58 @@ B:=& \textbf{true}\ |\ \textbf{false} \ |\ E_1\ cop\ E_2 \ |\ \neg B \ |\ B_1\ b
 {\{P\}\ C\ \{Q\}}\text{WEAK}
 </script></span>
 <ul>
-<li><strong>Assignment Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{}
+<li>
+<p><strong>Assignment Rule</strong></p>
+<span class="math"><script type="math/tex; mode=display">\frac{}
 {\{A[E/x]\}\ x:=E\ \{A\}}\text{ASG}
 </script></span>
-<em>Example</em>:<span class="math"><script type="math/tex; mode=display">\{(z\times y > 5) \wedge (\exists x, y = x^x)\}
+<p><em>Example</em>:</p>
+<span class="math"><script type="math/tex; mode=display">\{(z\times y > 5) \wedge (\exists x, y = x^x)\}
 \ x:= z*y\ \{(x > 5) \wedge (\exists x, y = x^x)\}</script></span>
-<strong>Forward assignment rule</strong>:<span class="math"><script type="math/tex; mode=display">\frac{}
+<p><strong>Forward assignment rule</strong>:</p>
+<span class="math"><script type="math/tex; mode=display">\frac{}
 {\{A\}\ x:=E\ \{\exists x_0, A[x_0/x] \wedge x = E[x_0/x]\}}\text{ASG-FWD}
 </script></span>
 </li>
-<li><strong>Sequential Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{\{P\}\ C_1\ \{A\} \quad \{A\}\ C_2\ \{Q\}}
+<li>
+<p><strong>Sequential Rule</strong></p>
+<span class="math"><script type="math/tex; mode=display">\frac{\{P\}\ C_1\ \{A\} \quad \{A\}\ C_2\ \{Q\}}
 {\{P\}\ C_1; C_2\ \{Q\}}\text{SEQ}
 </script></span>
-<em>Example</em>:<span class="math"><script type="math/tex; mode=display">\frac{\{y+z > 4\}\ y:=y+z\ \{y>3\} \quad \{y>3\}\ x:=y+2\ \{x>5\}}
+<p><em>Example</em>:</p>
+<span class="math"><script type="math/tex; mode=display">\frac{\{y+z > 4\}\ y:=y+z\ \{y>3\} \quad \{y>3\}\ x:=y+2\ \{x>5\}}
 {\{y+z+2>5\}\ y:=y+z;x:=y+2\ \{x>5\}}
 </script></span>
 </li>
-<li><strong>Conditional Branch Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{\{P \wedge B\}\ C_1\ \{Q\} \quad \{P \wedge \neg B\}\ C_2\ \{Q\}}
+<li>
+<p><strong>Conditional Branch Rule</strong></p>
+<span class="math"><script type="math/tex; mode=display">\frac{\{P \wedge B\}\ C_1\ \{Q\} \quad \{P \wedge \neg B\}\ C_2\ \{Q\}}
 {\{P\}\ \textbf{if } B \textbf{ then } C_1 \textbf{ else } C_2\ \{Q\}}\text{IF}
 </script></span>
-<em>Example</em>:<span class="math"><script type="math/tex; mode=display">\frac{\{⊤ \wedge x > 0\}\ y:= x\ \{y \geq 0\} \quad \{⊤ \wedge \neg (x > 0)\}\ y:= -x\ \{y \geq 0\}}
+<p><em>Example</em>:</p>
+<span class="math"><script type="math/tex; mode=display">\frac{\{⊤ \wedge x > 0\}\ y:= x\ \{y \geq 0\} \quad \{⊤ \wedge \neg (x > 0)\}\ y:= -x\ \{y \geq 0\}}
 {\{⊤\}\ \textbf{if } x > 0 \textbf{ then } y:= x \textbf{ else } y:= -x\ \{y \geq 0\}}
 </script></span>
-<strong>Q:</strong> What if <span class="math"><script type="math/tex">\{P \wedge B\}\ C_1\ \{Q_1\}</script></span>
-and <span class="math"><script type="math/tex">\{P \wedge \neg B\}\ C_2\ \{Q_2\}</script></span>?</li>
-<li><strong>Partial Correctness of Loops Rule</strong><span class="math"><script type="math/tex; mode=display">\frac{\{I \wedge B\}\ C\ \{I\}}
+<pre class="editor-colors lang-C"><span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> Proof.</span></span></span>
+<span class=""><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { ⊤ }              (PRE)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">if</span> x <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">&gt;</span> <span class="syntax--constant syntax--numeric syntax--c">0</span> then <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { ⊤ ∧ x &gt; 0 }    (IF)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x &gt;= 0 }       (WEAK)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> x<span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y &gt;= 0 }       (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span> <span class="syntax--keyword syntax--control syntax--c">else</span> <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { ⊤ ∧ ~ (x &gt; 0)} (IF)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { -x &gt;= 0 }      (WEAK)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--keyword syntax--operator syntax--c">-</span>x</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y &gt;= 0 }       (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y &gt;= 0 }         (IF)</span></span></span></pre>
+<p><strong>Q:</strong> What if <span class="math"><script type="math/tex">\{P \wedge B\}\ C_1\ \{Q_1\}</script></span>
+and <span class="math"><script type="math/tex">\{P \wedge \neg B\}\ C_2\ \{Q_2\}</script></span>?</p>
+</li>
+<li>
+<p><strong>Partial Correctness of Loops Rule</strong></p>
+<span class="math"><script type="math/tex; mode=display">\frac{\{I \wedge B\}\ C\ \{I\}}
 {\{I\}\ \textbf{while } B\ C\ \{I \wedge \neg B\}}\text{While}
 </script></span>
 <ul>
@@ -1124,19 +1151,28 @@ and eventually after any number of iterations of <span class="math"><script type
 </li>
 <li>
 <p><strong>Example</strong>:</p>
-</li>
-</ul>
 <span class="math"><script type="math/tex; mode=display">\frac{\{x_0=x+z \wedge z\neq 0\}\ x:=x+1; z:=z-1\ \{x_0 = x +z\}}
 {\{x_0=x+z\}\ \textbf{while } (z !\!= 0) \{x:=x+1; z:=z-1\}\
 \{x_0 = x+z \wedge z=0\}}
 </script></span>
+<pre class="editor-colors lang-C"><span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> Proof.</span></span></span>
+<span class=""><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x0 = x+z }             (PRE)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">while</span> z <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">!=</span> <span class="syntax--constant syntax--numeric syntax--c">0</span> <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x0 = x+z ∧ z != 0}   (WHILE)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x0 = (x+1)+(z-1) }   (WEAK)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>x :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> x <span class="syntax--keyword syntax--operator syntax--c">+</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x0 = x+(z-1) }       (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> z <span class="syntax--keyword syntax--operator syntax--c">-</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x0 = x+z }           (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { x0 = x+z ∧ z = 0 }     (WHILE)</span></span></span></pre>
 <ul>
 <li>Logical (ghost) variables: variable <span class="math"><script type="math/tex">x_0</script></span> is used only in formulas to “remember” some value</li>
 <li>program variables: variables used by the program
 from the starting state.</li>
 </ul>
 </li>
-</ul>
+<li>
 <p><strong>Q</strong> Prove <span class="math"><script type="math/tex">\{x>0\}\ \text{Fact1}\ \{y:= x! \}</script></span> where</p>
 <pre class="editor-colors lang-C"><span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> Program Fact1 is</span></span></span>
 <span class=""><span class="syntax--source syntax--c">y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
@@ -1161,22 +1197,53 @@ from the starting state.</li>
 <span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = z! }             (ASG)</span></span></span></span>
 <span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span>
 <span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = z! ∧ ~(z != x)}    (WHILE)</span></span></span>
-<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> {y = x!}                 (WEAK)</span></span></span></pre>
-<h2>3 Meta Theory of Hoare Logic</h2>
-<p><strong>Theorem (Soundness)</strong><br>
-Hoare Logic is sound: <span class="math"><script type="math/tex">⊢\{P\}C\{Q\}\ \Rightarrow\ \models \{P\}C\{Q\}</script></span></p>
-<ul>
-<li>Reason about the number of steps required to terminate loop for the loop rule.
-Then use induction on the structure of the proof tree.</li>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> { y = x!}                (WEAK)</span></span></span></pre>
+</li>
 </ul>
-<p><strong>Theorem (Relative Completeness)</strong><br>
-If there is a complete proof system for proving assertions in the underlying logic, then all valid Hoare triples have a proof</p>
+</li>
+<li>
+<p><strong>Total Correctness of Loops Rule</strong></p>
+<span class="math"><script type="math/tex; mode=display">\frac{[I \wedge B \wedge 0 \leq E = E_0]\ C\ [I\wedge 0 \leq E < E_0]}
+{[I \wedge \wedge 0 \leq E ]\ \textbf{while } B\ C\ [I \wedge \neg B]}\text{While}
+</script></span>
 <ul>
-<li>Hoare logic is no more incomplete than our language of assertions</li>
-<li>First Order Logic is incomplete!</li>
-<li>The result uses weakest pre-condition</li>
+<li><span class="math"><script type="math/tex">E</script></span> is the loop variant.</li>
+<li>A variant is not always easy to find:
+<ul>
+<li>Collatz Conjecture: the following program C satisfies <span class="math"><script type="math/tex">⊢ [0 < x] C [⊤]</script></span> (i.e., the program terminates for all positive inputs)</li>
 </ul>
-<h3>3.1 Weakest Precondition</h3>
+<pre class="editor-colors lang-c"><span><span class="syntax--source syntax--c">c <span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> x<span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span class=""><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">while</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--begin syntax--bracket syntax--round syntax--c">(</span>c <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">!=</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--section syntax--parens syntax--end syntax--bracket syntax--round syntax--c">)</span> <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span><span class="syntax--keyword syntax--control syntax--c">if</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--begin syntax--bracket syntax--round syntax--c">(</span> c <span class="syntax--keyword syntax--operator syntax--c">%</span> <span class="syntax--constant syntax--numeric syntax--c">2</span> <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">==</span> <span class="syntax--constant syntax--numeric syntax--c">0</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--end syntax--bracket syntax--round syntax--c">)</span> <span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">    </span>c <span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> c <span class="syntax--keyword syntax--operator syntax--c">/</span> <span class="syntax--constant syntax--numeric syntax--c">2</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span><span class="syntax--keyword syntax--control syntax--c">else</span> <span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">    </span>c <span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">3</span> <span class="syntax--keyword syntax--operator syntax--c">*</span> c <span class="syntax--keyword syntax--operator syntax--c">+</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span></pre>
+</li>
+<li><strong>Q</strong> Prove <span class="math"><script type="math/tex">[x>0]\ \text{Fact1}\ [y:= x!]</script></span><pre class="editor-colors lang-C"><span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> Proof.</span></span></span>
+<span class=""><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ x &gt; 0 ]                        (PRE)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ 1 = 0! ]                       (WEAK)</span></span></span>
+<span><span class="syntax--source syntax--c">y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = 0! ]                       (ASG)</span></span></span>
+<span><span class="syntax--source syntax--c">z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> <span class="syntax--constant syntax--numeric syntax--c">0</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = z! ]                       (ASG)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = z! ∧ 0 &lt;= x-z ]            (WEAK)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">while</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--begin syntax--bracket syntax--round syntax--c">(</span>z <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">!=</span> x<span class="syntax--punctuation syntax--section syntax--parens syntax--end syntax--bracket syntax--round syntax--c">)</span> <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = z! ∧ (0 &lt;= x-z = x-z0) ∧ z != x]      (WHILE)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y*(z+1) = (z+1)! ∧ 0 &lt;= x-(z+1) &lt; x-z0 ]  (WEAK)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>z :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> z <span class="syntax--keyword syntax--operator syntax--c">+</span> <span class="syntax--constant syntax--numeric syntax--c">1</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y*z = z! ∧ 0 &lt;= x-z &lt; x-z0 ]              (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>y :<span class="syntax--keyword syntax--operator syntax--assignment syntax--c">=</span> y <span class="syntax--keyword syntax--operator syntax--c">*</span> z<span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--whitespace syntax--comment syntax--leading syntax--cpp"><span class="leading-whitespace">  </span></span><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = z! ∧ 0 &lt;= x-z &lt; x-z0 ]                (ASG)</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = z! ∧ ~(z != x)]            (WHILE)</span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--comment syntax--line syntax--double-slash syntax--cpp"><span class="syntax--punctuation syntax--definition syntax--comment syntax--cpp">//</span> [ y = x! ]                       (WEAK)</span></span></span></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2>3 Weakest Precondition</h2>
 <p>Intuitively, the largest set of states (represented as an assertion) starting from which if a program <span class="math"><script type="math/tex">C</script></span> is executed, the resulting states satisfy a given post-condition <span class="math"><script type="math/tex">Q</script></span>, which is denoted as “<span class="math"><script type="math/tex">wp(C, Q)</script></span>”.</p>
 <p><strong>Definition</strong><br>
 Given <span class="math"><script type="math/tex">C</script></span> and <span class="math"><script type="math/tex">Q</script></span>, a weakest precondition <span class="math"><script type="math/tex">wp(C, Q)</script></span> is an assertion
@@ -1186,28 +1253,104 @@ such that</p>
 <li>it is weakest: <span class="math"><script type="math/tex">\forall P</script></span> if  <span class="math"><script type="math/tex">\models \{P\}\ C\ \{Q\}</script></span> then
 <span class="math"><script type="math/tex">\models P \rightarrow wp(C, Q)</script></span></li>
 </ul>
-<p>Weakest precondition:</p>
+<h3>3.1 Weakest Precondition Exists</h3>
 <ul>
-<li>exists</li>
-<li>unique</li>
-<li>can be expressed in our assertion logic</li>
-<li>can be proved using inference rule</li>
-</ul>
-<h4>3.1.1 Weakest Precondition Exists</h4>
-<ul>
-<li>Assignment: <span class="math"><script type="math/tex">wp(x:=E, Q) = Q[E/x]</script></span></li>
-<li>Seq: <span class="math"><script type="math/tex">wp(C1;C2, Q) = wp(C1, wp(C2, Q))</script></span></li>
-<li>Condition:
+<li>
+<p><strong>Assignment</strong>: <span class="math"><script type="math/tex">wp(x:=E, Q) = Q[E/x]</script></span></p>
+</li>
+<li>
+<p><strong>Seq</strong>: <span class="math"><script type="math/tex">wp(C1;C2, Q) = wp(C1, wp(C2, Q))</script></span></p>
+</li>
+<li>
+<p><strong>Condition</strong>:
 <span class="math"><script type="math/tex">wp(\textbf{if }B\textbf{ then }C1\textbf{ else }C2, Q)
-= (B\wedge wp(C1,Q)) \vee (~B\wedge wp(C2,Q))</script></span></li>
-<li>Loops:<span class="math"><script type="math/tex; mode=display">wp(\textbf{while }B\ C, Q) = \bigwedge_{k\geq 0} P_k
+= (B\wedge wp(C1,Q)) \vee (\neg B\wedge wp(C2,Q))</script></span></p>
+<p><em>Example</em>: what is “<span class="math"><script type="math/tex">wp(\textbf{if } x>0 \textbf{ then }y:=x\textbf{ else }y:=-x, y>=0)</script></span>”?</p>
+<span class="math"><script type="math/tex; mode=display">\begin{align}
+&wp(\textbf{if } x>0 \textbf{ then }y:=x\textbf{ else }y:=-x, y\geq0)\\
+&= (x>0 \wedge wp(y:=x, y \geq0)) \vee (\neg(x>0) \wedge wp(y:=-x, y \geq0)) \\
+&=(x>0 \wedge x \geq0) \vee (\neg(x>0) \wedge -x \geq0) \\
+&= x>0 \vee \neg(x>0)  \\
+&= ⊤
+\end{align}</script></span>
+</li>
+<li>
+<p><strong>Loops</strong>:</p>
+<span class="math"><script type="math/tex; mode=display">wp(\textbf{while }B\ C, Q) = \bigwedge_{k\geq 0} P_k
 </script></span>
 <ul>
-<li><span class="math"><script type="math/tex">P_0</script></span> = true</li>
-<li><span class="math"><script type="math/tex">P_k+1 = (B \wedge wp(C, P_k)) \vee (~B \wedge Q)</script></span></li>
+<li><span class="math"><script type="math/tex">P_0</script></span> = <span class="math"><script type="math/tex">⊤</script></span></li>
+<li><span class="math"><script type="math/tex">P_{k+1} = (B \wedge wp(C, P_k)) \vee (\neg B \wedge Q)</script></span>:<span class="math"><script type="math/tex; mode=display">\begin{align}
+&P_{k+1}\\
+&= wp(\textbf{while}_{k+1}\ B\ C, Q) \\
+&= wp(\textbf{if } B \textbf{ then }\{ C;\textbf{while}_{k}\ B\ C\} \textbf{ else skip}, Q) \\
+&= (B \wedge wp(C, wp(\textbf{while}_{k}\ B\ C))) \vee (\neg B \wedge wp(\textbf{skip},Q)) \\
+&= (B \wedge wp(C, P_k)) \vee (\neg B \wedge Q)
+\end{align}
+</script></span>
+</li>
+<li>By Kleene fixed-point theorem, we know that the <strong>fixed point</strong> exists and is called "loop invariants <span class="math"><script type="math/tex">I</script></span>"</li>
+</ul>
+</li>
+<li>
+<p><strong>Loops with invariant</strong>: although we know that this loop invariant <span class="math"><script type="math/tex">I</script></span> exists, in practice, such an abstract construction cannot be handled efficiently by theorem provers. Hence, loop invariants and variants are provided by human users.</p>
+<p>If <span class="math"><script type="math/tex">I</script></span> is provided as a correct loop invariant, then we have
+“<span class="math"><script type="math/tex">\textbf{while }B\textbf{ inv }I\  C</script></span>” iff</p>
+<ul>
+<li><span class="math"><script type="math/tex">(I ∧ B) \Rightarrow wp(C, I)</script></span></li>
+<li><span class="math"><script type="math/tex">wp(\textbf{while }B\textbf{ inv }I\  C , Q) ≡ (Q ∧ ¬B) ∨ (((I ∧ ¬B) \Rightarrow Q) ∧ I)</script></span></li>
+</ul>
+<p><strong>Example</strong>: Given the following program</p>
+<pre class="editor-colors lang-c"><span><span class="syntax--source syntax--c"><span class="syntax--keyword syntax--control syntax--c">while</span> <span class="syntax--punctuation syntax--section syntax--parens syntax--begin syntax--bracket syntax--round syntax--c">(</span>i <span class="syntax--keyword syntax--operator syntax--comparison syntax--c">&lt;</span> n<span class="syntax--punctuation syntax--section syntax--parens syntax--end syntax--bracket syntax--round syntax--c">)</span> invariant i <span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--begin syntax--bracket syntax--curly syntax--c">{</span></span></span></span>
+<span class=""><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="leading-whitespace">  </span>i<span class="syntax--keyword syntax--operator syntax--increment syntax--c">++</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--c">;</span></span></span></span>
+<span><span class="syntax--source syntax--c"><span class="syntax--meta syntax--block syntax--c"><span class="syntax--punctuation syntax--section syntax--block syntax--end syntax--bracket syntax--curly syntax--c">}</span></span></span></span></pre>
+<ul>
+<li>Let <span class="math"><script type="math/tex">Q := (i = n)</script></span>.
+<ul>
+<li><span class="math"><script type="math/tex">I := (i < n)</script></span>, is not a correct loop invariant.</li>
+<li><span class="math"><script type="math/tex">I := (i <= n)</script></span> is a correct invariant, and is sufficient to imply the post-condition <span class="math"><script type="math/tex">Q</script></span>. In this case the weakest precondition is <span class="math"><script type="math/tex">(i\leq n)</script></span>.</li>
+<li><span class="math"><script type="math/tex">I := i <= n+1</script></span> is a correct (but weak) loop invariant, but is
+not sufficient to imply the post-condition. In this case
+the weakest precondition given <span class="math"><script type="math/tex">I</script></span> is false.</li>
+</ul>
+</li>
+<li>Let <span class="math"><script type="math/tex">Q := (n = 10)</script></span>.
+<ul>
+<li><span class="math"><script type="math/tex">I := (n = 10)</script></span> is a correct loop invariant, and is necessary to
+imply the post-condition <span class="math"><script type="math/tex">Q</script></span>. Then the weakest precondition is <span class="math"><script type="math/tex">(n = 10)</script></span>.</li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+<h2>4 Meta Theory of Hoare Logic</h2>
+<p><strong>Theorem (Soundness)</strong><br>
+Hoare Logic is sound: <span class="math"><script type="math/tex">⊢\{P\}C\{Q\}\ \Rightarrow\ \models \{P\}C\{Q\}</script></span></p>
+<ul>
+<li>Reason about the number of steps required to terminate loop for the loop rule.
+Then use induction on the structure of the proof tree.</li>
+</ul>
+<p><strong>Theorem (Relative Completeness)</strong><br>
+If there is a complete proof system for proving assertions in the underlying logic, then all valid Hoare triples have a proof.</p>
+<ul>
+<li>Hoare logic is no more incomplete than our language of assertions</li>
+<li>First Order Logic is incomplete!</li>
+<li>The result uses weakest pre-condition.</li>
+</ul>
+<p><strong>Proof.</strong><br>
+Given <span class="math"><script type="math/tex">\models \{P\}C\{Q\}</script></span> and the properties of the weakest precondition, we have that</p>
+<ul>
+<li><span class="math"><script type="math/tex">\models \{wp(C,Q)\}C\{Q\}</script></span></li>
+<li><span class="math"><script type="math/tex">\models P \Rightarrow wp(C,Q)</script></span><br>
+Since the weakest precondition can be proved using inference rules  (proved by the induction over the definition of weakest precondition), we know</li>
+</ul>
+<span class="math"><script type="math/tex; mode=display">⊢\{wp(C,Q)\}C\{Q\}
+</script></span>
+<p>Thus, as long as
+<span class="math"><script type="math/tex">⊢ P \Rightarrow wp(C,Q)</script></span>, we know that</p>
+<span class="math"><script type="math/tex; mode=display">⊢ \{P\}C\{Q\}
+</script></span>
+<p><span class="math"><script type="math/tex">\Box</script></span></p>
 
   </body>
 </html>
