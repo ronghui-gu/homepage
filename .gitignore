@@ -2,3 +2,8 @@
 .DS_Store
 *.md
 *Lecture*.pdf
+*.vo
+*.glob
+*Makefile*
+*.aux
+*.coqdeps.d
