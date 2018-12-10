@@ -922,9 +922,9 @@ Proof.
    1. ~ P  (Hyp)
    2. Q0   (Hyp)
    3. P    (Hyp)
-   4. False (False i, 1, 3)
-   5. Q0    (Double Negation, 4)
-   6. P -> Q0  (->i, 3~5)
+   4. False (~e, 1, 3)
+   5. Q0    (exfalso, 4)
+   6. P -> Q0 (->i, 3~5)
 =======================
    7. forall Q, P -> Q  (forall i, 2~6)
  *)
@@ -936,9 +936,10 @@ Proof.
   intros Q0.
   intros H3.
   pose (H1 H3) as H4.
-  inversion H4.
+  apply ex_falso_quodlibet.
+  apply H4.
 Qed.
-  
+
 (** This is how we use [not] to state that [0] and [1] are different
     elements of [nat]: *)
 
@@ -968,12 +969,17 @@ Qed.
 Theorem not_False :
   ~ False.
 Proof.
-  unfold not. intros H. destruct H. Qed.
+  intros H. inversion H. Qed.
 
 Theorem double_neg : forall P : Prop,
     P -> ~~P.
 Proof.
-  intros P H. unfold not. intros G. apply G. apply H.  Qed.
+  intros P.
+  intros H1.
+  intros HnP.
+  apply HnP.
+  exact H1.
+Qed.
 
 (** Similarly, since inequality involves a negation, it requires a
     little practice to be able to work with it fluently.  Here is one
@@ -987,14 +993,14 @@ Proof.
 Theorem not_true_is_false : forall b : bool,
     b <> true -> b = false.
 Proof.
-  intros [] H.
-  - (* b = true *)
-    unfold not in H.
-    apply ex_falso_quodlibet.
-    apply H. reflexivity.
-  - (* b = false *)
+  intros b.
+  intros Hnb.
+  destruct b.
+  - elim Hnb.
     reflexivity.
+  - reflexivity.
 Qed.
+
 
 (** Since reasoning with [ex_falso_quodlibet] is quite common, Coq
     provides a built-in tactic, [exfalso], for applying it. *)
@@ -1018,7 +1024,7 @@ Qed.
     predefined constant [I : True]: *)
 
 Lemma True_is_true : True.
-Proof. apply I. Qed.
+Proof. econstructor. Qed.
 
 (** Unlike [False], which is used extensively, [True] is used quite
     rarely, since it is trivial (and therefore uninteresting) to prove
@@ -1046,7 +1052,9 @@ Proof. apply I. Qed.
 
 Lemma four_is_even : exists n : nat, 4 = n + n.
 Proof.
-  exists 2. reflexivity.
+  eexists. 
+  instantiate (1:= 2).
+  reflexivity.
 Qed.
 
 (** Conversely, if we have an existential hypothesis [exists x, P] in
@@ -1057,142 +1065,14 @@ Theorem exists_example_2 : forall n,
     (exists m, n = 4 + m) ->
     (exists o, n = 2 + o).
 Proof.
-  intros n [m Hm]. (* note implicit [destruct] here *)
-  exists (2 + m).
-  apply Hm.  Qed.
-
-
-(* ################################################################# *)
-(** * Programming with Propositions *)
-
-(** The logical connectives that we have seen provide a rich
-    vocabulary for defining complex propositions from simpler ones.
-    To illustrate, let's look at how to express the claim that an
-    element [x] occurs in a list [l].  Notice that this property has a
-    simple recursive structure: *)
-(**    - If [l] is the empty list, then [x] cannot occur on it, so the
-         property "[x] appears in [l]" is simply false. *)
-(**    - Otherwise, [l] has the form [x' :: l'].  In this case, [x]
-         occurs in [l] if either it is equal to [x'] or it occurs in
-         [l']. *)
-
-(** We can translate this directly into a straightforward recursive
-    function taking an element and a list and returning a proposition: *)
-
-Fixpoint In {A : Type} (x : A) (l : list A) : Prop :=
-  match l with
-  | [] => False
-  | x' :: l' => x' = x \/ In x l'
-  end.
-
-(** When [In] is applied to a concrete list, it expands into a
-    concrete sequence of nested disjunctions. *)
-
-Example In_example_1 : In 4 [1; 2; 3; 4; 5].
-Proof.
-  simpl. right. right. right. left. reflexivity.
-Qed.
-
-Example In_example_2 :
-  forall n, In n [2; 4] ->
-            exists n', n = 2 * n'.
-Proof.
+  intros n Hex.
+  destruct Hex as [m0 Hm0].
+  exists (m0 + 2).
+  rewrite Hm0.
+  rewrite (plus_comm m0 2).
   simpl.
-  intros n [H | [H | []]].
-  - exists 1. rewrite <- H. reflexivity.
-  - exists 2. rewrite <- H. reflexivity.
-Qed.
-(** (Notice the use of the empty pattern to discharge the last case
-    _en passant_.) *)
-
-
-(* ################################################################# *)
-(** * Applying Theorems to Arguments *)
-
-(** One feature of Coq that distinguishes it from many other proof
-    assistants is that it treats _proofs_ as first-class objects.
-
-    There is a great deal to be said about this, but it is not
-    necessary to understand it in detail in order to use Coq.  This
-    section gives just a taste, while a deeper exploration can be
-    found in the optional chapters [ProofObjects] and
-    [IndPrinciples]. *)
-
-(** We have seen that we can use the [Check] command to ask Coq to
-    print the type of an expression.  We can also use [Check] to ask
-    what theorem a particular identifier refers to. *)
-
-Check plus_comm.
-(* ===> forall n m : nat, n + m = m + n *)
-
-(** Coq prints the _statement_ of the [plus_comm] theorem in the same
-    way that it prints the _type_ of any term that we ask it to
-    [Check].  Why? *)
-
-(** The reason is that the identifier [plus_comm] actually refers to a
-    _proof object_ -- a data structure that represents a logical
-    derivation establishing of the truth of the statement [forall n m
-    : nat, n + m = m + n].  The type of this object _is_ the statement
-    of the theorem that it is a proof of. *)
-
-(** Intuitively, this makes sense because the statement of a theorem
-    tells us what we can use that theorem for, just as the type of a
-    computational object tells us what we can do with that object --
-    e.g., if we have a term of type [nat -> nat -> nat], we can give
-    it two [nat]s as arguments and get a [nat] back.  Similarly, if we
-    have an object of type [n = m -> n + n = m + m] and we provide it
-    an "argument" of type [n = m], we can derive [n + n = m + m]. *)
-
-(** Operationally, this analogy goes even further: by applying a
-    theorem, as if it were a function, to hypotheses with matching
-    types, we can specialize its result without having to resort to
-    intermediate assertions.  For example, suppose we wanted to prove
-    the following result: *)
-
-Lemma plus_comm3 :
-  forall x y z, x + (y + z) = (z + y) + x.
-
-(** It appears at first sight that we ought to be able to prove this
-    by rewriting with [plus_comm] twice to make the two sides match.
-    The problem, however, is that the second [rewrite] will undo the
-    effect of the first. *)
-
-Proof.
-  intros x y z.
-  rewrite plus_comm.
-  rewrite plus_comm.
-  (* We are back where we started... *)
-Abort.
-
-(** One simple way of fixing this problem, using only tools that we
-    already know, is to use [assert] to derive a specialized version
-    of [plus_comm] that can be used to rewrite exactly where we
-    want. *)
-
-Lemma plus_comm3_take2 :
-  forall x y z, x + (y + z) = (z + y) + x.
-Proof.
-  intros x y z.
-  rewrite plus_comm.
-  assert (H : y + z = z + y).
-  { rewrite plus_comm. reflexivity. }
-  rewrite H.
   reflexivity.
 Qed.
-
-(** A more elegant alternative is to apply [plus_comm] directly to the
-    arguments we want to instantiate it with, in much the same way as
-    we apply a polymorphic function to a type argument. *)
-
-Lemma plus_comm3_take3 :
-  forall x y z, x + (y + z) = (z + y) + x.
-Proof.
-  intros x y z.
-  rewrite plus_comm.
-  rewrite (plus_comm y z).
-  reflexivity.
-Qed.
-
 
 (* ================================================================= *)
 (** ** Classical vs. Constructive Logic *)
@@ -1310,14 +1190,15 @@ Qed.
 Theorem excluded_middle_irrefutable: forall (P:Prop),
     ~ ~ (P \/ ~ P).
 Proof.
-  intros P HF.
-  assert (HP: ~~P).
+  intros P.
+  intros HP.
+  assert (Hor: P \/ ~P).
   {
-    intros HF'. apply HF. right; trivial.
+    right.
+    intros HF.
+    apply HP.
+    left.
+    exact HF.
   }
-  assert (HP': ~P).
-  {
-    intros HF'. apply HF. left; trivial.
-  }
-  apply HP. apply HP'.
+  apply HP. exact Hor.
 Qed.
