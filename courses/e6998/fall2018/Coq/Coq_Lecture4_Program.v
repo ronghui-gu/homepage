@@ -9,16 +9,13 @@
 
 (** 1) To compile the lecture notes, first download the following files
     
-    _CoqProject
-    Coq_Lecture1_Basics.v
-    Coq_Lecture2_Induction_List.v
-    Coq_Lecture3_Tactics_Logic.v    
+    _CoqProject    
     
     in the same directory.
     
     2) Then generate the Makefile in the command line:
     
-    [ coq_makefile -f _CoqProject Coq_Lecture1_Basics.v Coq_Lecture2_Induction_List.v Coq_Lecture3_Tactics_Logic.v Coq_Lecture4_Program.v -o Makefile ]
+    [ coq_makefile -f _CoqProject Coq_Lecture4_Program.v -o Makefile ]
     
     3) Make the files by
     

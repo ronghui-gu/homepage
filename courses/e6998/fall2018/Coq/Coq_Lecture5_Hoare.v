@@ -8,17 +8,14 @@
 
 (** 1) To compile the lecture notes, first download the following files
     
-    _CoqProject
-    Coq_Lecture1_Basics.v
-    Coq_Lecture2_Induction_List.v
-    Coq_Lecture3_Tactics_Logic.v    
+    _CoqProject  
     Coq_Lecture4_Program.v    
     
     in the same directory.
     
     2) Then generate the Makefile in the command line:
     
-    [ coq_makefile -f _CoqProject Coq_Lecture1_Basics.v Coq_Lecture2_Induction_List.v Coq_Lecture3_Tactics_Logic.v Coq_Lecture4_Program.v Coq_Lecture5_Hoare.v -o Makefile ]
+    [ coq_makefile -f _CoqProject Coq_Lecture4_Program.v Coq_Lecture5_Hoare.v -o Makefile ]
     
     3) Make the files by
     
@@ -31,7 +28,7 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Arith.Arith.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.omega.Omega.
-From LF Require Import Coq_Lecture4_Program. 
+From LF Require Export Coq_Lecture4_Program. 
 
 (** In the final lecture, we began applying the mathematical tools
     developed in the first part of the course to studying the theory
