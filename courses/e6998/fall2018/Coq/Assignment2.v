@@ -105,6 +105,8 @@ Module NatPlayground3.
   Lemma exp_1: forall power, exp 1 power = 1.
   (* FILL IN HERE *) Admitted.
 
+  Eval compute in (exp 2 4).
+
 End NatPlayground3.
 
 (* ################################################################# *)
