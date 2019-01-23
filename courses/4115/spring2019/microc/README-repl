@@ -1,0 +1,23 @@
+Attempts at trying to get the REPL to work with LLVM, etc.
+
+Really annoying: seems to be able to #load the .cmo files and run them,
+but doesn't admit that the LLVM package is there with #use, #show Lllvm, etc.
+
+
+
+
+
+repl : ocamlllvm microc.cma
+	opam config exec -- \
+	./ocamlllvm -I _build $(CMO_FILES)
+
+ocamlllvm :
+	opam config exec -- \
+	ocamlfind ocamlmktop -custom -o ocamlllvm \
+	-linkpkg -package llvm,llvm.analysis
+
+CMO_FILES = ast.cmo sast.cmo scanner.cmo microcparse.cmo semant.cmo
+
+$(CMO_FILES) microc.cma :
+	opam config exec -- \
+	ocamlbuild -use-ocamlfind microc.cma

@@ -1,0 +1,84 @@
+body {
+  background-color: #ffffff;
+  margin-left: 4.5em;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+p + p {
+  text-indent: 1em;
+  margin-top: 0;
+}
+
+h1 {
+  margin-left: -4.5em;
+  font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+  font-size: medium;
+  color: #ffffff;
+  background-color: #999999;
+  border-left: 0.3em solid #999999;
+}
+
+dt {
+  margin-left: -4em;
+}
+
+dd {
+  margin-left: 0;
+}
+
+ul.pdf {
+  margin-left: -2.5em;
+  list-style: square outside url(pdfsmall.gif);
+}
+
+ul.pdf li {
+  margin-bottom: 0.5em;
+}
+
+img {
+  border: 0px;
+}
+
+ul.plain {
+  margin-left: -2.5em;
+  list-style: none;
+}
+
+ul.plain li {
+  margin-bottom: 0.5em;
+}
+
+table {
+  border: 0;
+}
+
+table.title {
+  margin-left: 0em;
+  font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+  font-size: x-large;
+}
+
+table.schedule tr.odd {
+  background-color: #dddddd;
+}
+
+table.schedule tr.even {
+  background-color: #ffffff;
+}
+
+table.schedule tr.holiday {
+  background-color: #ff9900;
+}
+
+table.groups tr.odd {
+  background-color: #dddddd;
+}
+
+table.groups tr.even {
+  background-color: #ffffff;
+}
+

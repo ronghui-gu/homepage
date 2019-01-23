@@ -7,3 +7,11 @@
 *Makefile*
 *.aux
 *.coqdeps.d
+
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
