@@ -13,8 +13,8 @@ Office hours: Thu (1:30pm ~ 2:30pm) / by appointments
 
 | Name      | Email | Office hours | Location |  
 | ----------- | ----------- |  ----------- |  ----------- |  
-| Justin Wong | jw3354@columbia.edu | TBD | TBD |  
-| Ryan Bernstein | rb3234@columbia.edu | TBD | TBD |  
+| Justin Wong (**lead**)| jw3354@columbia.edu | TBD | TBD |  
+| Ryan Bernstein (**lead**)| rb3234@columbia.edu | TBD | TBD |  
 | Lauren Bree Arnett | lba2138@columbia.edu | TBD | TBD |  
 
 ### Overview
