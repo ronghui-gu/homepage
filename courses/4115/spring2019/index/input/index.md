@@ -39,7 +39,7 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Date      | Session | Lecture | Due |
 | ----------- | ----------- |  ----------- |  ----------- |
 | Wed Jan 23  | 1  | [Intro](./lectures/intro.pdf) | |
-| Mon Jan 28  | 2  | Language Processors  | |
+| Mon Jan 28  | 2  | [Language Translators](./lectures/translators.pdf)  | |
 | Wed Jan 30  | 3  | Programming in OCaml  | |
 | Mon Feb 4   | 4  | " | |
 | Wed Feb 6   | 5  | " | |
