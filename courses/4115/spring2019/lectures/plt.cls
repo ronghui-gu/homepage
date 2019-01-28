@@ -65,7 +65,7 @@
   identifierstyle={\itshape},
   keywordstyle=\color{mBlue},       % keyword style
   %keywordstyle={\bfseries},
-  commentstyle={\color{mRed}},
+  commentstyle={\color{darkgreen!60}},
 %  columns=fullflexible,
   showstringspaces=false
 }
@@ -101,7 +101,7 @@
                 \boxh - \tmpa - \tmpa);
     }
 
-    \fill[fill=yellow!30, rounded corners=\boxroundness]
+    \fill[fill=gray!10, rounded corners=\boxroundness]
         (0, 0) rectangle (\boxw, \boxh);
     \draw node[xshift=\boxroundness,yshift=\boxroundness,
         inner sep=0pt,outer sep=0pt,anchor=south west]
@@ -288,7 +288,7 @@
 \myobeylines\obeyspaces\obeyampersands\obeypounds%
 \obeyunderline\obeyleftbracket\obeytildes}{\egroup\shadowend}
 
-\setbeamercolor{popup}{fg=black,bg=red!20}
+\setbeamercolor{popup}{fg=black,bg=mBlue!15}
 
 
 \newcommand{\hlt}[1]{\textcolor{mRed}{#1}}
