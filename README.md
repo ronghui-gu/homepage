@@ -9,7 +9,7 @@ chmod 755 dir 644 file
 
 ## 4115
 
-generate-md --layout github --input \
+generate-md --layout mixu-page --input \
 ./courses/4115/spring2019/index/input \
 --output ./courses/4115/spring2019/index/output  
 cp ./courses/4115/spring2019/index/output/index.html \
