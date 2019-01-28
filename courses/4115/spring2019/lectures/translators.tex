@@ -2,10 +2,11 @@
 \usepackage{bbding} % \Checkmark \XsolidBold
 \usetheme{metropolis}           % Use metropolis theme
 
+
 \lstset{
   language=C,
   basicstyle={\fontsize{11}{11.5}\selectfont\ttfamily\spaceskip=3pt},
-}
+} 
 
 
 \title{Language Translators}
@@ -13,8 +14,9 @@
 \institute{Columbia University}
 \date{Spring 2019}
 \titlegraphic{
-\vspace{230pt}
-{\tiny $^*$ These slides are borrowed from Prof. Edwards.}
+\vspace{220pt}
+{\tiny $^*$ Course website: \url{https://www.cs.columbia.edu/~rgu/courses/4115/spring2019}\vspace{-5pt}}\\
+{\tiny $^{**}$ These slides are borrowed from Prof. Edwards.}
 }
 \begin{document}
 
@@ -498,7 +500,14 @@ Just a sequence of characters
 \token{;} \token{\}}\par
 }
 
-A stream of tokens.  Whitespace, comments removed.
+\renewcommand{\baselinestretch}{1}
+
+\begin{itemize}
+\item A stream of tokens;  whitespace, comments removed.
+
+\item Throw errors when failing to create tokens:  malformed strings or numbers or 
+invalid characters (such as non-ASCII characters in C).
+\end{itemize}
 
 \end{frame}
 
@@ -591,6 +600,12 @@ A stream of tokens.  Whitespace, comments removed.
 
 %\vspace{-pc}
 \usebox{\gcdbox}
+\hspace{10pt}
+\begin{minipage}{0.55\textwidth}
+\begin{itemize}
+\item Syntax analysis will throw errors if ``\}'' is missing. Lexical analysis will not. 
+\end{itemize}
+\end{minipage}
 
 \end{frame}
 

@@ -4,9 +4,18 @@
 ## General Information
 
 Instructor: [Ronghui Gu](https://www.cs.columbia.edu/~rgu/)  
+Email: ronghui.gu@columbia.edu  
 Office: 515 CSB  
 Lectures: Mudd 833, Mon & Wed, 2:40pm ~ 3:55pm  
 Office hours: Thu (1:30pm ~ 2:30pm) / by appointments  
+
+**Instructional Assistants**  
+
+| Name      | Email | Office hours | Location |  
+| ----------- | ----------- |  ----------- |  ----------- |  
+| Justin Wong | jw3354@columbia.edu | TBD | TBD |  
+| Ryan Bernstein | rb3234@columbia.edu | TBD | TBD |  
+| Lauren Bree Arnett | lba2138@columbia.edu | TBD | TBD |  
 
 ### Overview
 The goal of PLT is to teach you both about the structure of computer programming languages and the basics of implementing compilers for such languages.
