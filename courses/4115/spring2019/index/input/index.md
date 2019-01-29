@@ -15,6 +15,12 @@ Lectures: Mudd 833, Mon & Wed, 2:40pm ~ 3:55pm
 | Ryan Bernstein (**lead**)| rb3234@columbia.edu | W & F (11-12) | 486 CSB ([Clic Lab](https://www.cs.columbia.edu/clic/)) |  
 | Lauren Bree Arnett | lba2138@columbia.edu | Th (3-4) | 486 CSB ([Clic Lab](https://www.cs.columbia.edu/clic/)) |  
 
+**Note**: For any general questions related to assignments and projects,
+please send emails to the following
+TA mailing list using your Columbia email address:
+
+4115spring2019ta@lists.cs.columbia.edu
+
 ### Overview
 The goal of PLT is to teach you both about the structure of computer programming languages and the basics of implementing compilers for such languages.
 
