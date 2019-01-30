@@ -59,8 +59,9 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | ----------- | ----------- |  ----------- |  ----------- |
 | Wed Jan 23  | 1  | [Intro](./lectures/intro.pdf) | |
 | Mon Jan 28  | 2  | [Language Translators](./lectures/translators.pdf)  | |
-| Wed Jan 30  | 3  | Programming in OCaml  | |
-| Mon Feb 4   | 4  | " | |
+| Wed Jan 30  | 3  | [Basic Elements of PL](./lectures/languages.pdf) | |
+|    |   | [Some Outstanding Projects](./lectures/projects.pdf) | |
+| Mon Feb 4   | 4  | Programming in OCaml | |
 | Wed Feb 6   | 5  | " | |
 | Mon Feb 11  | 6  | Syntax & Parsing | Proposal|
 | Wed Feb 13  | 7  | " | |

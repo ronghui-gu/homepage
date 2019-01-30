@@ -478,11 +478,11 @@ a sequence of statements that update state.
 \begin{assembly}
     result = []
     i = 0
-    numStu = length(students)
+    numStu = len(students)
 start:
     if i >= numStu goto finished
     name = students[i]
-    nameLength = length(name)
+    nameLength = len(name)
     if nameLength <= 5 goto nextOne
     addToList(result, name)
 nextOne:
@@ -496,199 +496,134 @@ finished:
 
 \begin{frame}[fragile]
   \frametitle{Structured Programming}
-Programming with clean, \alert{goto-free}, nested control structures.
+A kind of imperative programming with clean, \alert{goto-free}, nested control structures.
 \href{https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf}
 {\alert{Go To Statement Considered Harmful}} by Dijkstra.
 
-\lstset{
-  language=assembly,
-  morekeywords={goto,return},
-  basicstyle={\fontsize{8}{8.5}\selectfont\ttfamily\spaceskip=3pt},
-  keywordstyle=\color{mBlue},       % keyword style
-} 
+\vspace{10pt}
 
-\begin{assembly}
-    result = []
-    i = 0
-    numStu = length(students)
-start:
-    if i >= numStu goto finished
+\begin{python}
+result = []
+for i in range(len(students)):
     name = students[i]
-    nameLength = length(name)
-    if nameLength <= 5 goto nextOne
-    addToList(result, name)
-nextOne:
-    i = i + 1
-    goto start
-finished:
-    return result
-\end{assembly}
+    if len(name) > 5:
+        addToList(result, name)
+print(result)
+\end{python}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Procedural Programming}
+Imperative programming with \alert{procedure calls}.
 
-\begin{frame}[fragile,t]{Optimization}
+\vspace{10pt}
 
-\begin{center}
-\hspace{20pt}
-\begin{tikzpicture}
-  \matrix [matrix of nodes,
-           row sep=0.8pc,
-           column sep=2pc,
-           every node/.style={draw, fill=white, drop shadow,minimum width=5.5cm}] {
-     |[code] (b)| int avg (int a, int b) ... \\
-     |(a)| Lexical Analysis \\
-     | (aa)| Syntax  Analysis \\
-     | (aaa)| Semantic Analysis \\
-     |(a4)| Intermediate Code Generation \\
-     |[emph](a5)| Optimization \\
-     |(a6)| Code Generation \\
-    |[code] (c)| 0101110101... \\
-  };
-  \begin{scope}[->]
-    \draw (b) -- (a);
-    \draw (a) -- (aa);
-    \draw (aa) -- (aaa);
-    \draw (aaa) -- (a4);
-    \draw (a4) -- (a5);
-    \draw (a5) -- (a6);
-    \draw (a6) -- (c);
-  \end{scope};
-  \begin{scope}[densely dotted]
-    \draw (-10pc,-2.6pc) -- (10pc,-2.6pc);
-    \draw (-10pc,-5pc) -- (10pc,-5pc);
-  \end{scope};
-  \node at (9pc,0) {front-end};
-  \node at (9.5pc,-4pc) {middle-end};
-  \node at (9pc,-6pc) {back-end};
-\end{tikzpicture}
-\end{center}
+\begin{python}
+def filterList (students):
+    result = []
+    for name in students:
+        if len(name) > 5:
+            addToList(result, name)
+    return result
 
+print(filterList(students))
+\end{python}
 \end{frame}
 
 
 \begin{frame}[fragile]
-  \frametitle{Optimization}
+  \frametitle{Object-Oriented Programming}
+An object-oriented program does its computation with interacting \alert{objects}.
 
+\vspace{5pt}
 
-\begin{center}
-\begin{tikzpicture}
-  \matrix [matrix of nodes,
-           row sep=0.8pc,
-           column sep=2pc,
-           every node/.style={draw, fill=white, drop shadow,minimum width=5.5cm}] {
-     |[emph](a)| Optimization \\
-  };
-  \begin{scope}[->]
-    \draw (0pc,2.5pc) -- (a);
-    \draw (a) -- (0pc,-2.4pc) ;
-  \end{scope};
-  \node at (0pc,2.5) {\begin{assembly}
-avg: 
-  t0 := a + b
-  t1 := 2
-  t2 := t0 / t1
-  ret t2	
-\end{assembly}};
-  \node at (0pc,-5pc) {\begin{assembly}
-avg: 
-  t0 := a + b
-  t2 := t0 / 2
-  ret t2	
-\end{assembly}};
-\end{tikzpicture}
-\end{center}
+\begin{python}
+class Student:
+  def __init__(self, name):
+    self.name = name
+    self.department = "CS"
+	
+def filterList (students):
+    result = []
+    for student in students:
+        if student.name.__len__() > 5:
+            result.append(student.name)
+    return result
 
-% Generated from SUIF/MachSUIF:
-%
-% c2s gcd.c
-% do_lower gcd.suif gcd.lsuif
-% do_s2m gcd.lsuif gcd.suifvm
-% do_print gcd.suifvm
-%
-% Heavily massaged to make it readable
-
+print(filterList(students))
+\end{python}
 \end{frame}
 
 
-\begin{frame}[fragile,t]{Code Generation}
+\begin{frame}[fragile]
+  \frametitle{Declarative Programming}
+A declarative program specifies \alert{what} computation is to be done. 
+It expresses the logic of a computation without describing its control flow.
 
-\begin{center}
-\hspace{20pt}
-\begin{tikzpicture}
-  \matrix [matrix of nodes,
-           row sep=0.8pc,
-           column sep=2pc,
-           every node/.style={draw, fill=white, drop shadow,minimum width=5.5cm}] {
-     |[code] (b)| int avg (int a, int b) ... \\
-     |(a)| Lexical Analysis \\
-     | (aa)| Syntax  Analysis \\
-     | (aaa)| Semantic Analysis \\
-     |(a4)| Intermediate Code Generation \\
-     |(a5)| Optimization \\
-     |[emph] (a6)| Code Generation \\
-    |[code] (c)| 0101110101... \\
-  };
-  \begin{scope}[->]
-    \draw (b) -- (a);
-    \draw (a) -- (aa);
-    \draw (aa) -- (aaa);
-    \draw (aaa) -- (a4);
-    \draw (a4) -- (a5);
-    \draw (a5) -- (a6);
-    \draw (a6) -- (c);
-  \end{scope};
-  \begin{scope}[densely dotted]
-    \draw (-10pc,-2.6pc) -- (10pc,-2.6pc);
-    \draw (-10pc,-5pc) -- (10pc,-5pc);
-  \end{scope};
-  \node at (9pc,0) {front-end};
-  \node at (9.5pc,-4pc) {middle-end};
-  \node at (9pc,-6pc) {back-end};
-\end{tikzpicture}
-\end{center}
+\vspace{10pt}
 
+\begin{sql}
+select name
+from students
+where length(name) > 5
+\end{sql}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Generation of x86 Assembly}
 
 
-\begin{center}
-\begin{tikzpicture}
-  \matrix [matrix of nodes,
-           row sep=0.8pc,
-           column sep=2pc,
-           every node/.style={draw, fill=white, drop shadow,minimum width=5.5cm}] {
-     |[emph](a)| Code Generation \\
-  };
-  \begin{scope}[->]
-    \draw (0pc,2.5pc) -- (a);
-    \draw (a) -- (0pc,-1.5pc) ;
-  \end{scope};
-  \node at (0pc,1.7) {\begin{assembly}
-avg: 
-  t0 := a + b
-  t2 := t0 / 2
-  ret t2	
-\end{assembly}};
-  \node at (0pc,-6.5pc) {\begin{assembly}
-avg:  pushl %ebp          # save BP
-      movl  %esp,%ebp
-      movl  8(%ebp),%eax  # load a from stack
-      movl  12(%ebp),%edx # load b from stack
-      
-      addl  %edx,%eax     # a += b
-      shr   $1,%eax       # a /= 2
-      ret
-\end{assembly}};
-\end{tikzpicture}
-\end{center}
+\lstset{
+  language=python,
+  morekeywords={False,True},
+  basicstyle={\fontsize{8}{8.5}\selectfont\ttfamily\spaceskip=3pt},
+  keywordstyle=\color{mBlue},       % keyword style
+} 
+
+\begin{frame}[fragile]
+  \frametitle{Functional Programming}
+A functional program  treats computation as the evaluation of mathematical functions and 
+\alert{avoids} side effects.
+
+\vspace{10pt}
 
 
-%\raisebox{2pc}{\scalebox{0.75}{\usebox{\gcdbox}}}\hfill \includegraphics[width=5pc]{80386.jpg}
+\begin{python}
+def isNameLong (name):
+    return len(name) > 5
 
-
+print(
+  list(
+    filter(isNameLong, students)))
+\end{python}
 \end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Functional Programming}
+Using lambda calculus:
+
+\vspace{10pt}
+
+\begin{python}
+print(
+ list(
+  filter(lambda name: len(name), students)))
+\end{python}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Functional Programming}
+Using function composition:
+
+\vspace{10pt}
+
+\begin{python}
+compose(print, list, filter*(lambda name: len(name) > 5))
+       (students)
+\end{python}
+
+\vspace{50pt}
+\tiny{$^*$A variant of the built-in filter.}
+\end{frame}
+
 
 \end{document}
 
