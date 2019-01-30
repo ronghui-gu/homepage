@@ -9,7 +9,7 @@
 
 ## General Information
 
-Instructor: [Ronghui Gu](https://www.cs.columbia.edu/~rgu/)  
+Instructor: [Prof. Ronghui Gu](https://www.cs.columbia.edu/~rgu/)  
 Lectures: Mudd 833, Mon & Wed, 2:40pm ~ 3:55pm  
 
 **Staff**  

@@ -171,6 +171,7 @@
 \lstdefinelanguage{assembly}{%
   identifierstyle={\ttfamily},%
   morecomment=[l]{\#},%
+  morekeywords={goto,return},
 }
 
 \lstnewenvironment{ocamlyacc}
