@@ -1,5 +1,11 @@
+
+<img style="float:right; margin: -5px -100px 0px -100px;" src="https://www.laurenillumination.com/wp-content/uploads/2017/10/logo-columbia.png" width="180" height="90">
+
 # COMS W4115 Programming Languages and Translators
+
 ### Spring 2019
+
+
 
 ## General Information
 
