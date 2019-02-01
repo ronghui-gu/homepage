@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Submission</title>
+    <title>COMS W4115 Programming Languages and Translators</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="../assets/css/style.css" />
@@ -16,8 +16,16 @@
 
     <div class="clear"></div>
     <div id="main">
-      <div id="content" class="post"><p>To begin install the  latest version of <a href="http://www.ocaml.org/docs/install.html#Ubuntu-Ubuntu-18-10">OCaml</a>.</p>
-<p>To ensure that you installed everything correctly, 
+      <div id="content" class="post"><p class="img-container"><img style="float:right; margin: -5px -100px 0px -100px;" src="https://www.laurenillumination.com/wp-content/uploads/2017/10/logo-columbia.png" width="180" height="90"></p>
+<h1 id="coms-w4115-programming-languages-and-translators"><a class="header-link" href="#coms-w4115-programming-languages-and-translators"></a>COMS W4115 Programming Languages and Translators</h1>
+<h3 id="spring-2019"><a class="header-link" href="#spring-2019"></a>Spring 2019</h3>
+<h1 id="hw-1-exposition"><a class="header-link" href="#hw-1-exposition"></a>HW 1 Exposition</h1>
+<p>As this course is entirely taught out of OCaml, it&#39;s imperative that you
+become comfortable with functional programming. There is <a href="./exposition_hw1.html">exposition</a> for this assignment
+writeup, but we also recommend consulting these <a href="http://www.cs.columbia.edu/~sedwards/classes/2018/4115-fall/ocaml.pdf">slides</a> by Stephen Edwards for additional language features.</p>
+<h2 id="setup"><a class="header-link" href="#setup"></a>Setup</h2>
+<p>To begin install the  latest version of <a href="http://www.ocaml.org/docs/install.html#Ubuntu-Ubuntu-18-10">OCaml</a>.</p>
+<p>To ensure that you installed everything correctly,
 create a <strong>test.ml</strong> file with the following content:</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> apply_n f n x = <span class="hljs-keyword">if</span> n = <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> x  
         <span class="hljs-keyword">else</span> apply_n f (n - <span class="hljs-number">1</span>) (f x)  
@@ -33,12 +41,12 @@ create a <strong>test.ml</strong> file with the following content:</p>
 <pre class="hljs"><code><span class="hljs-symbol">Output:</span> <span class="hljs-number">9</span>  </code></pre><p>Alternatively you can confirm it with the submission framework described below.</p>
 <h2 id="submission"><a class="header-link" href="#submission"></a>Submission</h2>
 <p>For submission, we will be using GitHub Classroom. Submit a definition of all the relevant functions collected into a file called <em>submission_hw1.ml</em>. To test your submission, we will basically append (using <code>open</code>) <em>submission_hw1.ml</em> to a suite of unit tests. Although there are many brute force solutions that exists to solve these problems, getting in the habit of writing elegant and maintainable code will pay-off handsomely as the course progresses.</p>
-<p>Start by accepting the invitation to the Github Classroom <a href="https://classroom.github.com/a/YWsHp8ec">https://classroom.github.com/a/YWsHp8ec</a> then cloning the template and unit tests from the repository. </p>
+<p>Start by accepting the invitation to the Github Classroom <a href="https://classroom.github.com/a/YWsHp8ec">https://classroom.github.com/a/YWsHp8ec</a> then cloning the template and unit tests from the repository.</p>
 <p><strong>DUEDATE: February 20, 2019 at 11:59pm</strong></p>
-<p>To test the compilation, run </p>
+<p>To test the compilation, run</p>
 <pre class="hljs"><code>&gt; ocamlopt -o a.out submission_hw1.ml unit_tests_hw1.ml
 &gt; ./a.out</code></pre><p>We have placed dummy implementations to make it compile so you&#39;ll have to overwrite those. Please be aware that the <code>unit_tests_hw1.ml</code> only indicate a couple of examples and we will be testing more comprehensively to ensure that the submission is correct. In other words, passing the <code>unit_tests_hw1.ml</code> doesn&#39;t guarantee you a perfect score. You should write your own tests.</p>
-<p>You should see the following output: </p>
+<p>You should see the following output:</p>
 <pre class="hljs"><code>Unit tests:
   Setup:
   Output: 9
@@ -69,7 +77,7 @@ OCaml.</p>
 <p><a name="P1to3"></a></p>
 <h2 id="let-expression"><a class="header-link" href="#let-expression"></a>Let Expression</h2>
 <p>In OCaml, there are variables and values. The way we define a new variable is by a let expression:</p>
-<pre class="hljs"><code><span class="hljs-keyword">let</span> var = <span class="hljs-keyword">val</span> <span class="hljs-keyword">in</span> expr</code></pre><p>so now <code>var</code> is &#39;in-scope&#39; for the duration of <code>expr</code>. Further, 
+<pre class="hljs"><code><span class="hljs-keyword">let</span> var = <span class="hljs-keyword">val</span> <span class="hljs-keyword">in</span> expr</code></pre><p>so now <code>var</code> is &#39;in-scope&#39; for the duration of <code>expr</code>. Further,
 the let expression (as indicated by the name) is an expression itself and evaluates to the result of <code>expr</code>. For example, <code>let i = 1 in i</code> evaluates to 1. In fact, what we mean by value is no different than an expression. So although <code>let x = (let i = 1 in i) in (let y = 1 in y + x)</code> is a really obnoxious way of writing <code>2</code>, please note that <code>i</code> is no longer in-scope in <code>(let y = 1 in y + x)</code>.</p>
 <p><strong>First-Class Functions</strong>
 The most notable difference between OCaml and an imperative (procedural) language
@@ -81,20 +89,20 @@ imperative languages), we tend to describe to the computer how a function transf
 fundamental way of defining functions in OCaml is anonymous functions
 not even giving it a name. We use the <code>fun</code> keyword much like <code>&quot;</code>
 indicates the definition of a string:</p>
-<pre class="hljs"><code>(<span class="hljs-keyword">fun</span> a b -&gt; a + b); </code></pre><p>Although the function doesn&#39;t have a name we can apply it to arguments by supplying the arguments immediately after the function just as you would with lambda calculus: </p>
+<pre class="hljs"><code>(<span class="hljs-keyword">fun</span> a b -&gt; a + b);</code></pre><p>Although the function doesn&#39;t have a name we can apply it to arguments by supplying the arguments immediately after the function just as you would with lambda calculus:</p>
 <pre class="hljs"><code>(<span class="hljs-keyword">fun</span> a b -&gt; a + b) <span class="hljs-number">2</span> <span class="hljs-number">3</span>;
-<span class="hljs-comment">(** 2 + 3 **)</span> </code></pre><p>Further, since we treat functions just like any other value we can define variables which are functions. For example,</p>
+<span class="hljs-comment">(** 2 + 3 **)</span></code></pre><p>Further, since we treat functions just like any other value we can define variables which are functions. For example,</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> plus = (<span class="hljs-keyword">fun</span> a b -&gt; a + b) <span class="hljs-keyword">in</span></code></pre><p>But because defining a function by name is so common, OCaml has essentially included a built-in macro which lets us write the above in a more readable format:</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> plus a b = a + b <span class="hljs-keyword">in</span></code></pre><p>This is called syntactic sugar.</p>
 <h2 id="types"><a class="header-link" href="#types"></a>Types</h2>
-<p>It&#39;s worth noting that OCaml has a powerful type-inference engine that will at compile time check if the types match. To quickly see the types of expressions, use the command-line interpretor launched by <code>&gt; ocaml</code>, you can see the type of an expression by typing it followed by <code>;;\n</code>. In the case of a let expression you can also replace <code>in</code> with <code>;;</code>. </p>
+<p>It&#39;s worth noting that OCaml has a powerful type-inference engine that will at compile time check if the types match. To quickly see the types of expressions, use the command-line interpretor launched by <code>&gt; ocaml</code>, you can see the type of an expression by typing it followed by <code>;;\n</code>. In the case of a let expression you can also replace <code>in</code> with <code>;;</code>.</p>
 <p>Sometimes a type can&#39;t be completely inferred. This leads to polymorphism, we&#39;ll decide the type of the function when it&#39;s applied later. Consider the identity function: <code>(fun x -&gt; x)</code>, as written, it can take an input of any type but will always return a value of the same type. In the command-line OCaml interpreter we&#39;ll see the following type reported:</p>
-<pre class="hljs"><code>- : <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'a</span> = &lt;<span class="hljs-keyword">fun</span>&gt;</code></pre><p>The <code>&#39;a</code> indicates that the type could not be inferred while <code>-&gt;</code> indicates a function. If there are multiple arguments we&#39;ll see a chain of arrows with the last thing pointed to as the return type. For example, </p>
+<pre class="hljs"><code>- : <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'a</span> = &lt;<span class="hljs-keyword">fun</span>&gt;</code></pre><p>The <code>&#39;a</code> indicates that the type could not be inferred while <code>-&gt;</code> indicates a function. If there are multiple arguments we&#39;ll see a chain of arrows with the last thing pointed to as the return type. For example,</p>
 <pre class="hljs"><code># (<span class="hljs-keyword">fun</span> x y -&gt; x);;
-- : <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'b</span> -&gt; <span class="hljs-symbol">'a</span> = &lt;<span class="hljs-keyword">fun</span>&gt; </code></pre><p>Finally, we can restrict the types of inputs and outputs by explicitly annotating the type as follows. The last <code>: &lt;type&gt;</code> denotes the return type. </p>
+- : <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'b</span> -&gt; <span class="hljs-symbol">'a</span> = &lt;<span class="hljs-keyword">fun</span>&gt;</code></pre><p>Finally, we can restrict the types of inputs and outputs by explicitly annotating the type as follows. The last <code>: &lt;type&gt;</code> denotes the return type.</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> plus (a: <span class="hljs-built_in">int</span>) (b : <span class="hljs-built_in">int</span>) : <span class="hljs-built_in">int</span> = a + b <span class="hljs-keyword">in</span></code></pre><h2 id="recursion"><a class="header-link" href="#recursion"></a>Recursion</h2>
-<p>Note though that if function declarations are truly variable declarations where the value is a function, then how are recursive functions possible? 
-Surely, based on our C/C++ intuition, it would be completely nonsense to say <code>int x = x + 1</code>. But, based on OCaml&#39;s allowance of variables to be functions <code>let fac = (fun n -&gt; if n = 1 then 1 else n * fac (n - 1))</code> would be the most sensible way of writing a factorial function. </p>
+<p>Note though that if function declarations are truly variable declarations where the value is a function, then how are recursive functions possible?
+Surely, based on our C/C++ intuition, it would be completely nonsense to say <code>int x = x + 1</code>. But, based on OCaml&#39;s allowance of variables to be functions <code>let fac = (fun n -&gt; if n = 1 then 1 else n * fac (n - 1))</code> would be the most sensible way of writing a factorial function.</p>
 <p>OCaml&#39;s answer to the dilemma is to ask you as the coder to indicate with the <code>rec</code> keyword when the &quot;<code>fac</code>&quot; name should be visible in the definition. You&#39;ll note if you try our earlier example of <code>let rec x = x + 1</code> that OCaml will reject this and is indeed smart enough to determine if the variable is a function or not.</p>
 <p>We use the <code>and</code> keyword to extend this to mutually recursive functions; for example:</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> f x = <span class="hljs-keyword">if</span> x = <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> g x
@@ -122,15 +130,15 @@ Here are a list of must know functions and the associated type definition. <code
 </ul>
 <p><strong>Partially Applied Functions</strong>
 As you are writing helper functions, you may sometimes find it useful to write a function and then only partially evaluate it. You can do this with a feature called currying. Consider this example:</p>
-<pre class="hljs"><code><span class="hljs-keyword">let</span> helper upperbound x y = <span class="hljs-keyword">if</span> y &lt; upperbound <span class="hljs-keyword">then</span> x + y <span class="hljs-keyword">else</span> x <span class="hljs-keyword">in</span> 
+<pre class="hljs"><code><span class="hljs-keyword">let</span> helper upperbound x y = <span class="hljs-keyword">if</span> y &lt; upperbound <span class="hljs-keyword">then</span> x + y <span class="hljs-keyword">else</span> x <span class="hljs-keyword">in</span>
 <span class="hljs-keyword">let</span> sum_if_more_than upperbound l = <span class="hljs-type">List</span>.fold (helper upperbound) <span class="hljs-number">0</span> l</code></pre><p>In the second line, we supplied <code>upperbound</code> as the first argument to <code>helper</code>, resulting in a new function of only two variables.</p>
 <p><strong>Abstract Data Types &amp; Pattern Matching</strong>
-You can define your own types by enumerating all the possibilities. This allows you to do richer things than just combinations of built-in types. In fact, lists can be implemented as an Abstract Data Type. </p>
+You can define your own types by enumerating all the possibilities. This allows you to do richer things than just combinations of built-in types. In fact, lists can be implemented as an Abstract Data Type.</p>
 <pre class="hljs"><code><span class="hljs-keyword">type</span> <span class="hljs-symbol">'a</span> <span class="hljs-built_in">list</span> =
-  | <span class="hljs-type">Empty</span> 
-  | <span class="hljs-type">Cons</span> <span class="hljs-keyword">of</span> <span class="hljs-symbol">'a</span> * <span class="hljs-symbol">'a</span> <span class="hljs-built_in">list</span></code></pre><p>We call each of the names immediately right of the <code>|</code> the constructor. Here we defined a list inductively to be either an empty list or <code>Cons</code> constructor which takes a list element and the remainder of the list. </p>
+  | <span class="hljs-type">Empty</span>
+  | <span class="hljs-type">Cons</span> <span class="hljs-keyword">of</span> <span class="hljs-symbol">'a</span> * <span class="hljs-symbol">'a</span> <span class="hljs-built_in">list</span></code></pre><p>We call each of the names immediately right of the <code>|</code> the constructor. Here we defined a list inductively to be either an empty list or <code>Cons</code> constructor which takes a list element and the remainder of the list.</p>
 <p>Since this list representation has a finite number of cases to cover, we can define map this way:</p>
-<pre class="hljs"><code><span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> my_map f l = 
+<pre class="hljs"><code><span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> my_map f l =
   <span class="hljs-keyword">match</span> l <span class="hljs-keyword">with</span>
   | <span class="hljs-type">Empty</span> -&gt; <span class="hljs-type">Empty</span>
   | <span class="hljs-type">Cons</span> (hd, tl) -&gt; <span class="hljs-type">Cons</span> (f hd, my_map f tl)</code></pre><p>We can use the <code>function</code> keyword as syntactic sugar to indicate that the match should occur on the last argument (implicit) and <code>_</code> to designate the default case. Using the built-in list type, this would look like the following.</p>
@@ -139,10 +147,10 @@ You can define your own types by enumerating all the possibilities. This allows 
   | _ -&gt; <span class="hljs-literal">[]</span></code></pre><p>Note that pattern can occur anywhere not necessarily immediately the <code>=</code> in a let expression. Also, a case within the pattern can contain a let expression. Further, you can implicitly match using let statements.
 For example, below <code>l</code> is a list of int pairs and <code>f</code> returns the sum of <code>x+1</code> and the values in the first pair.</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> f l x =
-  <span class="hljs-keyword">let</span> y = x + <span class="hljs-number">1</span> <span class="hljs-keyword">in</span> 
-  <span class="hljs-keyword">match</span> l <span class="hljs-keyword">with</span> 
+  <span class="hljs-keyword">let</span> y = x + <span class="hljs-number">1</span> <span class="hljs-keyword">in</span>
+  <span class="hljs-keyword">match</span> l <span class="hljs-keyword">with</span>
   | <span class="hljs-literal">[]</span> -&gt; raise (<span class="hljs-type">Failure</span> <span class="hljs-string">"empty list"</span>)
-  | hd :: _ -&gt; 
+  | hd :: _ -&gt;
     <span class="hljs-keyword">let</span> (a,b) = hd <span class="hljs-keyword">in</span>
     a + b + y
 
@@ -154,15 +162,15 @@ For example, below <code>l</code> is a list of int pairs and <code>f</code> retu
 <p>In OCaml we can access a built-in hashmap called <code>Map</code>. For our purposes, we will be using strings as the key so we instantiate the <code>module</code> StringMap to be an instance of the generalized <code>Map</code>. We do this at the very beginning of the file.</p>
 <pre class="hljs"><code><span class="hljs-keyword">module</span> <span class="hljs-type">StringMap</span> = <span class="hljs-type">Map</span>.<span class="hljs-type">Make</span>(<span class="hljs-type">String</span>)</code></pre><p>Here are a list of must know functions and the associated type definition. <code>&#39;a</code> represents an arbitrary type for the values which will be determined when the function gets applied. So, <code>&#39;a StringMap.t</code> means a string map who&#39;s type is <code>&#39;a</code>.</p>
 <ul class="list">
-<li><p><code>StringMap.empty</code>: returns and empty string map </p>
+<li><p><code>StringMap.empty</code>: returns and empty string map</p>
 <pre class="hljs"><code> - : <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t</code></pre></li>
-<li><p><code>StringMap.mem key map</code>: returns true if <code>key</code> is bound to a value in <code>map</code> </p>
+<li><p><code>StringMap.mem key map</code>: returns true if <code>key</code> is bound to a value in <code>map</code></p>
 <pre class="hljs"><code> - : <span class="hljs-type">String</span>.t -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t -&gt; <span class="hljs-built_in">bool</span></code></pre></li>
-<li><p><code>StringMap.add key value map</code>: returns new map with <code>value</code> with <code>key</code> added to <code>map</code> </p>
-<pre class="hljs"><code> - : <span class="hljs-type">String</span>.t -&gt; <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t </code></pre></li>
-<li><p><code>StringMap.find key map</code>: returns <code>value</code> bound to <code>key</code> in<code>map</code> </p>
+<li><p><code>StringMap.add key value map</code>: returns new map with <code>value</code> with <code>key</code> added to <code>map</code></p>
+<pre class="hljs"><code> - : <span class="hljs-type">String</span>.t -&gt; <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t</code></pre></li>
+<li><p><code>StringMap.find key map</code>: returns <code>value</code> bound to <code>key</code> in<code>map</code></p>
 <pre class="hljs"><code> - : <span class="hljs-type">String</span>.t -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t -&gt; <span class="hljs-symbol">'a</span>  </code></pre></li>
-<li><p><code>StringMap.remove key map</code>: returns new map with <code>key</code> no longer bound to its value in <code>map</code> </p>
+<li><p><code>StringMap.remove key map</code>: returns new map with <code>key</code> no longer bound to its value in <code>map</code></p>
 <pre class="hljs"><code> - : <span class="hljs-type">String</span>.t -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t -&gt; <span class="hljs-symbol">'a</span> <span class="hljs-type">StringMap</span>.t</code></pre></li>
 </ul>
 <hr>
