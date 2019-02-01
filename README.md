@@ -11,7 +11,10 @@ chmod 755 dir 644 file
 
 generate-md --layout mixu-page --input \
 ./courses/4115/spring2019/index/input \
---output ./courses/4115/spring2019/index/output  
+--output ./courses/4115/spring2019/index/output
+cp ./courses/4115/spring2019/index/output/assignments/*.html \
+./courses/4115/spring2019/assignments/
+open ./courses/4115/spring2019/index.html  
 cp ./courses/4115/spring2019/index/output/index.html \
 ./courses/4115/spring2019/
 open ./courses/4115/spring2019/index.html

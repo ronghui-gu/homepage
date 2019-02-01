@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Submission</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/pilcrow.css" />
+    <link type="text/css" rel="stylesheet" href="../assets/css/hljs-github.min.css"/>
+  </head>
+<body>
+
+  <div id="wrapper">
+    <div id="header">
+    </div>
+
+    <div class="clear"></div>
+    <div id="main">
+      <div id="content" class="post"><p>To begin install the  latest version of <a href="http://www.ocaml.org/docs/install.html#Ubuntu-Ubuntu-18-10">OCaml</a>.</p>
+<p>To ensure that you installed everything correctly,
+create a <strong>test.ml</strong> file with the following content:</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> apply_n f n x = <span class="hljs-keyword">if</span> n = <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> x  
+        <span class="hljs-keyword">else</span> apply_n f (n - <span class="hljs-number">1</span>) (f x)  
+<span class="hljs-keyword">in</span>  
+<span class="hljs-keyword">let</span> plus a b = apply_n ((+) <span class="hljs-number">1</span>) b a <span class="hljs-keyword">in</span>  
+<span class="hljs-keyword">let</span> mult a b = apply_n ((+) a) b <span class="hljs-number">0</span> <span class="hljs-keyword">in</span>  
+<span class="hljs-keyword">let</span> output = plus (mult <span class="hljs-number">2</span> <span class="hljs-number">4</span>) <span class="hljs-number">1</span> <span class="hljs-keyword">in</span>  
+<span class="hljs-comment">(** 2 * 4 + 1 **)</span>
+<span class="hljs-type">Printf</span>.printf <span class="hljs-string">"Output: %d\n"</span> output;  
+<span class="hljs-comment">(** Output: 9 **)</span>  </code></pre><p>Now we can test the compilation by running:</p>
+<pre class="hljs"><code>&gt; ocamlopt -o test.exe test.ml  
+&gt; ./test.exe  </code></pre><p>There should be no compiler warnings or errors, and the output should be exactly:</p>
+<pre class="hljs"><code><span class="hljs-symbol">Output:</span> <span class="hljs-number">9</span>  </code></pre><p>Alternatively you can confirm it with the submission framework described below.</p>
+<h2 id="submission"><a class="header-link" href="#submission"></a>Submission</h2>
+<p>For submission, we will be using GitHub Classroom. Submit a definition of all the relevant functions collected into a file called <em>submission_hw1.ml</em>. To test your submission, we will basically append (using <code>open</code>) <em>submission_hw1.ml</em> to a suite of unit tests. Although there are many brute force solutions that exists to solve these problems, getting in the habit of writing elegant and maintainable code will pay-off handsomely as the course progresses.</p>
+<p>Start by accepting the invitation to the Github Classroom <a href="https://classroom.github.com/a/YWsHp8ec">https://classroom.github.com/a/YWsHp8ec</a> then cloning the template and unit tests from the repository.</p>
+<p><strong>DUEDATE: February 20, 2019 at 11:59pm</strong></p>
+<p>To test the compilation, run</p>
+<pre class="hljs"><code>&gt; ocamlopt -o a.out submission_hw1.ml unit_tests_hw1.ml
+&gt; ./a.out</code></pre><p>We have placed dummy implementations to make it compile so you&#39;ll have to overwrite those. Please be aware that the <code>unit_tests_hw1.ml</code> only indicate a couple of examples and we will be testing more comprehensively to ensure that the submission is correct. In other words, passing the <code>unit_tests_hw1.ml</code> doesn&#39;t guarantee you a perfect score. You should write your own tests.</p>
+<p>You should see the following output:</p>
+<pre class="hljs"><code>Unit tests:
+  Setup:
+  Output: 9
+Problem 1:
+  OOPS
+Problem 3.A:
+  OOPS
+Problem 3.B:
+  OOPS
+Problem 4:
+  OOPS
+Problem 5:
+  OOPS
+Problem 6:
+  OOPS
+Problem 7.A:
+  OOPS
+Problem 7.B:
+  OOPS</code></pre><h2 id="warm-up:-first-class-functions"><a class="header-link" href="#warm-up:-first-class-functions"></a>Warm Up: First-class Functions</h2>
+<p>If you&#39;re wondering about good coding standards check out the <a href="https://opensource.janestreet.com/standards/">Jane Street
+Style Guide</a>. Also, we
+highly recommend taking a peak at <a href="https://dev.realworldocaml.org/guided-tour.html">Real World
+Ocaml</a>. They provide a
+great introduction to the skills needed for successfully programming in
+OCaml.</p>
+<p><a href="exposition_hw1.html#P1to3">Click for Exposition</a></p>
+<p><strong>Problem 1</strong></p>
+<p>Now in a similar fashion to <code>plus</code> (using <code>apply_n</code>), define <code>expon</code> a function that takes the first argument to the power
+of the second argument.</p>
+<p><code>let expon a b = (** YOUR CODE HERE **)</code></p>
+<p><strong>Example</strong>
+<code>expon 4 5 (** =&gt; 1024 **)</code></p>
+<p><strong>Problem 2</strong></p>
+<p>How does OCaml know that <code>=</code> in <code>apply_n f n x = ...</code> is assignment
+whereas <code>=</code> in <code>n = 0</code> is comparison?</p>
+<p><em>Write it as a comment in the submission file</em></p>
+<p><strong>Problem 3 Part A</strong></p>
+<p>For this problem, let&#39;s write a partial sum function called <code>psum f</code>. For example, <code>psum (fun x -&gt; x * x )</code> equates to the following function of n.</p>
+<pre class="hljs"><code>f (n) = <span class="hljs-number">1</span> * <span class="hljs-number">1</span> + <span class="hljs-number">2</span> * <span class="hljs-number">2</span> + ... + n * n</code></pre><p>There are several twists:</p>
+<ol class="list">
+<li>We want to always start our index (n) from one, and we allow only positive integers
+(raise (Failure &quot;Argument Not Positive&quot;).</li>
+<li>We allow the caller to define what <code>f</code> describes the sum.</li>
+<li>We want to return a function (specifically a function awaiting the value of n)</li>
+</ol>
+<details><summary> Click for Sample Unit Test <br> <br></summary>
+<p>
+
+-------------------------------
+
+<code>ocaml
+let f x = 3 * x * x + 5 * x + 9 in (** f (x) = 3x^2 + 5x + 9 **)
+let partial_sum = psum f in
+if partial_sum 1 = 17
+&amp;&amp; partial_sum 5 = 285
+then print_string &quot;YAY&quot; else raise (Failure &quot;OOPS&quot;);</code>
+
+----------------------------
+</p>
+</details>
+
+<p>NB: Notice that the type of this function is
+<code>psum: (int -&gt; int) -&gt; (int -&gt; int)</code>
+which is to say a function which takes one arguments
+a function (which takes a int to int) and  returns another function (int to int).</p>
+<p><strong>Problem 3 Part B</strong></p>
+<p>In OCaml, arithmetic operators like <code>+</code> are only for int; there are another set of them for float: <code>+.</code>, so what if we want to use floats instead or do products instead of sums.
+We can use polymorphism to abstract away the actual operation used to accumulate.
+So now we define the function <code>partial</code> which will require an additional input function for how to combine consecutive terms. Note that the input <code>f</code> has to take as input an integer representing the position in the series.</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> partial accum f =
+  <span class="hljs-comment">(** YOUR CODE HERE **)</span>  </code></pre><p>Note that partial has type</p>
+<pre class="hljs"><code><span class="hljs-keyword">val</span> partial: (<span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'a</span> -&gt; <span class="hljs-symbol">'a</span>) -&gt; (<span class="hljs-built_in">int</span> -&gt; <span class="hljs-symbol">'a</span>) -&gt; <span class="hljs-built_in">int</span> -&gt; <span class="hljs-symbol">'a</span></code></pre><p>Just as we wished, we can have a version that handles floats,</p>
+<details><summary> Click for Sample Unit Test <br> <br></summary>
+<p>
+
+-------------------------------
+
+<code>ocaml
+let f x = 3 * x * x + 5 * x + 9 in (** f (x) = 3x^2 + 5x + 9 **)
+let g x = (** g (x) = 3x^2 + 5x + 9 **)
+  let x = float_of_int x in
+  3. *. x *. x +. 5. *. x +. 9.
+in
+
+let partial_sum = partial (+) f in
+let fpartial_sum = partial (+.) g in
+if fpartial_sum 1 = 17.
+&amp;&amp; fpartial_sum 5 = 285.
+&amp;&amp; partial_sum 1 = 17
+&amp;&amp; partial_sum 5 = 285
+then print_string &quot;YAY&quot; else raise (Failure &quot;OOPS&quot;);</code>
+
+----------------------------
+</p>
+</details>
+
+<p>Try it on products to confirm you implemented it correctly.</p>
+<h2 id="lists-type-check:-abstract-data-type-and-lists"><a class="header-link" href="#lists-type-check:-abstract-data-type-and-lists"></a>Lists Type Check: Abstract Data Type and Lists</h2>
+<p>Just as imperative programs have arrays, the go-to workhorse data structure in OCaml are lists. Take a look at the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/libref/List.html">ocaml manual</a> for a great introduction to the <code>List</code> module in the Standard Library .</p>
+<p><a href="exposition_hw1.html#P4to6">Click for Exposition</a></p>
+<p><strong>Problem 4</strong>
+Write <code>maxrun</code>, a function which returns the length of the longest sublist of negative or non-negative numbers and a list of absolute values of the original list elements. Ensure that this list is in the same order.</p>
+<p>To report multiple outputs, use a record. We&#39;ll define this particular output record as <code>run_output</code>:</p>
+<pre class="hljs"><code><span class="hljs-keyword">type</span> run_output =
+{  length : <span class="hljs-built_in">int</span>;
+   entries : <span class="hljs-built_in">int</span> <span class="hljs-built_in">list</span>;
+}</code></pre><p>Template:</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> maxrun (l:<span class="hljs-built_in">int</span> <span class="hljs-built_in">list</span>) : run_output =
+  <span class="hljs-comment">(** YOUR CODE HERE **)</span></code></pre><details><summary> Click for Sample Unit Test <br> <br></summary>
+<p>
+
+-------------------------------
+
+<code>ocaml
+let out = moveNeg [8; -5; 3; 0; 10; -4] in
+if out.length = 3
+&amp;&amp; out.entries = [8; 5; 3; 0; 10; 4]
+then print_string &quot;YAY&quot; else raise (Failure &quot;OOPS&quot;);</code>
+
+----------------------------
+</p>
+</details>
+
+
+
+<p><strong>Problem 5</strong>
+Given the following typed representation of lists which allows only for ints and bools and if an typed expression (texpr), write a <code>check</code>, with the type, <code>val check: texpr -&gt; bool</code> which checks this. Note that the <code>*</code> indicates it&#39;s a tuple, and so we have that texpr is a tuple of a type and an expression. Also, the <code>and</code> keyword allows the definition of expr to see texpr and vice versa. This is called mutual recursion.</p>
+<pre class="hljs"><code><span class="hljs-keyword">type</span> ty = <span class="hljs-type">Int</span> | <span class="hljs-type">Bool</span> | <span class="hljs-type">List</span> <span class="hljs-keyword">of</span> ty
+<span class="hljs-keyword">type</span> texpr = ty * expr
+<span class="hljs-keyword">and</span> expr =
+  | <span class="hljs-type">IntLit</span> <span class="hljs-keyword">of</span> <span class="hljs-built_in">int</span>
+  | <span class="hljs-type">BoolLit</span> <span class="hljs-keyword">of</span> <span class="hljs-built_in">bool</span>
+  | <span class="hljs-type">Seq</span> <span class="hljs-keyword">of</span> texpr <span class="hljs-built_in">list</span>
+
+<span class="hljs-keyword">let</span> <span class="hljs-keyword">rec</span> check texpr =
+  <span class="hljs-comment">(** YOUR CODE HERE **)</span></code></pre><p>Here&#39;s an example of a well-typed texpr:</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> posExample =
+  (<span class="hljs-type">List</span> (<span class="hljs-type">List</span> <span class="hljs-type">Int</span>),
+    <span class="hljs-type">Seq</span>
+     [ (<span class="hljs-type">List</span> <span class="hljs-type">Int</span>, <span class="hljs-type">Seq</span> [(<span class="hljs-type">Int</span>, <span class="hljs-type">IntLit</span> <span class="hljs-number">4</span>); (<span class="hljs-type">Int</span>, <span class="hljs-type">IntLit</span> <span class="hljs-number">2</span>); (<span class="hljs-type">Int</span>, <span class="hljs-type">IntLit</span> <span class="hljs-number">0</span>)]);
+       (<span class="hljs-type">List</span> <span class="hljs-type">Int</span>, <span class="hljs-type">Seq</span> <span class="hljs-literal">[]</span>) ])</code></pre><p>and an example of an incorrectly typed texpr (return false):</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> negExample =
+  (<span class="hljs-type">List</span> <span class="hljs-type">Bool</span>,
+    <span class="hljs-type">Seq</span>
+      [ (<span class="hljs-type">Bool</span>, <span class="hljs-type">IntLit</span> <span class="hljs-number">9</span>);
+        (<span class="hljs-type">List</span> <span class="hljs-type">Bool</span>, <span class="hljs-type">Seq</span> [(<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">false</span>); (<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">true</span>)]);
+        (<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">true</span>) ])</code></pre><p>Note you need to check that</p>
+<ul class="list">
+<li>each tuple is correctly typed</li>
+<li>each list is correctly typed</li>
+<li>nested lists are also correct</li>
+<li>if the Seq has an empty list of texpr, any List type is legal</li>
+</ul>
+<p><strong>Problem 6</strong></p>
+<p>Note that we can actually infer the type of an texpr. If we see <code>(x, IntLit (8))</code>, we know <code>x</code> should be an Int.
+So now write a similar function <code>infer</code> which overwrites any incorrect types.</p>
+<pre class="hljs"><code><span class="hljs-keyword">val</span> infer: texpr -&gt; texpr</code></pre><p>Note:</p>
+<ul class="list">
+<li>if an empty list is encountered, <code>raise (Failure &quot;empty list&quot;)</code></li>
+<li>if a list has inconsistent types, <code>raise (Failure &quot;inconsistent&quot;)</code></li>
+<li>list order is preserved</li>
+</ul>
+<p><code>negExample</code> from Problem 5 should be inconsistent.</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> infExample =  
+  (<span class="hljs-type">List</span> <span class="hljs-type">Int</span>,
+    <span class="hljs-type">Seq</span>
+      [ (<span class="hljs-type">Int</span>, <span class="hljs-type">Seq</span> [(<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">false</span>); (<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">true</span>)]);
+        (<span class="hljs-type">Bool</span>, <span class="hljs-type">Seq</span> [(<span class="hljs-type">Int</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">true</span>)]) ])
+<span class="hljs-keyword">in</span>
+infer infExample
+</code></pre><p>evaluates to</p>
+<pre class="hljs"><code>  (<span class="hljs-type">List</span> (<span class="hljs-type">List</span> <span class="hljs-type">Bool</span>),
+   <span class="hljs-type">Seq</span>
+     [ (<span class="hljs-type">List</span> <span class="hljs-type">Bool</span>, <span class="hljs-type">Seq</span> [(<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">false</span>); (<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">true</span>)]);
+       (<span class="hljs-type">List</span> <span class="hljs-type">Bool</span>, <span class="hljs-type">Seq</span> [(<span class="hljs-type">Bool</span>, <span class="hljs-type">BoolLit</span> <span class="hljs-literal">true</span>)]) ])  </code></pre><h2 id="basic-calculator"><a class="header-link" href="#basic-calculator"></a>Basic Calculator</h2>
+<p>Old HP Calculators, programming languages like Forth and Postscript,
+    and abstract machines like the Java Virtual Machine all evaluate
+    arithmetic expressions using a <em>stack</em>. For instance, the expression</p>
+<pre class="hljs"><code>  (<span class="hljs-number">2</span>*<span class="hljs-number">3</span>)+(<span class="hljs-number">3</span>*(<span class="hljs-number">4</span><span class="hljs-number">-2</span>))</code></pre><p>   would be written as</p>
+<pre class="hljs"><code>  <span class="hljs-number">2</span> <span class="hljs-number">3</span> * <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">2</span> - * +</code></pre><p>   and evaluated like this (where we show the program being evaluated
+   on the right and the contents of the stack on the left):</p>
+<pre class="hljs"><code>  [ ]           |    <span class="hljs-number">2</span> <span class="hljs-number">3</span> * <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">2</span> - * +
+  [<span class="hljs-number">2</span>]           |    <span class="hljs-number">3</span> * <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">2</span> - * +
+  [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>]        |    * <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">2</span> - * +
+  [<span class="hljs-number">6</span>]           |    <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">2</span> - * +
+  [<span class="hljs-number">3</span>, <span class="hljs-number">6</span>]        |    <span class="hljs-number">4</span> <span class="hljs-number">2</span> - * +
+  [<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>]     |    <span class="hljs-number">2</span> - * +
+  [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>]  |    - * +
+  [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>]     |    * +
+  [<span class="hljs-number">6</span>, <span class="hljs-number">6</span>]        |    +
+  [<span class="hljs-number">12</span>]          |</code></pre><p>  The goal of the following problems is to write a small interpreter that
+  translates [aexp]s into stack machine instructions.</p>
+<p>  The instruction set for our stack language will consist of the
+  following instructions:</p>
+<ul class="list">
+<li>SLit n : Push the number [n] on the stack.</li>
+<li>SVar x : Load the identifier [x] from the store and push it<pre class="hljs"><code>      <span class="hljs-keyword">on</span> <span class="hljs-keyword">the</span> stack</code></pre></li>
+<li>SPlus :   Pop the two top numbers from the stack, add them, and<pre class="hljs"><code>      push <span class="hljs-keyword">the</span> <span class="hljs-built_in">result</span> onto <span class="hljs-keyword">the</span> stack.</code></pre></li>
+<li>SMinus :  Similar, but subtract.</li>
+<li>SMult :   Similar, but multiply.</li>
+<li>SDiv  :   Similar, but with integer division and <code>raise (Failure &quot;Divide by Zero&quot;)</code></li>
+</ul>
+<p>In OCaml we define the type as:</p>
+<pre class="hljs"><code><span class="hljs-keyword">type</span> sinstr =
+| <span class="hljs-type">SLit</span> <span class="hljs-keyword">of</span> <span class="hljs-built_in">int</span>
+| <span class="hljs-type">SVar</span> <span class="hljs-keyword">of</span> <span class="hljs-built_in">string</span>
+| <span class="hljs-type">SPlus</span>
+| <span class="hljs-type">SMinus</span>
+| <span class="hljs-type">SMult</span>
+| <span class="hljs-type">SDiv</span></code></pre><p><a href="exposition_hw1.html#P7">Click for Exposition</a></p>
+<p><strong>Problem 7</strong></p>
+<p>In the following problem, we write a function that can execute a single program represented by a list of stack instructions.</p>
+<p><strong>Part A</strong></p>
+<p>First we write a function, <code>prog_exec_inst</code> that can execute a single program instructions updating the stack. It
+    should take as input a symbol table, a stack represented as a list of
+    numbers (top stack item is the head of the list), and a program
+    represented as a list of instructions, and it should return the
+    stack after executing the program. A symbol table is a map which returns the variable value
+    given a variable name.</p>
+<p>The option type defined: <code>type &#39;a option = Some of &#39;a | None</code> is a standard library utility that allows us to report if an operation fails to compute.
+Note that the specification leaves unspecified what to do when
+    encountering an [SPlus], [SMinus], or [SMult] instruction if the
+    stack contains less than two elements. Use the option type to handle these cases
+    by returning
+    None for these unspecified cases. But our interpreter will never
+    emit such a malformed program.</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> prog_exec_instr (symbol_table: <span class="hljs-built_in">int</span> <span class="hljs-type">StringMap</span>.t) (inst : sinstr) (stack : <span class="hljs-built_in">int</span> <span class="hljs-built_in">list</span>)
+  : (<span class="hljs-built_in">int</span> <span class="hljs-built_in">list</span>) option =
+  <span class="hljs-comment">(** YOUR CODE HERE **)</span></code></pre><p>Note that we raise an error when we see a divide by zero
+but returns <code>None</code> if there is unspecified behavior</p>
+<details><summary> Click for Sample Unit Test <br> <br></summary>
+<p>
+
+-------------------------------
+
+<code>ocaml
+module StringMap = Map.Make(String)
+let sym_tbl = StringMap.add &quot;X&quot; 3 StringMap.empty in
+let stack = prog_exec_instr sym_tbl (SVar &quot;X&quot;) [4] in
+let stack&#39; = prog_exec_instr sym_tbl (SMult) [3;4] in
+if stack = Some [3;4] &amp;&amp; stack&#39; = Some [12]
+then print_string &quot;YAY&quot; else raise (Failure &quot;OOPS&quot;);</code>
+
+----------------------------
+</p>
+</details>
+
+<p><strong>Part B</strong></p>
+<p>Now use <code>prog_exec_instr</code> to write <code>prog_exec</code> which evaluates a list of <code>sinstr</code> with a symbol table and returns the int option. Note that if the inputs don&#39;t correspond to an evaluable expression <code>prog_exec</code> returns <code>None</code>.</p>
+<pre class="hljs"><code><span class="hljs-keyword">let</span> prog_exec (symbol_table: <span class="hljs-built_in">int</span> <span class="hljs-type">StringMap</span>.t) (prog : sinstr <span class="hljs-built_in">list</span>) : <span class="hljs-built_in">int</span> option =
+  <span class="hljs-comment">(** YOUR CODE HERE **)</span></code></pre><details><summary> Click for Sample Unit Test <br> <br></summary>
+<p>
+
+<code>ocaml
+module StringMap = Map.Make(String)
+let sym_tbl = StringMap.add &quot;X&quot; 3 StringMap.empty in
+let prog = [SLit 4; SVar &quot;X&quot;; SMult] in
+if (prog_exec sym_tbl prog) = Some (12)
+then print_string &quot;YAY&quot; else raise (Failure &quot;OOPS&quot;);</code>
+</p>
+</details>
+
+
+<p>We will expand on this to this problem on the next assignment.</p>
+<hr>
+<h2 id="acknowledgment"><a class="header-link" href="#acknowledgment"></a>Acknowledgment</h2>
+<p>The assignment and reference implementation are designed and implemented by Justin Wong TA for COMS W4115 Programming Languages and Translators, Spring 2019, Columbia University.</p>
+      </div>
+    </div>
+
+    <div class="clear">
+    </div>
+
+    <div id="footer">
+    </div>
+  </div>
+</body>
+</html>
