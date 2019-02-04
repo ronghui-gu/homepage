@@ -2,21 +2,34 @@
 
 \usetikzlibrary{automata,positioning}
 \usetikzlibrary{shadows}
+\usetheme{metropolis}           % Use metropolis theme
 
 %\DeclareSymbolFont{operator}{OT1}{put}{m}{n}
 %\DeclareSymbolFont{letters}{OT1}{put}{m}{it}
 
 \title{An Introduction to OCaml}
-\author{Stephen A. Edwards}
+\author{Ronghui Gu}
 \institute{Columbia University}
-\date{Fall 2018}
-\titlegraphic{\includegraphics[width=0.35\textwidth]{caml-128x58.png}}
+\date{Spring 2019}
+\titlegraphic{\includegraphics[width=0.2\textwidth]{caml-128x58.png}
+
+\vspace{140pt}
+{\tiny $^*$ Course website: \url{https://www.cs.columbia.edu/~rgu/courses/4115/spring2019}\vspace{-5pt}}\\
+{\tiny $^{**}$ These slides are borrowed from Prof. Edwards.}
+}
 
 \begin{document}
 
 \frame{\titlepage}
 
-\frame{\tableofcontents}
+
+\begin{frame}
+\vspace{25pt}
+\includegraphics[width=1\textwidth]{happy-lunar-new-year-600x419.jpg}
+\thispagestyle{empty}
+\end{frame}
+
+%\frame{\tableofcontents}
 
 \begin{frame}{An Endorsement?}
 
@@ -54,14 +67,14 @@ It's hard to get it to compile, but once it compiles, it works.
     errors, etc.  Automatic garbage collection and lack of null pointers
     makes it safer than Java.
     
-  \item \alert{Lots of Libraries}
+  \item \alert{Lots of Libraries and Support}
   
-    All sorts of data structures, I/O, OS interfaces, graphics, support for
-    compilers, etc.
+%    All sorts of data structures, I/O, OS interfaces, graphics, support for
+%    compilers, etc.
 
   \item \alert{ Lots of Support}
     
-    Many websites, free online books and tutorials, code samples, etc.
+%    Many websites, free online books and tutorials, code samples, etc.
 
 \end{itemize}
 \end{frame}
@@ -83,10 +96,11 @@ It's hard to get it to compile, but once it compiles, it works.
 
 \emph{Apply a function to each list element; save results in a list}
 
-\vspace{4pc}
-
+\vspace{3pc}
 \hfill
-\begin{minipage}{13pc}
+\begin{minipage}{0.7\textwidth}
+  \hspace{-5pc}
+\small
   \ttfamily
 \begin{tabbing}
 \ \ \= \ \ \= \ \ \= \kill
@@ -106,7 +120,6 @@ It's hard to get it to compile, but once it compiles, it works.
 \end{frame}
 
 \part{The Basics}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Hello World in OCaml: Interpret or Compile}
 
@@ -164,9 +177,7 @@ Double semicolons \verb|;;| mean ``I'm done with this expression''
 \#quit terminates the REPL
 
 Other directives enable tracing, modify printing, and display types
-and values
-
-Use \alert{ledit ocaml} or \alert{utop} instead for better line
+and values. Use \alert{ledit ocaml} or \alert{utop} instead for better line
 editing (history, etc.)
 
 \end{frame}
@@ -243,9 +254,9 @@ Hello World!
 \end{interactive}
 \end{minipage}\hfill%
 \begin{minipage}{0.41\textwidth}
+  \vspace{-60pt}
   \parskip=0.5\baselineskip
   \raggedright
-
   Integers
 
   Floating-point numbers
@@ -305,6 +316,9 @@ not \char`\&\char`\&{} \char`\|\char`\| & Boolean operators \\
 # \type{let f = 1.5 in f == f;;}
 - : bool = true
 \li
+# \type{'a' == 'a';;}
+- : bool = true 
+\li
 # \type{"a" == "a";;}
 - : bool = false   \type{(* Huh? *)}
 \li
@@ -328,13 +342,15 @@ not \char`\&\char`\&{} \char`\|\char`\| & Boolean operators \\
 # \type{let f = 1.5 in f = f;;}
 - : bool = true
 \li
+# \type{'a' = 'a';;}
+- : bool = true
+\li
 # \type{"a" = "a";;}
 - : bool = true
 \end{interactive}
+Use structural equality to avoid headaches
 \end{column}
 \end{columns}
-
-Use structural equality to avoid headaches
 
 \end{frame}
 
@@ -368,7 +384,6 @@ This expression has type string but is here used with type int
     \textbf{\texttt{let}} \emph{name} \textbf{\texttt{=}}
     \emph{expr}$_1$ \texttt{\textbf{in}} \emph{expr}$_2$ &
   Bind \emph{name} to \emph{expr}$_1$ in \emph{expr}$_2$ only
-  \\
   \\
   \textbf{\texttt{let}} \emph{name} \textbf{\texttt{=}} \emph{expr} &
   Bind \emph{name} to \emph{expr} forever after  
@@ -422,27 +437,23 @@ This looks like sequencing, but it is really data dependence.
 
 \begin{frame}[fragile]{\emph{Let} is Really Not Assignment}
 
-OCaml picks up the values in effect where the function (or expression)
+OCaml picks up the values in effect where the function
 is defined.
-
 \alert{Global declarations are not like C's global variables.}
 
 \begin{interactive}
 # \type{let a = 5;;}
 val a : int = 5
-
 # \type{let adda x = x + a;;}
 val adda : int -> int = <fun>
 
 # \type{let a = 10;;}
 val a : int = 10
-
 # \type{adda 0;;}
 - : int = 5        \alert{(* adda sees a = 5 *)}
 
 # \type{let adda x = x + a;;}
 val adda : int -> int = <fun>
-
 # \type{adda 0;;}
 - : int = 10       \alert{(* adda sees a = 10 *)}
 \end{interactive}
@@ -450,11 +461,10 @@ val adda : int -> int = <fun>
 \end{frame}
 
 \part{Functions}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Functions}
 
-  A function is just another type whose value can be defined with an
+  A function is just another type whose value is an
   expression.
 
 \begin{interactive}
@@ -462,14 +472,12 @@ val adda : int -> int = <fun>
 - : int -> int = <fun>
 # \type{(fun x -> x * x) 5;; (* function application *)}
 - : int = 25
-
 # \type{fun x -> (fun y -> x * y);;}
 - : int -> int -> int = <fun>
 # \type{fun x y -> x * y;;   (* shorthand *)}
 - : int -> int -> int = <fun>
 # \type{(fun x -> (fun y -> (x+1) * y)) 3 5;;}
 - : int = 20
-
 # \type{let square = fun x -> x * x;;}
 val square : int -> int = <fun>
 # \type{square 5;;}
@@ -560,7 +568,6 @@ By default, a name is not visible in its defining expression.
 # \type{let fac n = if n < 2 then 1 else n * \underline{fac} (n-1);;}
 Unbound value fac
 \end{interactive}
-
 The \emph{rec} keyword makes the name visible.
 
 \begin{interactive}
@@ -569,7 +576,6 @@ val fac : int -> int = <fun>
 # \type{fac 5;;}
 - : int = 120
 \end{interactive}
-
 The \emph{and} keyword allows for mutual recursion.
 
 \begin{interactive}
@@ -586,36 +592,35 @@ val fac1 : int -> int = <fun>
 
 \begin{frame}[fragile]{First-Class and Higher Order Functions}
 
-  First-class functions: name them, pass them as arguments
+  First-class functions are treated as values: name them, pass them as arguments,
+  return them
 
 \begin{interactive}
-# \type{let appadd = fun f -> (f 42) + 17;;}
-val appadd : (int -> int) -> int = <fun>
-  
 # \type{let plus5 x = x + 5;;}
 val plus5 : int -> int = <fun>
-
+# \type{let appadd f n= (f 42) + n;;}
+val appadd : (int -> int) -> int -> int = <fun>
 # \type{appadd plus5;;}
+- : int -> int = <fun>
+# \type{let appadd5 = appadd plus5;;}
+val appadd5 : int -> int = <fun>
+# \type{appadd5 17;;}
 - : int = 64
 \end{interactive}
+Higher-order functions: functions that work on other functions
 
-Higher-order functions: functions that return functions
-
-\begin{interactive}
-# \type{let makeInc i = fun x -> x + i;;}
-val makeInc : int -> int -> int = <fun>
-
-# \type{let i5 = makeInc 5;;}
-val i5 : int -> int = <fun>
-
-# \type{i5 10;;}
-- : int = 15 
-\end{interactive}
+%\begin{interactive}
+%# \type{let makeInc i = fun x -> x + i;;}
+%val makeInc : int -> int -> int = <fun>
+%# \type{let i5 = makeInc 5;;}
+%val i5 : int -> int = <fun>
+%# \type{i5 10;;}
+%- : int = 15 
+%\end{interactive}
 
 \end{frame}
 
 \part{Tuples, Lists, and Pattern Matching}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Tuples}
 
@@ -628,14 +633,12 @@ Very useful lightweight data type, e.g., for function arguments.
 - : int * string = (42, "Arthur")
 # \type{(42, "Arthur", "Dent");;}
 - : int * string * string = (42, "Arthur", "Dent")
-
 # \type{let p = (42, "Arthur");;}
 val p : int * string = (42, "Arthur")
 # \type{fst p;;}
 - : int = 42
 # \type{snd p;;}
 - : string = "Arthur"
-
 # \type{let trip = ("Douglas", 42, "Adams");;}
 val trip : string * int * string = ("Douglas", 42, "Adams")
 # \type{let (fname, _, lname) = trip in (lname, fname);;}
@@ -652,14 +655,11 @@ val trip : string * int * string = ("Douglas", 42, "Adams")
 [];;               (* The empty list *)
 [1];;              (* A singleton list *)
 [42; 16];;         (* A list of two integers *)
-
 (* cons: Put something at the beginning *)
 7 :: [5; 3];;      (* Gives [7; 5; 3] *)
 [1; 2] :: [3; 4];; (* BAD: type error *)
-
 (* concat: Append a list to the end of another *)
 [1; 2] @ [3; 4];;  (* Gives [1; 2; 3; 4] *)
-
 (* Extract first entry and remainder of a list *)
 List.hd [42; 17; 28];; (* = 42 *)
 List.tl [42; 17; 28];; (* = [17; 28] *)
@@ -678,45 +678,42 @@ Pattern: create a list with cons, then use \emph{List.rev}.
 
 Three great replacements for loops:
 
-\begin{itemize}
-
-\item \verb|List.map f [a1; ... ;an] = [f a1; ... ;f an]|
+\verb|List.map f [a1; ... ;an] = [f a1; ... ;f an]|
 
 Apply a function to each element of a list to produce another list.
 
-\item \verb|List.fold_left f a [b1; ...;bn] =| \verb|f (...(f (f a b1) b2)...) bn|
+%\vspace{10pt}
+\begin{interactive}
+# \type{List.map (fun a -> a + 10) [42; 17; 128];;}
+- : int list = [52; 27; 138]
+# \type{List.map string_of_int [42; 17; 128];;}
+- : string list = ["42"; "17"; "128"]
+\end{interactive}
+\verb|List.fold_left f a [b1; ...;bn] =| \verb|f (...(f (f a b1) b2)...) bn|
 
 Apply a function to a partial result and an element of the list to
 produce the next partial result.
 
-\item \verb|List.iter f [a1; ...;an] =| \break \verb|begin f a1; ... ; f an; () end|
-
-Apply a function to each element of a list; produce a unit result.
-
-\item \verb|List.rev [a1; ...; an] = [an; ... ;a1]|
-
-Reverse the order of the elements of a list.
-
-\end{itemize}
+%\vspace{10pt}
+\begin{interactive}
+# \type{List.fold_left (fun s e -> s + e) 0 [42; 17; 128];;}
+- : int = 187
+\end{interactive}
 
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{List Functions Illustrated}
+  \frametitle{Some Useful List Functions}
+
+
+\verb|List.iter f [a1; ...;an] = begin f a1; ... ; f an; () end|
+
+Apply a function to each element; produce a unit result.
+
 
 \begin{interactive}
-# \type{List.map (fun a -> a + 10) [42; 17; 128];;}
-- : int list = [52; 27; 138]
-
-# \type{List.map string_of_int [42; 17; 128];;}
-- : string list = ["42"; "17"; "128"]
-
-# \type{List.fold_left (fun s e -> s + e) 0 [42; 17; 128];;}
-- : int = 187
-
 # \type{List.iter print_int [42; 17; 128];;}
 4217128- : unit = ()
-
 # \type{List.iter (fun n -> print_int n; print_newline ())
    [42; 17; 128];;}
 42
@@ -729,6 +726,9 @@ Reverse the order of the elements of a list.
 128
 - : unit = ()
 \end{interactive}
+\verb|List.rev [a1; ...; an] = [an; ... ;a1]|
+
+Reverse the order of the elements of a list.
 
 \end{frame}
 
@@ -744,7 +744,6 @@ To transform a list and pass information between elements, use
   in List.rev l;;}
 - : (int * int) list = [(42, 0); (17, 1); (128, 2)]
 \end{interactive}
-
 Result accumulated in the \emph{(l, n)} tuple, \emph{List.rev}
 reverses the result (built backwards) in the end.  Can do the same
 with a recursive function, but \emph{List.fold\_left} separates list
@@ -776,8 +775,9 @@ val xor : bool * bool -> bool = <fun>
 # \type{xor (true, true);;}
 - : bool = false
 \end{interactive}
+\end{frame}
 
-\vspace{-0.5\baselineskip}
+\begin{frame}[fragile]{Pattern Matching}
 
 A name in a pattern matches anything and is bound when the pattern
 matches.  Each may appear only once per pattern.
@@ -831,11 +831,8 @@ as a default or when you just don't care.
 val xor : bool * bool -> bool = <fun>
 # \type{xor (true, true);;}
 - : bool = false
-# \type{xor (false, false);;}
-- : bool = false
 # \type{xor (true, false);;}
 - : bool = true
-
 # \type{let logand p = match p 
   with (false, _) -> false 
      | (true, x) -> x;;}
@@ -986,7 +983,6 @@ camlLength__length:
 \end{frame}
 
 \part{User-Defined Types}
-\frame{\partpage}
 
 \begin{frame}[fragile]
   \frametitle{Type Declarations}
@@ -1023,22 +1019,18 @@ OCaml supports records much like C's \emph{structs}.
 \begin{interactive}
 # \type{type base = \{ x : int; y : int; name : string \};;}
 type base = \{ x : int; y : int; name : string; \}
-
 # \type{let b0 = \{ x = 0; y = 0; name = "home" \};;}
 val b0 : base = \{x = 0; y = 0; name = "home"\}
 # \type{let b1 = \{ b0 with x = 90; name = "first" \};;}
 val b1 : base = \{x = 90; y = 0; name = "first"\}
 # \type{let b2 = \{ b1 with y = 90; name = "second" \};;}
 val b2 : base = \{x = 90; y = 90; name = "second"\}
-
 # \type{b0.name;;}
 - : string = "home"
-
 # \type{let dist b1 b2 = 
     let hyp x y = sqrt (float_of_int (x*x + y*y)) in 
     hyp (b1.x - b2.x) (b1.y - b2.y);;}
 val dist : base -> base -> float = <fun>
-
 # \type{dist b0 b1;;}
 - : float = 90.
 # \type{dist b0 b2;;}
@@ -1057,7 +1049,6 @@ trees and instructions.
 \begin{interactive}
 # \type{type seasons = Winter | Spring | Summer | Fall;;}
 type seasons = Winter | Spring | Summer | Fall
-
 # \type{let weather = function 
     Winter -> "Too Cold" 
   | Spring -> "Too Wet" 
@@ -1089,20 +1080,16 @@ type expr =
   | Plus of expr * expr
   | Minus of expr * expr
   | Times of expr * expr
-
 # \type{let rec eval = function
     Lit(x) -> x 
   | Plus(e1, e2) -> (eval e1) + (eval e2) 
   | Minus(e1, e2) -> (eval e1) - (eval e2) 
   | Times(e1, e2) -> (eval e1) * (eval e2);;}
 val eval : expr -> int = <fun>
-
 # \type{eval (Lit(42));;}
 - : int = 42
 # \type{eval (Plus(Lit(17), Lit(25)));;}
 - : int = 42
-# \type{eval (Plus(Times(Lit(3), Lit(2)), Lit(1)));;}
-- : int = 7
 \end{interactive}
 \end{frame}
 
@@ -1152,7 +1139,6 @@ type expr =
   | Plus of expr * expr
   | Minus of expr * expr
   | Times of expr * expr
-
 # \type{let rec eval = \underline{function}
 \underline{    Lit(x) -> x}
 \underline{  | Plus(e1, e2) -> (eval e1) + (eval e2)}
@@ -1217,7 +1203,6 @@ the opposite case.
 \end{frame}
 
 \part{Modules and Compilation}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Modules}
 
@@ -1311,22 +1296,18 @@ stack.ml
 type 'a t =
    { mutable c : 'a list }
 exception Empty
-
 let create () = { c = [] }
 let clear s = s.c <- []
 let copy s = { c = s.c }
 let push x s = s.c <- x :: s.c
-
 let pop s =
   match s.c with
     hd::tl -> s.c <- tl; hd
   | []     -> raise Empty
-
 let top s =
   match s.c with
     hd::_ -> hd
   | []    -> raise Empty
-
 let is_empty s = (s.c = [])
 let length s = List.length s.c
 let iter f s = List.iter f s.c
@@ -1337,13 +1318,13 @@ let iter f s = List.iter f s.c
 \end{frame}
 
 \part{A Complete Interpreter in Three Slides}
-\frame{\partpage}
+%\frame{\partpage}
 
 \begin{frame}[fragile]
   \frametitle{The Scanner and AST}
 scanner.mll
 
-\vspace{4pt}
+%\vspace{4pt}
 
 \begin{ocamllex}
 { open Parser }
@@ -1358,11 +1339,11 @@ rule token =
       | eof                  { EOF }
 \end{ocamllex}
 
-\vspace{1pc}
+%\vspace{1pc}
 
 ast.mli
 
-\vspace{4pt}
+%\vspace{4pt}
 
 \begin{ocaml}
 type operator = Add | Sub | Mul | Div
@@ -1392,8 +1373,6 @@ parser.mly
 
 %start expr
 %type <Ast.expr> expr
-
-%%
 
 expr:
   expr PLUS   expr  { Binop($1, Add, $3) }
@@ -1473,7 +1452,6 @@ $ \alert{ocamlbuild -clean # Remove _build and all .native}
 \end{frame}
 
 \part{Exceptions; Directed Graphs}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Exceptions}
 
@@ -1592,6 +1570,7 @@ let rec successors n = function
          successors n edges
 \end{ocaml}
 
+\vspace{-5pt}
 Our first example is imperative: performs ``search a list,'' which is more
 precisely expressed using the library function \texttt{List.filter}:
 
@@ -1600,9 +1579,9 @@ let successors n edges =
     let matching (s,_) = s = n in
     List.map snd (List.filter matching edges)
 \end{ocaml}
+\vspace{-5pt}
 
 This uses the built-in \texttt{snd} function, which is defined as
-
 \begin{ocaml}
 let snd (_,x) = x
 \end{ocaml}
@@ -1639,7 +1618,6 @@ let rec dfs edges visited = function
   \frametitle{Topological Sort}
 
 \graph
-
 Remember the visitor at the end.
 
 \begin{ocaml}
@@ -1654,7 +1632,6 @@ let rec tsort edges visited = function
 \begin{interactive}
 # \type{tsort edges [] ["a"];;}
 - : string list = ["a"; "d"; "c"; "b"; "e"; "g"; "f"]
-
 # \type{let cycle = [ ("a", "b"); ("b", "c"); ("c", "a") ];;}
 val cycle : (string * string) list = [("a", "b"); ...]
 # \type{tsort cycle [] ["a"];;}
@@ -1668,7 +1645,6 @@ Stack overflow during evaluation (looping recursion?).
 
 \begin{ocaml}
 exception Cyclic of string
-
 let tsort edges seed =
   let rec sort path visited = function
      []       -> visited
@@ -1684,10 +1660,8 @@ let tsort edges seed =
 \begin{interactive}
 # \type{tsort edges "a";;}
 - : string list = ["a"; "d"; "c"; "b"; "e"; "g"; "f"]
-
 # \type{tsort edges "d";;}
 - : string list = ["d"; "e"; "g"; "f"]
-
 # \type{tsort cycle "a";;}
 Exception: Cyclic "a".
 \end{interactive}
@@ -1695,11 +1669,10 @@ Exception: Cyclic "a".
 \end{frame}
 
 \part{Standard Library Modules}
-\frame{\partpage}
-
 
 \begin{frame}[fragile]{Maps}
 
+\begin{scriptsize}
 Balanced trees for implementing dictionaries.  Ask for a map with a
 specific kind of key; values are polymorphic.
 
@@ -1723,6 +1696,7 @@ module StringMap :
     val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
   end
 \end{interactive}
+\end{scriptsize}
 
 \end{frame}
 
@@ -1732,21 +1706,16 @@ module StringMap :
 \begin{interactive}
 # \type{let mymap = StringMap.empty;;          (* Create empty map *)}
 val mymap : 'a StringMap.t = <abstr>
-
 # \type{let mymap = StringMap.add "Douglas" 42 mymap;; (* Add pair *)}
 val mymap : int StringMap.t = <abstr>
-
 # \type{StringMap.mem "foo" mymap;;             (* Is "foo" there? *)}
 - : bool = false
 # \type{StringMap.mem "Douglas" mymap;;     (* Is "Douglas" there? *)}
 - : bool = true
-
 # \type{StringMap.find "Douglas" mymap;;              (* Get value *)}
 - : int = 42
-
 # \type{let mymap = StringMap.add "Adams" 17 mymap;;}
 val mymap : int StringMap.t = <abstr>
-
 # \type{StringMap.find "Adams" mymap;;}
 - : int = 17
 # \type{StringMap.find "Douglas" mymap;;}
@@ -1820,8 +1789,15 @@ module StringSet = Set.Make(String)
 
 \end{frame}
 
+\lstset{
+  language=[Objective]caml,
+  basicstyle={\fontsize{7}{7}\selectfont\ttfamily\spaceskip=2pt},
+} 
+
+
 \begin{frame}[fragile]
   \frametitle{Depth-First Search Revisited}
+
 
 \begin{ocaml}
 let top_sort_map edges =
@@ -1830,25 +1806,23 @@ let top_sort_map edges =
       (fun map (s,d) ->
         StringMap.add d [] (StringMap.add s [] map)
       ) StringMap.empty edges
-  in
-  (* Build the successor list for each source node *)
+  in (* Build the successor list for each source node *)
   let succs = List.fold_left
       (fun succs (s, d) ->
         let ss = StringMap.find s succs
         in StringMap.add s (d::ss) succs) succs edges
-  in
-  (* Visit recursively, storing each node after visiting successors *)
+  in 
+  (* Visit recursively, storing each node after visiting successors*)
   let rec visit (order, visited) n =
     if StringSet.mem n visited then
       (order, visited)
-    else
-      let (order, visited) = List.fold_left
-          visit (order, StringSet.add n visited)
-          (StringMap.find n succs)
-      in (n::order, visited)
-  in
-  (* Visit the source of each edge *)
-  fst (List.fold_left visit ([], StringSet.empty) (List.map fst edges))
+    else  let (order, visited) = List.fold_left
+              visit (order, StringSet.add n visited)
+              (StringMap.find n succs)
+          in (n::order, visited)
+  in (* Visit the source of each edge *)
+  fst (List.fold_left visit ([], StringSet.empty) 
+                            (List.map fst edges))
 \end{ocaml}
 
 \end{frame}
@@ -1881,6 +1855,7 @@ not functional, but sometimes more convenient
 
 \fi
 
+
 \begin{frame}[fragile]
   \frametitle{Imperative Features}
 
@@ -1888,19 +1863,16 @@ not functional, but sometimes more convenient
 # \type{\underline{0} ; 42;;                           (* ";" means sequencing *)}
 Warning S: this expression should have type unit.
 - : int = 42
-
 # \type{ignore 0 ; 42;;        (* ignore is a function: 'a -> unit *)}
 - : int = 42
 # \type{() ; 42;;           (* () is the literal for the unit type *)}
 - : int = 42
-
 # \type{print_endline "Hello World!";;    (* Print; result is unit *)}
 Hello World!
 - : unit = ()
 # \type{print_string "Hello " ; print_endline "World!";;}
 Hello World!
 - : unit = ()
-
 # \type{print_int 42 ; print_newline ();;}
 42
 - : unit = ()
@@ -1946,21 +1918,16 @@ module StringHash :
 \begin{interactive}
 # \type{let hash = StringHash.create 17;;  (* initial size estimate *)}
 val hash : '_a StringHash.t = <abstr>
-
 # \type{StringHash.add hash "Douglas" 42;; (* modify the hash table *)}
 - : unit = ()
-
 # \type{StringHash.mem hash "foo";;              (* is "foo" there? *)}
 - : bool = false
 # \type{StringHash.mem hash "Douglas";;      (* is "Douglas" there? *)}
 - : bool = true
-
 # \type{StringHash.find hash "Douglas";;               (* Get value *)}
 - : int = 42
-
 # \type{StringHash.add hash "Adams" 17;;   (* Add another key/value *)}
 - : unit = ()
-
 # \type{StringHash.find hash "Adams";;}
 - : int = 17
 # \type{StringHash.find hash "Douglas";;}
@@ -1979,24 +1946,20 @@ Exception: Not_found.
 val a : int array = [|42; 17; 19|]
 # \type{let aa = Array.make 5 0;;              (* Fill a new array *)}
 val aa : int array = [|0; 0; 0; 0; 0|]
-
 # \type{a.(0);;                                   (* Random access *)}
 - : int = 42
 # \type{a.(2);;}
 - : int = 19
 # \type{a.(3);;}
 Exception: Invalid_argument "index out of bounds".
-
 # \type{a.(2) <- 20;;                       (* Arrays are mutable! *)}
 - : unit = ()
 # \type{a;;}
 - : int array = [|42; 17; 20|]
-
 # \type{let l = [24; 32; 17];;}
 val l : int list = [24; 32; 17]
 # \type{let b = Array.of_list l;;             (* Array from a list *)}
 val b : int array = [|24; 32; 17|]
-
 # \type{let c = Array.append a b;;                (* Concatenation *)}
 val c : int array = [|42; 17; 20; 24; 32; 17|]
 \end{interactive}

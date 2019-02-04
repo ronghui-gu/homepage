@@ -133,7 +133,7 @@
   \begin{minipage}{\textwidth}%
   \color{red}%
   \newcommand{\type}[1]{\textcolor{black}{##1}}%
-  \fontsize{9}{10}\selectfont%
+  \fontsize{7.5}{8}\selectfont%
   \newcommand{\li}{\vspace{-0.65\baselineskip}}  
   \begin{semiverbatim}
 }
