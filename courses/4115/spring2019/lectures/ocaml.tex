@@ -23,11 +23,11 @@
 \frame{\titlepage}
 
 
-\begin{frame}
-\vspace{25pt}
-\includegraphics[width=1\textwidth]{happy-lunar-new-year-600x419.jpg}
-\thispagestyle{empty}
-\end{frame}
+%\begin{frame}
+%\vspace{25pt}
+%\includegraphics[width=1\textwidth]{happy-lunar-new-year-600x419.jpg}
+%\thispagestyle{empty}
+%\end{frame}
 
 %\frame{\tableofcontents}
 
@@ -135,7 +135,26 @@ Run it with the interpreter:
 \$ \type{ocaml hello.ml}
 Hello World!
 \end{interactive}
-%
+
+\vspace{-15pt}
+Run it with the \alert{bytecode} interpreter:
+\begin{interactive}
+\$ \type{ocamlc -o hello hello.ml}
+\$ \type{ocamlrun hello}
+Hello World!
+\end{interactive}
+
+\vspace{-15pt}
+On most systems, the bytecode can be run directly:
+\begin{interactive}
+\$ \type{ocamlc -o hello hello.ml}
+\$ \type{./hello}
+Hello World!
+\end{interactive}
+\end{frame}
+
+\begin{frame}[fragile]{Hello World in OCaml: Interpret or Compile}
+
 Compile a native executable and run:
 
 \begin{interactive}
@@ -144,7 +163,9 @@ Compile a native executable and run:
 Hello World!
 \end{interactive}
 %
-Use ocamlbuild (recommended):
+
+Use ocamlbuild: built-in compilation rules for OCaml projects handle all the nasty cases;
+automatic inference of dependencies, parallel compilation, etc.
 
 \begin{interactive}
 $ \type{ocamlbuild hello.native}
@@ -254,10 +275,10 @@ Hello World!
 \end{interactive}
 \end{minipage}\hfill%
 \begin{minipage}{0.41\textwidth}
-  \vspace{-60pt}
+  \vspace{-20pt}
   \parskip=0.5\baselineskip
   \raggedright
-  Integers
+  Integers (31-bit on 32-bit processors)
 
   Floating-point numbers
   
@@ -462,6 +483,66 @@ val adda : int -> int = <fun>
 
 \part{Functions}
 
+
+\begin{frame}[fragile]{Calling Functions}
+
+  \begin{columns}
+      \begin{column}[t]{0.5\textwidth}
+C/C++/Java
+\begin{C}
+// This is C/C++/Java code
+average (3, 4);
+\end{C}
+    \end{column}
+
+    \begin{column}[t]{0.5\textwidth}
+OCaml    
+\begin{ocaml}
+(* This is OCaml code*)
+average 3.0 4.0
+\end{ocaml}
+    \end{column}
+
+  \end{columns}
+
+\vspace{20pt}
+\alert{no} brackets and \alert{no} comma between the arguments
+  
+the syntax average (3.0, 4.0) is meaningful: call the function with ONE argument
+has the type \alert{pair}
+\end{frame}
+
+\begin{frame}[fragile]{Defining Functions}
+
+  \begin{columns}
+      \begin{column}[t]{0.6\textwidth}
+C/C++/Java
+
+\begin{C}
+double average (double a, double b)
+{
+  return (a + b) / 2;
+}
+\end{C}
+    \end{column}
+    \begin{column}[t]{0.3\textwidth}
+OCaml
+
+\begin{ocaml}
+let average a b = 
+  (a +. b) /. 2.0
+\end{ocaml}
+    \end{column}
+
+  \end{columns}
+
+type inference
+
+no implicit casting
+  
+no \alert{return} keyword, the last expression becomes the result
+\end{frame}
+
 \begin{frame}[fragile]{Functions}
 
   A function is just another type whose value is an
@@ -472,20 +553,18 @@ val adda : int -> int = <fun>
 - : int -> int = <fun>
 # \type{(fun x -> x * x) 5;; (* function application *)}
 - : int = 25
-# \type{fun x -> (fun y -> x * y);;}
+# \type{fun x -> (fun y -> x + y);;}
 - : int -> int -> int = <fun>
-# \type{fun x y -> x * y;;   (* shorthand *)}
+# \type{fun x y -> x + y;;   (* shorthand *)}
 - : int -> int -> int = <fun>
-# \type{(fun x -> (fun y -> (x+1) * y)) 3 5;;}
-- : int = 20
-# \type{let square = fun x -> x * x;;}
-val square : int -> int = <fun>
-# \type{square 5;;}
-- : int = 25
-# \type{let square x = x * x;; (* shorthand *)}
-val square : int -> int = <fun>
-# \type{square 6;;}
-- : int = 36
+# \type{let plus = fun x y -> x + y;;}
+val plus : int -> int = <fun>
+# \type{plus 2;;}
+- : int -> int = <fun>
+# \type{plus 2 3;;}
+- : int = 5
+# \type{let plus x y = x + y;; (* shorthand *)}
+val plus : int -> int = <fun>
 \end{interactive}
 \end{frame}
 
@@ -888,9 +967,9 @@ val tall : int * string -> string = <fun>
 The \emph{as} keyword lets you name parts of a matched structure:
 
 \begin{interactive}
-# \type{match ((3,9), 4) with  
-    (_ as xx, 4) -> xx 
-  | _ -> (0,0);;}
+# \type{match ([3,9], 4) with  
+    (3::_ as xx, 4) -> xx 
+  | _ -> [];;}
 - : int * int = (3, 9)
 \end{interactive}
 
@@ -933,7 +1012,7 @@ This is the code for the List.length standard library function.
 % ocamlopt -S -c length.ml
 
   \begin{columns}
-    \begin{column}[t]{0.5\textwidth}
+    \begin{column}[t]{0.6\textwidth}
 
 OCaml source code
 
@@ -955,7 +1034,7 @@ let length list =
 \end{itemize}
 
     \end{column}
-    \begin{column}[t]{0.5\textwidth}
+    \begin{column}[t]{0.4\textwidth}
 ocamlopt generates this x86 assembly
 
 \medskip

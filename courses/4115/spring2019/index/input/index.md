@@ -63,8 +63,8 @@ You don't need to buy textbooks since all the materials will be covered by the l
 |    |   | [Some Outstanding Projects](./lectures/projects.pdf) | |
 | Mon Feb 4   | 4  | [Programming in OCaml](./lectures/ocaml.pdf) | |
 | Wed Feb 6   | 5  | " | |
-| Mon Feb 11  | 6  | Syntax & Parsing | Proposal|
-| Wed Feb 13  | 7  | " | |
+| Mon Feb 11  | 6  | "|
+| Wed Feb 13  | 7  | Syntax & Parsing | Proposal | |
 | Mon Feb 18  | 8  | " | |
 | Wed Feb 20  | 9  | " | [HW1](./assignments/hw1.html) |
 | Mon Feb 25  | 10 | Types and Static Semantics | |
@@ -88,3 +88,10 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Wed May 1   | 26 | Review for Final  | |
 | **Mon May 6**   |    | **Final Exam**  | |
 | **Wed May 15**  |    | **Project Presentation**  | Project Reports |
+
+### Sample Proposals
+- [GRAIL: A Graph-Construction Language](http://www.cs.columbia.edu/~sedwards/classes/2017/4115-spring/proposals/GRAIL.pdf)
+- [FRY - A Flat File Data Processing Language](http://www.cs.columbia.edu/~sedwards/classes/2014/w4115-fall/proposals/FRY.pdf)
+- [Fly Language](http://www.cs.columbia.edu/~sedwards/classes/2016/4115-spring/proposals/Fly.pdf)
+- [SetC: A Concise Set Language](http://www.cs.columbia.edu/~sedwards/classes/2017/4115-spring/proposals/SetC.pdf)
+- [Coral Programming Language Proposal](http://www.cs.columbia.edu/~sedwards/classes/2018/4115-fall/proposals/Coral.pdf)
