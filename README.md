@@ -20,4 +20,4 @@ cp ./courses/4115/spring2019/index/output/index.html \
 open ./courses/4115/spring2019/index.html
 
 
-cd secure_html/courses/4115/spring2019
+cd ~/secure_html/courses/4115/spring2019

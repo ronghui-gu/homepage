@@ -63,8 +63,8 @@ You don't need to buy textbooks since all the materials will be covered by the l
 |    |   | [Some Outstanding Projects](./lectures/projects.pdf) | |
 | Mon Feb 4   | 4  | [Programming in OCaml](./lectures/ocaml.pdf) | |
 | Wed Feb 6   | 5  | " | |
-| Mon Feb 11  | 6  | "|
-| Wed Feb 13  | 7  | Syntax & Parsing | Proposal | |
+| Mon Feb 11  | 6  | "| |
+| Wed Feb 13  | 7  | Syntax & Parsing | [Proposal](./assignments/proposal.html) |
 | Mon Feb 18  | 8  | " | |
 | Wed Feb 20  | 9  | " | [HW1](./assignments/hw1.html) |
 | Mon Feb 25  | 10 | Types and Static Semantics | |
