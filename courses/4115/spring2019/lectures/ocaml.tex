@@ -558,7 +558,7 @@ no \alert{return} keyword, the last expression becomes the result
 # \type{fun x y -> x + y;;   (* shorthand *)}
 - : int -> int -> int = <fun>
 # \type{let plus = fun x y -> x + y;;}
-val plus : int -> int = <fun>
+val plus : int -> int -> int = <fun>
 # \type{plus 2;;}
 - : int -> int = <fun>
 # \type{plus 2 3;;}
@@ -708,24 +708,46 @@ Pairs or tuples of different types separated by commas.
 Very useful lightweight data type, e.g., for function arguments.
 
 \begin{interactive}
-# \type{(42, "Arthur");;}
-- : int * string = (42, "Arthur")
-# \type{(42, "Arthur", "Dent");;}
-- : int * string * string = (42, "Arthur", "Dent")
-# \type{let p = (42, "Arthur");;}
-val p : int * string = (42, "Arthur")
+# \type{(18, "Adam");;}
+- : int * string = (18, "Adam")
+# \type{(18, "Adam", "CS");;}
+- : int * string * string = (18, "Adam", "CS")
+# \type{let p = (18, "Adam");;}
+val p : int * string = (18, "Adam")
 # \type{fst p;;}
-- : int = 42
+- : int = 18
 # \type{snd p;;}
-- : string = "Arthur"
-# \type{let trip = ("Douglas", 42, "Adams");;}
-val trip : string * int * string = ("Douglas", 42, "Adams")
-# \type{let (fname, _, lname) = trip in (lname, fname);;}
-- : string * string = ("Adams", "Douglas")
+- : string = "Adam"
+# \type{let trip = (18, "Adam", "CS");;}
+val trip : int * string * string = (18, "Adam", "CS")
+# \type{let (age, _, dept) = trip in (age, dept);;}
+- : int * string = (18, "CS")
 \end{interactive}
 
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Records}
+
+OCaml supports records much like C's \emph{structs}.
+
+\begin{interactive}
+# \type{type stu = \{age : int; name : string; dept : string \};;}
+type stu = \{ age : int; name : string; dept : string; \}
+# \type{let b0 = \{age = 18; name = "Adam"; dept = "CS" \};;}
+val b0 : stu = \{age = 18; name = "Adam"; dept = "CS"\}
+# \type{b0.name;;}
+- : string = "Adam"
+# \type{let b1 = \{ b0 with name = "Bob" \};;}
+val b1 : stu = \{age = 18; name = "Bob"; dept = "CS"\}
+# \type{let b2 = \{ b1 with age = 19; name = "Alice" \};;}
+val b2 : stu = \{age = 19; name = "Alice"; dept = "CS"\}
+\end{interactive}
 
 \end{frame}
+
 
 \begin{frame}[fragile]
   \frametitle{Lists}
@@ -775,7 +797,7 @@ produce the next partial result.
 
 %\vspace{10pt}
 \begin{interactive}
-# \type{List.fold_left (fun s e -> s + e) 0 [42; 17; 128];;}
+# \type{List.fold_left (fun sum e -> sum + e) 0 [42; 17; 128];;}
 - : int = 187
 \end{interactive}
 
@@ -823,17 +845,20 @@ To transform a list and pass information between elements, use
   in List.rev l;;}
 - : (int * int) list = [(42, 0); (17, 1); (128, 2)]
 \end{interactive}
-Result accumulated in the \emph{(l, n)} tuple, \emph{List.rev}
-reverses the result (built backwards) in the end.  Can do the same
-with a recursive function, but \emph{List.fold\_left} separates list
-traversal from modification:
+%Result accumulated in the \emph{(l, n)} tuple, \emph{List.rev}
+%reverses the result (built backwards) in the end.  
+Can do the same
+with a recursive function.
+%, but \emph{List.fold\_left} separates list
+%traversal from modification:
 
 \begin{interactive}
-# \type{let rec enum (l, n) = function
-    []    -> List.rev l 
-  | e::tl -> enum ((e, n)::l, n+1) tl
-  in
-  enum ([], 0) [42; 17; 128];;}
+# \type{let rec enum n l =
+match l with
+| [] -> []
+| h :: t -> (h, n) :: enum (n + 1) t;;}
+val enum : int -> 'a list -> ('a * int) list = <fun>
+# \type{enum 0 [42; 17; 128];;}
 - : (int * int) list = [(42, 0); (17, 1); (128, 2)]
 \end{interactive}
 
@@ -862,8 +887,9 @@ A name in a pattern matches anything and is bound when the pattern
 matches.  Each may appear only once per pattern.
 
 \begin{interactive}
-# \type{let xor p = match p 
-  with (false, x) -> x 
+# \type{let xor p = 
+match p with 
+     | (false, x) -> x 
      | ( true, x) -> not x;;}
 val xor : bool * bool -> bool = <fun>
 # \type{xor (true, true);;}
@@ -987,7 +1013,7 @@ Correct, but not very elegant.  With pattern matching,
 
 \begin{ocaml}
 let rec length = function
-   []    -> 0
+ |  []    -> 0
  | _::tl -> 1 + length tl;;
 \end{ocaml}
 
@@ -997,7 +1023,7 @@ $O(n)$ stack space).  Common trick: use an argument as an accumulator.
 \begin{ocaml}
 let length l =
   let rec helper len = function
-      []    -> len
+    |  []    -> len
     | _::tl -> helper (len + 1) tl
   in helper 0 l
 \end{ocaml}
@@ -1396,6 +1422,303 @@ let iter f s = List.iter f s.c
 
 \end{frame}
 
+
+\part{Exceptions}
+
+\begin{frame}[fragile]{Exceptions}
+
+\begin{interactive}
+# \type{5 / 0;;}
+Exception: Division_by_zero.
+
+# \type{try 
+    5 / 0 
+  with Division_by_zero -> 42;;}
+- : int = 42
+
+# \type{exception My_exception;;}
+exception My_exception
+# \type{try 
+    if true then
+       raise My_exception
+    else 0
+  with My_exception -> 42;;}
+- : int = 42
+\end{interactive}
+
+\end{frame}
+
+\begin{frame}[fragile]{Exceptions}
+
+\begin{interactive}
+# \type{exception Foo of string;;}
+exception Foo of string
+# \type{exception Bar of int * string;;}
+exception Bar of int * string
+
+# \type{let ex b = 
+  try 
+    if b then    
+      raise (Foo("hello"))
+    else 
+      raise (Bar(42, " answer"))
+  with Foo(s) -> "Foo: " ^ s
+  | Bar(n, s) -> "Bar: " ^ string_of_int n ^ s;;}
+val ex : bool -> unit = <fun>
+
+# \type{ex true;;}
+- : string = "Foo: hello"
+# \type{ex false;;}
+- : string = "Bar: 42 answer"
+\end{interactive}
+
+\end{frame}
+
+\part{Standard Library Modules}
+
+\begin{frame}[fragile]{Maps}
+
+\begin{scriptsize}
+Balanced trees for implementing dictionaries.  Ask for a map with a
+specific kind of key; values are polymorphic.
+
+\begin{interactive}
+# \type{module StringMap = Map.Make(String);;}
+module StringMap :
+  sig
+    type key = String.t
+    type 'a t = 'a Map.Make(String).t
+    val empty : 'a t
+    val is_empty : 'a t -> bool
+    val add : key -> 'a -> 'a t -> 'a t
+    val find : key -> 'a t -> 'a
+    val remove : key -> 'a t -> 'a t
+    val mem : key -> 'a t -> bool
+    val iter : (key -> 'a -> unit) -> 'a t -> unit
+    val map : ('a -> 'b) -> 'a t -> 'b t
+    val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
+    val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+    val compare : ('a -> 'a -> int) -> 'a t -> 'a t -> int
+    val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
+  end
+\end{interactive}
+\end{scriptsize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Maps}
+
+\begin{interactive}
+# \type{let mymap = StringMap.empty;;          (* Create empty map *)}
+val mymap : 'a StringMap.t = <abstr>
+# \type{let mymap = StringMap.add "Douglas" 42 mymap;; (* Add pair *)}
+val mymap : int StringMap.t = <abstr>
+# \type{StringMap.mem "foo" mymap;;             (* Is "foo" there? *)}
+- : bool = false
+# \type{StringMap.mem "Douglas" mymap;;     (* Is "Douglas" there? *)}
+- : bool = true
+# \type{StringMap.find "Douglas" mymap;;              (* Get value *)}
+- : int = 42
+# \type{let mymap = StringMap.add "Adams" 17 mymap;;}
+val mymap : int StringMap.t = <abstr>
+# \type{StringMap.find "Adams" mymap;;}
+- : int = 17
+# \type{StringMap.find "Douglas" mymap;;}
+- : int = 42
+# \type{StringMap.find "Slarti" mymap;;}
+Exception: Not_found.
+\end{interactive}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Maps}
+
+\begin{itemize}
+\item Fully functional: \emph{Map.add} takes a key, a value, and a map
+  and returns a new map that also includes the given key/value pair.
+
+\item Needs a totally ordered key type. \emph{Pervasives.compare}
+  usually does the job (returns $-1$, $0$, or $1$); you may
+  supply your own.
+
+\begin{minipage}{0.7\textwidth}
+\begin{ocaml}
+module StringMap = Map.Make(struct
+  type t = string
+  let compare x y = Pervasives.compare x y
+end)
+\end{ocaml}
+\end{minipage}
+
+\item Uses balanced trees, so searching and insertion is $O(\log n)$.
+
+\end{itemize}
+
+\end{frame}
+
+\if 0
+\begin{frame}[fragile]
+  \frametitle{Imperative Features}
+
+\begin{itemize}
+
+\item The \emph{unit} type is something like \emph{void} in C/C++/Java.
+
+\emph{Unit} is the return value of a function that does not produce a result.
+
+\item The semicolon denotes sequencing.
+
+\emph{expr}$_1$ \texttt{;}
+  \emph{expr}$_2$ means evaluate \emph{expr}$_1$, which should be of
+  \emph{unit} type, then evaluate \emph{expr}$_2$.
+
+\item I/O operations return the \emph{unit} type.
+
+\item Some data structures, e.g., arrays, are \emph{mutable}.
+
+Mutable data can be modified by imperative-style code.  It is really
+not functional, but sometimes more convenient
+\end{itemize}
+
+\end{frame}
+
+\fi
+
+
+\begin{frame}[fragile]
+  \frametitle{Imperative Features}
+
+\begin{interactive}
+# \type{\underline{0} ; 42;;                           (* ";" means sequencing *)}
+Warning S: this expression should have type unit.
+- : int = 42
+# \type{ignore 0 ; 42;;        (* ignore is a function: 'a -> unit *)}
+- : int = 42
+# \type{() ; 42;;           (* () is the literal for the unit type *)}
+- : int = 42
+# \type{print_endline "Hello World!";;    (* Print; result is unit *)}
+Hello World!
+- : unit = ()
+# \type{print_string "Hello " ; print_endline "World!";;}
+Hello World!
+- : unit = ()
+# \type{print_int 42 ; print_newline ();;}
+42
+- : unit = ()
+# \type{print_endline ("Hello " ^ string_of_int 42 ^ " world!");;}
+Hello 42 world!
+- : unit = ()
+\end{interactive}
+
+\end{frame}
+
+\begin{frame}[fragile]{Hash Tables}
+
+\begin{interactive}
+# \type{module StringHash = Hashtbl.Make(struct 
+    type t = string                         (* type of keys *)
+    let equal x y = x = y      (* use structural comparison *)
+    let hash = Hashtbl.hash        (* generic hash function *)
+  end);;}
+module StringHash :
+  sig
+    type key = string
+    type 'a t
+    val create : int -> 'a t
+    val clear : 'a t -> unit
+    val copy : 'a t -> 'a t
+    val add : 'a t -> key -> 'a -> unit
+    val remove : 'a t -> key -> unit
+    val find : 'a t -> key -> 'a
+    val find_all : 'a t -> key -> 'a list
+    val replace : 'a t -> key -> 'a -> unit
+    val mem : 'a t -> key -> bool
+    val iter : (key -> 'a -> unit) -> 'a t -> unit
+    val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+    val length : 'a t -> int
+  end
+\end{interactive}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Hash Tables}
+
+\begin{interactive}
+# \type{let hash = StringHash.create 17;;  (* initial size estimate *)}
+val hash : '_a StringHash.t = <abstr>
+# \type{StringHash.add hash "Douglas" 42;; (* modify the hash table *)}
+- : unit = ()
+# \type{StringHash.mem hash "foo";;              (* is "foo" there? *)}
+- : bool = false
+# \type{StringHash.mem hash "Douglas";;      (* is "Douglas" there? *)}
+- : bool = true
+# \type{StringHash.find hash "Douglas";;               (* Get value *)}
+- : int = 42
+# \type{StringHash.add hash "Adams" 17;;   (* Add another key/value *)}
+- : unit = ()
+# \type{StringHash.find hash "Adams";;}
+- : int = 17
+# \type{StringHash.find hash "Douglas";;}
+- : int = 42
+# \type{StringHash.find hash "Slarti";;}
+Exception: Not_found.
+\end{interactive}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Arrays}
+
+\begin{interactive}
+# \type{let a = [| 42; 17; 19 |];;                (* Array literal *)}
+val a : int array = [|42; 17; 19|]
+# \type{let aa = Array.make 5 0;;              (* Fill a new array *)}
+val aa : int array = [|0; 0; 0; 0; 0|]
+# \type{a.(0);;                                   (* Random access *)}
+- : int = 42
+# \type{a.(2);;}
+- : int = 19
+# \type{a.(3);;}
+Exception: Invalid_argument "index out of bounds".
+# \type{a.(2) <- 20;;                       (* Arrays are mutable! *)}
+- : unit = ()
+# \type{a;;}
+- : int array = [|42; 17; 20|]
+# \type{let l = [24; 32; 17];;}
+val l : int list = [24; 32; 17]
+# \type{let b = Array.of_list l;;             (* Array from a list *)}
+val b : int array = [|24; 32; 17|]
+# \type{let c = Array.append a b;;                (* Concatenation *)}
+val c : int array = [|42; 17; 20; 24; 32; 17|]
+\end{interactive}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Arrays vs. Lists}
+
+  \begin{center}
+    \begin{tabular}{lll}
+\toprule
+& \textbf{Arrays} & \textbf{Lists} \\
+\midrule
+\textbf{Random access} & $O(1)$ & $O(n)$ \\
+\textbf{Appending} & $O(n)$ & $O(1)$ \\
+\textbf{Mutable} & Yes & No \\
+\bottomrule
+    \end{tabular}
+  \end{center}
+
+\medskip
+
+Useful pattern: first collect data of unknown length in a list then
+convert it to an array with \emph{Array.of\_list} for random queries.
+
+\end{frame}
+
+
 \part{A Complete Interpreter in Three Slides}
 %\frame{\partpage}
 
@@ -1525,62 +1848,12 @@ $ \alert{./calc.native}
 \alert{2 * 3 + 4 * 5}
 \alert{\emph{Ctrl-D}}
 26
-$ \alert{ocamlbuild -clean # Remove _build and all .native}
+ \alert{ocamlbuild -clean # Remove _build and all .native}
 \end{semiverbatim}
   
 \end{frame}
 
-\part{Exceptions; Directed Graphs}
-
-\begin{frame}[fragile]{Exceptions}
-
-\begin{interactive}
-# \type{5 / 0;;}
-Exception: Division_by_zero.
-
-# \type{try 
-    5 / 0 
-  with Division_by_zero -> 42;;}
-- : int = 42
-
-# \type{exception My_exception;;}
-exception My_exception
-# \type{try 
-    if true then
-       raise My_exception
-    else 0
-  with My_exception -> 42;;}
-- : int = 42
-\end{interactive}
-
-\end{frame}
-
-\begin{frame}[fragile]{Exceptions}
-
-\begin{interactive}
-# \type{exception Foo of string;;}
-exception Foo of string
-# \type{exception Bar of int * string;;}
-exception Bar of int * string
-
-# \type{let ex b = 
-  try 
-    if b then    
-      raise (Foo("hello"))
-    else 
-      raise (Bar(42, " answer"))
-  with Foo(s) -> "Foo: " ^ s
-  | Bar(n, s) -> "Bar: " ^ string_of_int n ^ s;;}
-val ex : bool -> unit = <fun>
-
-# \type{ex true;;}
-- : string = "Foo: hello"
-# \type{ex false;;}
-- : string = "Bar: 42 answer"
-\end{interactive}
-
-\end{frame}
-
+\part{Directed Graphs}
 \newcommand{\graph}{
   \begin{tikzpicture}[node distance=10pt,
       every node/.style={state, inner sep=3pt,minimum size=10pt,drop shadow,fill=white}]
@@ -1747,88 +2020,6 @@ Exception: Cyclic "a".
 
 \end{frame}
 
-\part{Standard Library Modules}
-
-\begin{frame}[fragile]{Maps}
-
-\begin{scriptsize}
-Balanced trees for implementing dictionaries.  Ask for a map with a
-specific kind of key; values are polymorphic.
-
-\begin{interactive}
-# \type{module StringMap = Map.Make(String);;}
-module StringMap :
-  sig
-    type key = String.t
-    type 'a t = 'a Map.Make(String).t
-    val empty : 'a t
-    val is_empty : 'a t -> bool
-    val add : key -> 'a -> 'a t -> 'a t
-    val find : key -> 'a t -> 'a
-    val remove : key -> 'a t -> 'a t
-    val mem : key -> 'a t -> bool
-    val iter : (key -> 'a -> unit) -> 'a t -> unit
-    val map : ('a -> 'b) -> 'a t -> 'b t
-    val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
-    val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
-    val compare : ('a -> 'a -> int) -> 'a t -> 'a t -> int
-    val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
-  end
-\end{interactive}
-\end{scriptsize}
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Maps}
-
-\begin{interactive}
-# \type{let mymap = StringMap.empty;;          (* Create empty map *)}
-val mymap : 'a StringMap.t = <abstr>
-# \type{let mymap = StringMap.add "Douglas" 42 mymap;; (* Add pair *)}
-val mymap : int StringMap.t = <abstr>
-# \type{StringMap.mem "foo" mymap;;             (* Is "foo" there? *)}
-- : bool = false
-# \type{StringMap.mem "Douglas" mymap;;     (* Is "Douglas" there? *)}
-- : bool = true
-# \type{StringMap.find "Douglas" mymap;;              (* Get value *)}
-- : int = 42
-# \type{let mymap = StringMap.add "Adams" 17 mymap;;}
-val mymap : int StringMap.t = <abstr>
-# \type{StringMap.find "Adams" mymap;;}
-- : int = 17
-# \type{StringMap.find "Douglas" mymap;;}
-- : int = 42
-# \type{StringMap.find "Slarti" mymap;;}
-Exception: Not_found.
-\end{interactive}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Maps}
-
-\begin{itemize}
-\item Fully functional: \emph{Map.add} takes a key, a value, and a map
-  and returns a new map that also includes the given key/value pair.
-
-\item Needs a totally ordered key type. \emph{Pervasives.compare}
-  usually does the job (returns $-1$, $0$, or $1$); you may
-  supply your own.
-
-\begin{minipage}{0.7\textwidth}
-\begin{ocaml}
-module StringMap = Map.Make(struct
-  type t = string
-  let compare x y = Pervasives.compare x y
-end)
-\end{ocaml}
-\end{minipage}
-
-\item Uses balanced trees, so searching and insertion is $O(\log n)$.
-
-\end{itemize}
-
-\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Depth-First Search Revisited}
@@ -1906,166 +2097,6 @@ let top_sort_map edges =
 
 \end{frame}
 
-\if 0
-\begin{frame}[fragile]
-  \frametitle{Imperative Features}
-
-\begin{itemize}
-
-\item The \emph{unit} type is something like \emph{void} in C/C++/Java.
-
-\emph{Unit} is the return value of a function that does not produce a result.
-
-\item The semicolon denotes sequencing.
-
-\emph{expr}$_1$ \texttt{;}
-  \emph{expr}$_2$ means evaluate \emph{expr}$_1$, which should be of
-  \emph{unit} type, then evaluate \emph{expr}$_2$.
-
-\item I/O operations return the \emph{unit} type.
-
-\item Some data structures, e.g., arrays, are \emph{mutable}.
-
-Mutable data can be modified by imperative-style code.  It is really
-not functional, but sometimes more convenient
-\end{itemize}
-
-\end{frame}
-
-\fi
-
-
-\begin{frame}[fragile]
-  \frametitle{Imperative Features}
-
-\begin{interactive}
-# \type{\underline{0} ; 42;;                           (* ";" means sequencing *)}
-Warning S: this expression should have type unit.
-- : int = 42
-# \type{ignore 0 ; 42;;        (* ignore is a function: 'a -> unit *)}
-- : int = 42
-# \type{() ; 42;;           (* () is the literal for the unit type *)}
-- : int = 42
-# \type{print_endline "Hello World!";;    (* Print; result is unit *)}
-Hello World!
-- : unit = ()
-# \type{print_string "Hello " ; print_endline "World!";;}
-Hello World!
-- : unit = ()
-# \type{print_int 42 ; print_newline ();;}
-42
-- : unit = ()
-# \type{print_endline ("Hello " ^ string_of_int 42 ^ " world!");;}
-Hello 42 world!
-- : unit = ()
-\end{interactive}
-
-\end{frame}
-
-\begin{frame}[fragile]{Hash Tables}
-
-\begin{interactive}
-# \type{module StringHash = Hashtbl.Make(struct 
-    type t = string                         (* type of keys *)
-    let equal x y = x = y      (* use structural comparison *)
-    let hash = Hashtbl.hash        (* generic hash function *)
-  end);;}
-module StringHash :
-  sig
-    type key = string
-    type 'a t
-    val create : int -> 'a t
-    val clear : 'a t -> unit
-    val copy : 'a t -> 'a t
-    val add : 'a t -> key -> 'a -> unit
-    val remove : 'a t -> key -> unit
-    val find : 'a t -> key -> 'a
-    val find_all : 'a t -> key -> 'a list
-    val replace : 'a t -> key -> 'a -> unit
-    val mem : 'a t -> key -> bool
-    val iter : (key -> 'a -> unit) -> 'a t -> unit
-    val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
-    val length : 'a t -> int
-  end
-\end{interactive}
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Hash Tables}
-
-\begin{interactive}
-# \type{let hash = StringHash.create 17;;  (* initial size estimate *)}
-val hash : '_a StringHash.t = <abstr>
-# \type{StringHash.add hash "Douglas" 42;; (* modify the hash table *)}
-- : unit = ()
-# \type{StringHash.mem hash "foo";;              (* is "foo" there? *)}
-- : bool = false
-# \type{StringHash.mem hash "Douglas";;      (* is "Douglas" there? *)}
-- : bool = true
-# \type{StringHash.find hash "Douglas";;               (* Get value *)}
-- : int = 42
-# \type{StringHash.add hash "Adams" 17;;   (* Add another key/value *)}
-- : unit = ()
-# \type{StringHash.find hash "Adams";;}
-- : int = 17
-# \type{StringHash.find hash "Douglas";;}
-- : int = 42
-# \type{StringHash.find hash "Slarti";;}
-Exception: Not_found.
-\end{interactive}
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Arrays}
-
-\begin{interactive}
-# \type{let a = [| 42; 17; 19 |];;                (* Array literal *)}
-val a : int array = [|42; 17; 19|]
-# \type{let aa = Array.make 5 0;;              (* Fill a new array *)}
-val aa : int array = [|0; 0; 0; 0; 0|]
-# \type{a.(0);;                                   (* Random access *)}
-- : int = 42
-# \type{a.(2);;}
-- : int = 19
-# \type{a.(3);;}
-Exception: Invalid_argument "index out of bounds".
-# \type{a.(2) <- 20;;                       (* Arrays are mutable! *)}
-- : unit = ()
-# \type{a;;}
-- : int array = [|42; 17; 20|]
-# \type{let l = [24; 32; 17];;}
-val l : int list = [24; 32; 17]
-# \type{let b = Array.of_list l;;             (* Array from a list *)}
-val b : int array = [|24; 32; 17|]
-# \type{let c = Array.append a b;;                (* Concatenation *)}
-val c : int array = [|42; 17; 20; 24; 32; 17|]
-\end{interactive}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Arrays vs. Lists}
-
-  \begin{center}
-    \begin{tabular}{lll}
-\toprule
-& \textbf{Arrays} & \textbf{Lists} \\
-\midrule
-\textbf{Random access} & $O(1)$ & $O(n)$ \\
-\textbf{Appending} & $O(n)$ & $O(1)$ \\
-\textbf{Mutable} & Yes & No \\
-\bottomrule
-    \end{tabular}
-  \end{center}
-
-\medskip
-
-Useful pattern: first collect data of unknown length in a list then
-convert it to an array with \emph{Array.of\_list} for random queries.
-
-\end{frame}
 
 \begin{frame}
   \frametitle{DFS with Arrays}
@@ -2138,7 +2169,6 @@ let top_sort_array edges =
 \end{ocaml}
 
 \end{frame}
-
 
 \if 0
 
@@ -2219,6 +2249,7 @@ val add5 : int -> int = <fun>
 \end{frame}
 
 \fi
+
 
 \end{document}
 
