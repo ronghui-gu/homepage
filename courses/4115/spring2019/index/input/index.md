@@ -64,14 +64,14 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Mon Feb 4   | 4  | [Programming in OCaml](./lectures/ocaml.pdf) | |
 | Wed Feb 6   | 5  | " | |
 | Mon Feb 11  | 6  | "| |
-| Wed Feb 13  | 7  | Syntax & Parsing | [Proposal](./assignments/proposal.html) |
-| Mon Feb 18  | 8  | " | |
+| Wed Feb 13  | 7  | " | [Proposal](./assignments/proposal.html) |
+| Mon Feb 18  | 8  | Syntax & Parsing | |
 | Wed Feb 20  | 9  | " | [HW1](./assignments/hw1.html) |
-| Mon Feb 25  | 10 | Types and Static Semantics | |
-| Wed Feb 27  | 11 | " | LRM|
+| Mon Feb 25  | 10 | " | |
+| Wed Feb 27  | 11 | Types and Static Semantics | LRM|
 | Mon Mar 4   | 12 | " | |
 | Wed Mar 6   | 13 | " | HW2|
-| Mon Mar 11  | 14 | Review for Midterm | |
+| Mon Mar 11  | 14 | " | |
 | **Wed Mar 13**  |    | **Midterm Exam** | |
 | **Mar 18 - 22** |    | **Spring Break** | |
 | Mon Mar 25  | 15 | The MicroC Compiler | |

@@ -564,7 +564,7 @@ val plus : int -> int -> int = <fun>
 # \type{plus 2 3;;}
 - : int = 5
 # \type{let plus x y = x + y;; (* shorthand *)}
-val plus : int -> int = <fun>
+val plus : int -> int -> int = <fun>
 \end{interactive}
 \end{frame}
 
@@ -1028,10 +1028,10 @@ val tall : int * string -> string = <fun>
 The \emph{as} keyword lets you name parts of a matched structure:
 
 \begin{interactive}
-# \type{match ([3,9], 4) with  
+# \type{match ([3;9], 4) with  
   | (3::_ as xx, 4) -> xx 
   | _ -> [];;}
-- : int * int = (3, 9)
+- : int list = [3; 9]
 \end{interactive}
 
 \end{frame}
@@ -1205,8 +1205,32 @@ val weather : seasons -> string = <fun>
 
 \end{frame}
 
+\newcommand{\theast}{
+  \node {Plus} [level distance=2pc,
+    level 1/.style={sibling distance=3.5pc},
+    level 2/.style={sibling distance=4.5pc},
+    level 3/.style={sibling distance=2.5pc},
+    level 4/.style={sibling distance=2.5pc},
+    level 5/.style={sibling distance=1.5pc},
+  ]
+  child {node {Lit}
+    child {node {5}}  
+  }
+  child {node {Times}
+      child {
+      	node {Lit}
+    		child {node {6}}
+      }
+      child {
+      	node {Lit}
+    		child {node {7}}
+      }
+  }
+  ;
+}
+
 \begin{frame}[fragile]
-  \frametitle{Simple Syntax Trees and an Interpreter}
+  \frametitle{Simple Syntax Trees}
 
 \begin{interactive}
 # \type{type expr = 
@@ -1219,6 +1243,24 @@ type expr =
   | Plus of expr * expr
   | Minus of expr * expr
   | Times of expr * expr
+# \type{Lit 42;;}
+- : expr = Lit 42
+# \type{Plus (Lit 5, Times (Lit 6, Lit 7));;}
+- : expr = Plus (Lit 5, Times (Lit 6, Lit 7))
+\end{interactive}
+
+\vspace{-25pt}
+\begin{center}
+\begin{tikzpicture}
+\theast
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Simple Syntax Trees and an Interpreter}
+
+\begin{interactive}
 # \type{let rec eval = function
     Lit(x) -> x 
   | Plus(e1, e2) -> (eval e1) + (eval e2) 
@@ -1227,8 +1269,8 @@ type expr =
 val eval : expr -> int = <fun>
 # \type{eval (Lit(42));;}
 - : int = 42
-# \type{eval (Plus(Lit(17), Lit(25)));;}
-- : int = 42
+# \type{eval (Plus (Lit 5, Times (Lit 6, Lit 7)));;}
+- : int = 47
 \end{interactive}
 \end{frame}
 
