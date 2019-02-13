@@ -854,11 +854,45 @@ with a recursive function.
 
 \begin{interactive}
 # \type{let rec enum n l =
-match l with
-| [] -> []
-| h :: t -> (h, n) :: enum (n + 1) t;;}
+   match l with
+      | [] -> []
+      | h :: t -> (h, n) :: enum (n + 1) t;;}
 val enum : int -> 'a list -> ('a * int) list = <fun>
 # \type{enum 0 [42; 17; 128];;}
+- : (int * int) list = [(42, 0); (17, 1); (128, 2)]
+\end{interactive}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example: Enumerating List Elements}
+
+Using tail recursion:
+
+\begin{interactive}
+# \type{let rec enum rl n l =
+   match l with
+      | [] -> List.rev rl
+      | h :: t -> enum ((h, n) :: rl) (n + 1) t;;}
+val enum : ('a * int) list -> int -> 'a list -> ('a * int) list = <fun>
+# \type{enum [] 0 [42; 17; 128];;}
+- : (int * int) list = [(42, 0); (17, 1); (128, 2)]
+\end{interactive}
+%Result accumulated in the \emph{(l, n)} tuple, \emph{List.rev}
+%reverses the result (built backwards) in the end.  
+Using a \alert{helper} function:
+%, but \emph{List.fold\_left} separates list
+%traversal from modification:
+
+\begin{interactive}
+# \type{let enum l =
+   let rec helper rl n l =
+   match l with
+      | [] -> List.rev rl
+      | h :: t -> helper ((h, n) :: rl) (n + 1) t
+   in helper [] 0 l;;}
+val enum : int -> 'a list -> ('a * int) list = <fun>
+# \type{enum [42; 17; 128];;}
 - : (int * int) list = [(42, 0); (17, 1); (128, 2)]
 \end{interactive}
 
@@ -870,11 +904,12 @@ A powerful variety of multi-way branch that is adept at picking apart
 data structures.  Unlike anything in C/C++/Java.
 
 \begin{interactive}
-# \type{let xor p = match p 
-  with (false, false) -> false 
+# \type{let xor p = 
+match p  with 
+     | (false, false) -> false 
      | (false,  true) -> true 
-     | ( true, false) -> true 
-     | ( true,  true) -> false;;}
+     | (true, false) -> true 
+     | (true,  true) -> false;;}
 val xor : bool * bool -> bool = <fun>
 # \type{xor (true, true);;}
 - : bool = false
@@ -890,7 +925,7 @@ matches.  Each may appear only once per pattern.
 # \type{let xor p = 
 match p with 
      | (false, x) -> x 
-     | ( true, x) -> not x;;}
+     | (true, x) -> not x;;}
 val xor : bool * bool -> bool = <fun>
 # \type{xor (true, true);;}
 - : bool = false
@@ -955,7 +990,7 @@ val logand : bool * bool -> bool = <fun>
 
 \begin{interactive}
 # \type{let length = function (* let length = fun p -> match p with *)
-    [] -> "empty" 
+  | [] -> "empty" 
   | [_] -> "singleton" 
   | [_; _] -> "pair" 
   | [_; _; _] -> "triplet" 
@@ -994,7 +1029,7 @@ The \emph{as} keyword lets you name parts of a matched structure:
 
 \begin{interactive}
 # \type{match ([3,9], 4) with  
-    (3::_ as xx, 4) -> xx 
+  | (3::_ as xx, 4) -> xx 
   | _ -> [];;}
 - : int * int = (3, 9)
 \end{interactive}
@@ -1061,7 +1096,7 @@ let length list =
 
     \end{column}
     \begin{column}[t]{0.4\textwidth}
-ocamlopt generates this x86 assembly
+ocamlopt generates this x86 assembly pseudocode 
 
 \medskip
 
@@ -1078,7 +1113,6 @@ ocamlopt generates this x86 assembly
 
 camlLength__length:
   movl  %eax, %ebx
-  movl  $camlLength__2, %eax
   movl  $1, %eax     \alert{# len = 0}
   jmp   camlLength__helper
 \end{interactive}    
@@ -1155,7 +1189,7 @@ trees and instructions.
 # \type{type seasons = Winter | Spring | Summer | Fall;;}
 type seasons = Winter | Spring | Summer | Fall
 # \type{let weather = function 
-    Winter -> "Too Cold" 
+  | Winter -> "Too Cold" 
   | Spring -> "Too Wet" 
   | Summer -> "Too Hot" 
   | Fall -> "Too Short";;}
