@@ -134,16 +134,22 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 
 \frame{\titlepage}
 
+
+\tikzset{
+    mymodule/.style={draw, fill=white, drop shadow},
+    code/.style={draw, fill=gray!15, drop shadow,minimum width=0},
+    emph/.style={draw, fill=mBlue!15, drop shadow},
+}
+
 \part{The Big Picture}
 
 \begin{frame}{The First Question}
   \begin{center}
-    \large How do you represent one of many things?
-
-    \vspace{5pc}
-
-    \emph{Compilers should accept many programs; \\
-      how do we describe which one we want?}
+    \large How do we describe/construct a program?
+%    \vspace{5pc}
+%
+%    \emph{Compilers should accept many programs; \\
+%      how do we describe which one we want?}
   \end{center}
 \end{frame}
 
@@ -164,7 +170,7 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 
 \end{frame}
 
-\begin{frame}{Have one symbol per thing?}
+\begin{frame}{Have one symbol per program?}
   \begin{center}
     \includegraphics[width=0.75\textwidth]{Sholes-Glidden.jpg}
 
@@ -175,7 +181,7 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
   \end{center}
 \end{frame}
 
-\begin{frame}{Have one symbol per thing?}
+\begin{frame}{Have one symbol per program?}
   \begin{center}
     \includegraphics[width=0.6\textwidth]{Japanese_typewriter_SH-280.jpg}
     \hfill
@@ -191,7 +197,7 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 
 \begin{frame}{Solution: Use a Discrete Combinatorial System}
 
-Use \emph{combinations} of a \emph{small number of things} to
+Use \alert{combinations} of a \alert{small number of things} to
 represent (exponentially) many different things.
 
 \begin{minipage}{0.2\textwidth}
@@ -234,12 +240,7 @@ Mayan (100) & Roman (21--26) \\
 
 \begin{frame}{The Second Question}
   \begin{center}
-    \large How do you describe only certain combinations?
-
-    \vspace{5pc}
-
-    \emph{Compilers should only accept correct programs; \\
-      how should a compiler check that its input is correct?}
+  How do we describe the \alert{combinations} of a \alert{small number of things}.
 
   \end{center}
 \end{frame}
@@ -260,85 +261,45 @@ Mayan (100) & Roman (21--26) \\
   \end{center}
 \end{frame}
 
-\begin{frame}{Choices: CS Research Jargon Generator}
+\begin{frame}[fragile,t]{Scanning and Parsing}
 
 \begin{center}
-
-Pick one from each column
-\medskip
-
-\begin{tabular}{lll}
-\cmidrule(lr){1-1}
-\cmidrule(lr){2-2}
-\cmidrule(lr){3-3}
-an integrated    & mobile          & network        \\
-a parallel       & functional      & preprocessor   \\
-a virtual        & programmable    & compiler       \\
-an interactive   & distributed     & system         \\
-a responsive     & logical         & interface      \\
-a synchronized   & digital         & protocol       \\
-a balanced       & concurrent      & architecture   \\
-a virtual        & knowledge-based & database       \\
-a meta-level     & multimedia      & algorithm      \\
-\cmidrule(lr){1-1}
-\cmidrule(lr){2-2}
-\cmidrule(lr){3-3}
-\end{tabular}
-
-\medskip
-
-E.g., ``a responsive knowledge-based preprocessor.''
-
-\tiny
-http://www.cs.purdue.edu/homes/dec/essay.topic.generator.html
-\end{center}
-\end{frame}
-
-\begin{frame}{SCIgen: An Automatic CS Paper Generator}
-
-\includegraphics[scale=0.75,viewport=48 450 600 740,clip]{scigen-rooter-paper.pdf}
-
-\tiny
-http://pdos.csail.mit.edu/scigen/
-\end{frame}
-
-\begin{frame}
-\centerline{\includegraphics[width=0.6\textwidth]{hey-jude-flowchart.jpg}}
-
-\footnotesize http://loveallthis.tumblr.com/post/506873221
-\end{frame}
-
-\begin{frame}[fragile]{How about more structured collections of things?}
-
-The boy eats hot dogs.
-
-The dog eats ice cream.
-
-Every happy girl eats candy.
-
-A dog eats candy.
-
-The happy happy dog eats hot dogs.
-
-\begin{tikzpicture}[node distance=0.5pc and 2pc]
-  \node [text width=2.5pc] (s1) {The \break A \break Every};
-  \node [above right=of s1] (s2) {happy};
-  \node [text width=2pc,below right=of s2] (s3) {boy\break girl\break dog};
-  \node [right=of s3] (s4) {eats};
-  \node [text width=4pc,right=of s4] (s5) {hot dogs.\break ice cream.\break candy.};
-  \path [->]
-    (s1) edge (s2)
-    (s2) edge [loop above] ()
-    (s2) edge (s3)
-    (s1) edge (s3)
-    (s3) edge (s4)
-    (s4) edge (s5)
-  ;
+\hspace{20pt}
+\begin{tikzpicture}
+  \matrix [matrix of nodes,
+           row sep=0.8pc,
+           column sep=2pc,
+           every node/.style={draw, fill=white, drop shadow,minimum width=5.5cm}] {
+     |[code] (b)| int avg (int a, int b) ... \\
+     |[emph] (a)| Lexical Analysis \\
+     |[emph] (aa)| Syntax  Analysis \\
+     |(aaa)| Semantic Analysis \\
+     |(a4)| Intermediate Code Generation \\
+     |(a5)| Optimization \\
+     |(a6)| Code Generation \\
+    |[code] (c)| 0101110101... \\
+  };
+  \begin{scope}[->]
+    \draw (b) -- (a);
+    \draw (a) -- (aa);
+    \draw (aa) -- (aaa);
+    \draw (aaa) -- (a4);
+    \draw (a4) -- (a5);
+    \draw (a5) -- (a6);
+    \draw (a6) -- (c);
+  \end{scope};
+  \begin{scope}[densely dotted]
+    \draw (-10pc,-2.6pc) -- (10pc,-2.6pc);
+    \draw (-10pc,-5pc) -- (10pc,-5pc);
+  \end{scope};
+  \node at (9pc,0) {front-end};
+  \node at (9.5pc,-4pc) {middle-end};
+  \node at (9pc,-6pc) {back-end};
 \end{tikzpicture}
-
-\tiny Pinker, \emph{The Language Instinct}
+\end{center}
 
 \end{frame}
+
 
 \part{Lexical Analysis}
 
@@ -525,6 +486,10 @@ $a | a^*b$ & $\{ a, b, ab, aab, aaab, aaaab, \ldots \}$ \\
 \end{frame}
 
 \begin{frame}{Specifying Tokens with REs}
+
+ID: letter followed by letters or digits
+
+\vspace{1pc}
 
 Typical choice: $\Sigma = $ ASCII characters, i.e., $\{
 \texttt{\char`\ }, !, \texttt{"}, \#, \$, \ldots, \textrm{0},
