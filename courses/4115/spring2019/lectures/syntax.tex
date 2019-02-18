@@ -1,4 +1,5 @@
 \documentclass{plt}
+\usetheme{metropolis}           % Use metropolis theme
 
 \tikzset{double distance=1pt,>=latex}
 
@@ -15,7 +16,7 @@
 % Make | a mathrel symbol: improves alternation (a | b) spacing
 \mathcode`\|="326A
 
-\def\filled#1{\ifx#11red\else white\fi}
+\def\filled#1{\ifx#11mRed\else white\fi}
 
 %\DeclareSymbolFont{operator}{OT1}{put}{m}{n}
 %\DeclareSymbolFont{letters}{OT1}{put}{m}{it}
@@ -36,7 +37,7 @@
   top color=transparent!100]
 
 \newcommand{\pac}{\begin{tikzpicture}
-    \draw [fill=black!30!yellow!100] (2.12pt,2.12pt) arc
+    \draw [fill=black!30!mBlue!100] (2.12pt,2.12pt) arc
     (45:315:3pt) -- (0,0) -- cycle;
   \end{tikzpicture}
 }
@@ -48,7 +49,7 @@
     \node [inner sep=1pt,anchor=base west] (n2) at (n1.base east) {$#2$};
     \node [inner sep=1pt,anchor=base west] (n1) at (n2.base east) {$#3$};
     \begin{pgfonlayer}{background}
-      \draw [red!70,line width=2pt,rounded corners]
+      \draw [mRed!70,line width=2pt,rounded corners]
       ($(n2.north east) + (1pt,1pt)$) --
       ($(n2.north west) + (-1pt,1pt)$) --
       ($(n2.south west) + (-1pt,-1pt)$) --
@@ -60,7 +61,7 @@
 \fi
 
 \newcommand{\expand}[3]{
-    \fill [even odd rule,red,path fading=fade up]
+    \fill [even odd rule,mRed,path fading=fade up]
     (#1.north west)  [rounded corners] -- (#1.south west) --
     (#2.north west) -- (#2.south west) -- (#3.south east) --
     (#3.north east) -- (#1.south east) -- (#1.north east)
@@ -73,7 +74,7 @@
 }
 
 \newcommand{\expandup}[3]{
-    \fill [even odd rule,red,path fading=fade down]
+    \fill [even odd rule,mRed,path fading=fade down]
     (#1.south west)  [rounded corners] -- (#1.north west) --
     (#2.south west) -- (#2.north west) -- (#3.north east) --
     (#3.south east) -- (#1.north east) -- (#1.south east)
@@ -118,11 +119,16 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 \endgroup
 }
 
+
 \title{Scanning and Parsing}
-\author{Stephen A. Edwards}
+\author{Ronghui Gu}
 \institute{Columbia University}
-\date{Fall 2018}
-\titlegraphic{\includegraphics[width=0.3\textwidth]{puzzle-pieces.jpg}}
+\date{Spring 2019}
+\titlegraphic{
+\vspace{220pt}
+{\tiny $^*$ Course website: \url{https://www.cs.columbia.edu/~rgu/courses/4115/spring2019}\vspace{-5pt}}\\
+{\tiny $^{**}$ These slides are borrowed from Prof. Edwards.}
+}
 
 \begin{document}
 
@@ -335,7 +341,6 @@ The happy happy dog eats hot dogs.
 \end{frame}
 
 \part{Lexical Analysis}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Lexical Analysis (Scanning)}
 
@@ -349,7 +354,7 @@ Translate a stream of characters to a stream of tokens
 f o o \sp = \sp a + \sp bar ( 0 , \sp 42 , \sp q ) ;
 \end{semiverbatim}
 
-\newcommand{\token}[1]{\tikz \node [minimum height=17pt,draw,rounded corners=2pt,fill=yellow!30] {#1};}
+\newcommand{\token}[1]{\tikz \node [minimum height=15pt,draw,rounded corners=2pt,fill=mBlue!10] {#1};}
 
 \token{ID}
 \token{EQUALS}
@@ -392,7 +397,7 @@ Scanners are usually much faster than parsers.
 
 Discard as many irrelevant details as possible (e.g., whitespace, comments).
 
-Parser does not care that the the identifer is
+Parser does not care that the  identifer is
 ``supercalifragilisticexpialidocious.''
 
 Parser rules are only concerned with tokens.
@@ -414,7 +419,7 @@ Examples: $\{$ 0, 1 $\}$, $\{$ A, B, C, \ldots, Z $\}$, ASCII, Unicode
 
 \textbf{String}: A finite sequence of symbols from an alphabet
 
-Examples: $\epsilon$ (the empty string), Stephen, $\alpha\beta\gamma$
+Examples: $\epsilon$ (the empty string), Ronghui, $\alpha\beta\gamma$
 
 \vspace{2pc}
 
@@ -430,19 +435,19 @@ any sequence of letters and digits
 
 Let $L = \{$ $\epsilon$, wo $\}$, $M = \{$ man, men $\}$
 
-\vspace{2pc}
+\vspace{1pc}
 
 \textbf{Concatenation}: Strings from one followed by the other
 
 $LM = \{$ man, men, woman, women $\}$
 
-\vspace{2pc}
+\vspace{1pc}
 
 \textbf{Union}: All strings from each language
 
 $L \cup M = \{ \epsilon, $ wo, man, men $\}$
 
-\vspace{2pc}
+\vspace{1pc}
 
 \textbf{Kleene Closure}: Zero or more concatenations
 
@@ -451,28 +456,28 @@ $M^* = \{ \epsilon \} \cup M \cup MM \cup MMM \cdots = \break
 manmanman, manmanmen, manmenman, \ldots $\}$
 
 \end{frame}
-
-\begin{frame}{Kleene Closure}
-
-\begin{columns}
-\begin{column}{0.65\textwidth}
-\raggedright
-
-``*'' is named after Stephen Cole Kleene, the inventor of regular
-expressions, who pronounced his last name ``CLAY-nee.''
-
-\medskip
-
-His son Ken writes ``As far as I am aware this pronunciation is incorrect
-in all known languages. I believe that this novel pronunciation was
-invented by my father.''
-\end{column}
-\begin{column}{0.45\textwidth}
-\includegraphics[width=\textwidth]{kleene.jpg}
-\end{column}
-\end{columns}
-
-\end{frame}
+%
+%\begin{frame}{Kleene Closure}
+%
+%\begin{columns}
+%\begin{column}{0.65\textwidth}
+%\raggedright
+%
+%``*'' is named after Stephen Cole Kleene, the inventor of regular
+%expressions, who pronounced his last name ``CLAY-nee.''
+%
+%\medskip
+%
+%His son Ken writes ``As far as I am aware this pronunciation is incorrect
+%in all known languages. I believe that this novel pronunciation was
+%invented by my father.''
+%\end{column}
+%\begin{column}{0.45\textwidth}
+%\includegraphics[width=\textwidth]{kleene.jpg}
+%\end{column}
+%\end{columns}
+%
+%\end{frame}
 
 \begin{frame}{Regular Expressions over an Alphabet $\Sigma$}
 
@@ -691,7 +696,7 @@ Show that the string ``010010'' is accepted.
                               nodes={circle,minimum size=1pc,draw}},
          initial text={},
          every state/.style={minimum size=1.5pc,fill=white},
-         group/.style={ellipse,draw,fill=yellow!30,minimum height=2.7pc, inner sep=-5pt},
+         group/.style={ellipse,draw,fill=mBlue!30,minimum height=2.7pc, inner sep=-5pt},
          node distance=0.5pc and 2pc}
 
 \begin{tabular}{ccc}
@@ -770,7 +775,7 @@ What if we used this simpler rule for Kleene Closure?
                               nodes={circle,minimum size=1pc,draw}},
          initial text={},
          every state/.style={minimum size=1.5pc,fill=white},
-         group/.style={ellipse,draw,fill=yellow!30,minimum height=2.7pc, inner sep=-5pt},
+         group/.style={ellipse,draw,fill=mBlue!30,minimum height=2.7pc, inner sep=-5pt},
          node distance=0.5pc and 2pc}
 
 \begin{tikzpicture}[baseline=-4pt]
@@ -874,7 +879,7 @@ Show that the string ``$aabb$'' is accepted. Answer:
 
 \begin{frame}{Simulating NFAs}
 
-Problem: you must follow the ``right'' arcs to show that a string is
+Problem: you must follow the ``\alert{right}'' arcs to show that a string is
 accepted.  How do you know which arc is right?
 
 Solution: follow them all and sort it out later.
@@ -1057,7 +1062,7 @@ Each unique state during simulation becomes a state in the DFA.
 % se -b-> sc
 
 \begin{frame}[t]{Subset construction for $(a|b)^*abb$}
-  \begin{tikzpicture}[nfastate/.style={state,inner sep=25pt,fill=yellow!30},
+  \begin{tikzpicture}[nfastate/.style={state,inner sep=25pt,fill=mBlue!30},
     initial text={}]
     \node [initial,nfastate] (a) {};
     \sa{a}
@@ -1203,7 +1208,6 @@ Tools often try to strike a balance between the two representations.
 \end{frame}
 
 \part{Lexical Analysis with Ocamllex}
-\frame{\partpage}
 
 \begin{frame}[fragile]{Constructing Scanners with Ocamllex}
 
@@ -1265,7 +1269,7 @@ and ...
 \end{frame}
 
 \begin{frame}[fragile]{Patterns (In Order of Decreasing Precedence)}
-
+\footnotesize
 \begin{tabular}{ll}
 \toprule
 \textbf{Pattern} & \textbf{Meaning} \\
@@ -1295,7 +1299,7 @@ and ...
 \end{frame}
 
 \begin{frame}[fragile]{An Example}
-
+\small
 \begin{ocamllex}
 { type token = PLUS | IF | ID of string | NUM of int }
 
@@ -1347,31 +1351,31 @@ Some deviate a little (e.g., C and C++ have a separate preprocessor)
 But not all languages are free-format.
 \end{frame}
 
-\begin{frame}[fragile]{FORTRAN 77}
-
-FORTRAN 77 is not free-format.  72-character lines:
-
-\begin{fortran}
-100   IF(IN .EQ. 'Y' .OR. IN .EQ. 'y' .OR.
-     $   IN .EQ. 'T' .OR. IN .EQ. 't') THEN
-\end{fortran}
-
-% $
-
-{
-\[\underbrace{\framebox{\textrm{1}} \cdots \framebox{\textrm{5}}}_{\mbox{Statement label}}
-\underbrace{\framebox{\textrm{6}}}_{\mbox{Continuation}}
-\underbrace{\framebox{\textrm{7}} \cdots \framebox{\textrm{72}}}_{\mbox{Normal}}\]
-}
-
-When column 6 is not a space, line is considered part of the
-previous.
-
-Fixed-length line works well with a one-line buffer.
-
-Makes sense on punch cards. \includegraphics[width=8pc]{punchcard.jpg}
-
-\end{frame}
+%\begin{frame}[fragile]{FORTRAN 77}
+%
+%FORTRAN 77 is not free-format.  72-character lines:
+%
+%\begin{fortran}
+%100   IF(IN .EQ. 'Y' .OR. IN .EQ. 'y' .OR.
+%     $   IN .EQ. 'T' .OR. IN .EQ. 't') THEN
+%\end{fortran}
+%
+%% $
+%
+%{
+%\[\underbrace{\framebox{\textrm{1}} \cdots \framebox{\textrm{5}}}_{\mbox{Statement label}}
+%\underbrace{\framebox{\textrm{6}}}_{\mbox{Continuation}}
+%\underbrace{\framebox{\textrm{7}} \cdots \framebox{\textrm{72}}}_{\mbox{Normal}}\]
+%}
+%
+%When column 6 is not a space, line is considered part of the
+%previous.
+%
+%Fixed-length line works well with a one-line buffer.
+%
+%Makes sense on punch cards. \includegraphics[width=8pc]{punchcard.jpg}
+%
+%\end{frame}
 
 \begin{frame}[fragile]{Python}
 
@@ -1437,7 +1441,6 @@ Bjarne Stroustrup tells me they have finally fixed this.
 \end{frame}
 
 \part{Modeling Sentences}
-\frame{\partpage}
 
 \begin{frame}{Simple Sentences Are Easy to Model}
 
@@ -1649,7 +1652,7 @@ $O \rightarrow$ candy \\
 \def\tok#1{\textbf{\texttt{#1}}}
 
 \begin{frame}{A Context-Free Grammar for a Simplified C}
-
+\small
 \[
 \begin{array}{r@{\hspace{3pt}}c@{\hspace{3pt}}l}
 \textit{program} & \rightarrow & \epsilon |
@@ -1697,7 +1700,7 @@ $O \rightarrow$ candy \\
 \end{frame}
 
 \part{Constructing Grammars and Ocamlyacc}
-\frame{\partpage}
+%\frame{\partpage}
 
 \begin{frame}{Parsing}
 Objective: build an abstract syntax tree (AST) for the token sequence
@@ -3357,7 +3360,7 @@ $\follow(t) = \{ +, \$ \}$
 \end{frame}
 
 \def\st#1#2{\begin{tikzpicture}
-    \node [fill=yellow!30,text width=9pt,text centered,inner sep=0pt,
+    \node [fill=mBlue!30,text width=9pt,text centered,inner sep=0pt,
            font={\fontsize{9}{8}\selectfont},
            minimum height=16pt]
           {$#1$\break #2};
@@ -3580,7 +3583,7 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 
 \node [draw,accepting,below=of S0] (S3) {$\textbf{S3}: a \rightarrow b \ \pac$};
 
-\node [draw,fill=yellow!50,below=of S2,accepting] (S4) {$\textbf{S4}: \begin{array}{@{}l@{}}
+\node [draw,fill=mBlue!50,below=of S2,accepting] (S4) {$\textbf{S4}: \begin{array}{@{}l@{}}
    a \rightarrow \id\ \id\ \pac \\
    b \rightarrow \id\ \id\ \pac \\
   \end{array}$};

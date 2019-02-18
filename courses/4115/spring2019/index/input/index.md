@@ -65,8 +65,8 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Wed Feb 6   | 5  | " | |
 | Mon Feb 11  | 6  | "| |
 | Wed Feb 13  | 7  | " | [Proposal](./assignments/proposal.html) |
-| Mon Feb 18  | 8  | Syntax & Parsing | |
-| Wed Feb 20  | 9  | " | [HW1](./assignments/hw1.html) |
+| Mon Feb 18  | 8  | [Scanning](./lectures/scanner.pdf) | |
+| Wed Feb 20  | 9  | Parsing | [HW1](./assignments/hw1.html) |
 | Mon Feb 25  | 10 | " | |
 | Wed Feb 27  | 11 | Types and Static Semantics | LRM|
 | Mon Mar 4   | 12 | " | |
