@@ -17,7 +17,7 @@ Lectures: Mudd 833, Mon & Wed, 2:40pm ~ 3:55pm
 | Name      | Email | Office hours | Location |  
 | ----------- | ----------- |  ----------- |  ----------- |
 | Prof. Ronghui Gu |  ronghui.gu@columbia.edu | Th (1-2) | 515 CSB |
-| Justin Wong (**lead**)| jw3354@columbia.edu | M (6-7) & T (1-2) | 486 CSB ([Clic Lab](https://www.cs.columbia.edu/clic/)) |  
+| Justin Wong (**lead**)| jw3354@columbia.edu | M (7-8) & T (2-3) | 486 CSB ([Clic Lab](https://www.cs.columbia.edu/clic/)) |  
 | Ryan Bernstein (**lead**)| rb3234@columbia.edu | W & F (11-12) | 486 CSB ([Clic Lab](https://www.cs.columbia.edu/clic/)) |  
 | Lauren Bree Arnett | lba2138@columbia.edu | Th (3-4) | 486 CSB ([Clic Lab](https://www.cs.columbia.edu/clic/)) |  
 
