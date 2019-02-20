@@ -66,12 +66,12 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Mon Feb 11  | 6  | "| |
 | Wed Feb 13  | 7  | " | [Proposal](./assignments/proposal.html) |
 | Mon Feb 18  | 8  | [Scanning](./lectures/scanner.pdf) | |
-| Wed Feb 20  | 9  | Parsing | [HW1](./assignments/hw1.html) |
-| Mon Feb 25  | 10 | " | |
-| Wed Feb 27  | 11 | Types and Static Semantics | LRM|
-| Mon Mar 4   | 12 | " | |
-| Wed Mar 6   | 13 | " | HW2|
-| Mon Mar 11  | 14 | " | |
+| Wed Feb 20  | 9  | " | [HW1](./assignments/hw1.html) |
+| Mon Feb 25  | 10 | Parsing | |
+| Wed Feb 27  | 11 | " | |
+| Mon Mar 4   | 12 | Types and Static Semantics | |
+| Wed Mar 6   | 13 | " | LRM |
+| Mon Mar 11  | 14 | " | HW2 |
 | **Wed Mar 13**  |    | **Midterm Exam** | |
 | **Mar 18 - 22** |    | **Spring Break** | |
 | Mon Mar 25  | 15 | The MicroC Compiler | |

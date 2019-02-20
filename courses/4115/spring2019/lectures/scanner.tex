@@ -976,6 +976,28 @@ Each unique state during simulation becomes a state in the DFA.
 
 \end{frame}
 
+\begin{frame}{The Subset Construction Algorithm}
+
+\begin{itemize}
+\item[1.] Create the start state of the DFA by taking the $\varepsilon$-closure of the start state of the NFA.
+
+\item[2.] Perform the following for the new DFA state: 
+For each possible input symbol:
+
+\begin{itemize}
+\item Apply move to the newly-created state and the input symbol; this will return a set of states.
+\item Apply the $\varepsilon$-closure to this set of states, possibly resulting in a new set.
+This set of NFA states will be a single state in the DFA.
+\end{itemize}
+
+\item[3.] Each time we generate a new DFA state, we must apply step 2 to it. The process is complete when applying step 2 does not yield any new states.
+
+\item[4.] The finish states of the DFA are those which contain any of the finish states of the NFA.
+\end{itemize}
+
+\end{frame}
+
+
 \def\aabbz#1#2#3#4#5#6#7#8#9{
 \begin{scope}[node distance=3pt and 2pt,
                       every state/.style={inner sep=1pt,
