@@ -1289,7 +1289,6 @@ and ...
 \small
 \begin{ocamllex}
 { type token = PLUS | IF | ID of string | NUM of int }
-
 let letter = ['a'-'z' 'A'-'Z']
 let digit = ['0'-'9']
 
@@ -1309,6 +1308,34 @@ rule token =
 and comment =
   parse "*/" { token lexbuf } (* Return to normal scanning *)
       | _ { comment lexbuf }  (* Ignore other characters *)
+\end{ocamllex}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Nested Comments}
+\small
+\begin{ocamllex}
+{ type token = PLUS | ID of string | NUM of int }
+
+let letter = ['a'-'z' 'A'-'Z']
+let digit = ['0'-'9']
+
+rule token =
+ parse [' ' '\n' '\t'] { token lexbuf } (* Ignore whitespace *)
+
+     | '+' { PLUS }                     (* A symbol *)
+
+     | letter (letter | digit | '_')* as id { ID(id) }
+     | digit+ as lit { NUM(int_of_string lit) }
+
+     | "/*" { comment 0 lexbuf }          (* C-style comments *)
+
+and comment level =
+  parse "*/" { if level == 0 then token lexbuf
+  	else comments (level - 1) lexbuf } 
+      | "/*" { comment (level + 1) lexbuf }
+      | _ { comment level lexbuf }  (* Ignore other characters *)
 \end{ocamllex}
 
 \end{frame}
