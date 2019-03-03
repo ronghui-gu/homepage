@@ -71,7 +71,7 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Wed Feb 27  | 11 | [Parsing II](./lectures/syntax2.pdf) | |
 | Mon Mar 4   | 12 | Parsing III | |
 | Wed Mar 6   | 13 | Types and Static Semantics | [LRM](./assignments/lrm.html) |
-| Mon Mar 11  | 14 | " | HW2 |
+| Mon Mar 11  | 14 | " | [HW2](./assignments/hw2.pdf) |
 | **Wed Mar 13**  |    | **Midterm Exam** | |
 | **Mar 18 - 22** |    | **Spring Break** | |
 | Mon Mar 25  | 15 | The MicroC Compiler | |
