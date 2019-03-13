@@ -128,7 +128,7 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 }
 
 
-\title{Parser I}
+\title{Parser}
 \author{Ronghui Gu}
 \institute{Columbia University}
 \date{Spring 2019}
@@ -773,9 +773,15 @@ cstmt : IF expr THEN cstmt ELSE cstmt
       | other statements...
 \end{ocamlyacc}
 
-\begin{center}\ttfamily
+\begin{overprint}
+\onslide<1>\begin{center}\ttfamily
 if (a) if (b) c(); else d();
 \end{center}
+\onslide<2>\begin{center}\ttfamily
+\alert{if} (a) \underline{if (b) c();} \alert{else} d(); \\
+cstmt?
+\end{center}
+\end{overprint}
 \end{frame}
 
 \begin{frame}[fragile]{Another Solution to the Dangling Else Problem}
@@ -935,6 +941,8 @@ left associative & right associative
 
 \end{frame}
 
+
+
 \begin{frame}[fragile]{Fixing Ambiguous Grammars}
 
 A grammar specification:
@@ -952,8 +960,12 @@ Ambiguous: no precedence or associativity.
 
 Ocamlyacc's complaint: ``16 shift/reduce conflicts.''
 
+\vspace{-20pt}
 
 $$1 * 2 + 3?$$
+$$\text{expr  TIMES \underline{expr  PLUS} } \alert{\textit{shift}}?$$
+$$\text{\underline{expr  TIMES expr}  PLUS } \alert{\textit{reduce}}?$$
+
 \end{frame}
 
 \begin{frame}[fragile]{Assigning Precedence Levels}
@@ -964,11 +976,9 @@ Split into multiple rules, one per level
 expr : expr PLUS expr  
      | expr MINUS expr 
      | term            
-
 term : term TIMES term 
      | term DIVIDE term
      | atom            
-
 atom  : NUMBER         
 \end{ocamlyacc}
 
@@ -976,8 +986,35 @@ Still ambiguous: associativity not defined
 
 Ocamlyacc's complaint: ``8 shift/reduce conflicts.''
 
-$$1 * 2 + 3$$
+\vspace{-20pt}
+$$1 * 2 + 3?$$
+$$\text{term  TIMES \underline{term  PLUS} } \alert{\textit{cannot shift}}!$$
+$$\text{term  TIMES \underline{term} PLUS } \alert{\textit{cannot reduce}}!$$
+$$\text{\underline{term  TIMES term}  PLUS } \alert{\textit{reduce}}!$$
+\end{frame}
+
+\begin{frame}[fragile]{Assigning Precedence Levels}
+
+Split into multiple rules, one per level
+
+\begin{ocamlyacc}
+expr : expr PLUS expr  
+     | expr MINUS expr 
+     | term            
+term : term TIMES term 
+     | term DIVIDE term
+     | atom            
+atom  : NUMBER         
+\end{ocamlyacc}
+
+Still ambiguous: associativity not defined
+
+Ocamlyacc's complaint: ``8 shift/reduce conflicts.''
+
+\vspace{-20pt}
 $$1 * 2 * 3?$$
+$$\text{term  TIMES \underline{term  TIMES} } \alert{\textit{shift}}?$$
+$$\text{\underline{term  TIMES term}  PLUS } \alert{\textit{reduce}}?$$
 \end{frame}
 
 \begin{frame}[fragile]{Assigning Associativity}
@@ -988,11 +1025,9 @@ Make one side the next level of precedence
 expr : expr PLUS term  
      | expr MINUS term 
      | term            
-
 term : term TIMES atom 
      | term DIVIDE atom
      | atom            
-
 atom  : NUMBER         
 \end{ocamlyacc}
 
@@ -1000,7 +1035,11 @@ This is left-associative.
 
 No shift/reduce conflicts.
 
-$$1 * 2 * 3$$
+\vspace{-20pt}
+$$1 * 2 * 3?$$
+$$\text{term  TIMES \underline{atom  TIMES} } \alert{\textit{cannot shift}}!$$
+$$\text{term  TIMES \underline{atom}  TIMES } \alert{\textit{cannot reduce}}!$$
+$$\text{\underline{term  TIMES atom}  TIMES } \alert{\textit{reduce}}!$$
 
 \end{frame}
 
@@ -1135,6 +1174,1352 @@ expr:
 
 \end{frame}
 
+
+\part{Parsing Algorithms}
+
+\begin{frame}{Parsing Context-Free Grammars}
+
+There are $O(n^3)$ algorithms for parsing arbitrary CFGs, but most
+compilers demand $O(n)$ algorithms.
+
+\medskip
+
+Fortunately, the LL and LR subclasses of CFGs have $O(n)$ parsing
+algorithms.  People use these in practice.
+
+\end{frame}
+
+\if 0
+
+%token PLUS TIMES ID
+%start e
+%type <int>e
+
+%%
+
+e : t PLUS e { 0 }
+  | t        { 0 }
+
+t : ID TIMES t { 0 }
+  | ID         { 0 }
+
+ocamlyacc -v lrexample.mly
+
+   0  $accept : %entry% $end
+
+   1  e : t PLUS e
+   2    | t
+
+   3  t : ID TIMES t
+   4    | ID
+
+   5  %entry% : '\001' e
+
+state 0
+	$accept : . %entry% $end  (0)
+
+	'\001'  shift 1
+	.  error
+
+	%entry%  goto 2
+
+
+state 1
+	%entry% : '\001' . e  (5)
+
+	ID  shift 3
+	.  error
+
+	e  goto 4
+	t  goto 5
+
+
+state 2
+	$accept : %entry% . $end  (0)
+
+	$end  accept
+
+
+state 3
+	t : ID . TIMES t  (3)
+	t : ID .  (4)
+
+	TIMES  shift 6
+	$end  reduce 4
+	PLUS  reduce 4
+
+
+state 4
+	%entry% : '\001' e .  (5)
+
+	.  reduce 5
+
+
+state 5
+	e : t . PLUS e  (1)
+	e : t .  (2)
+
+	PLUS  shift 7
+	$end  reduce 2
+
+
+state 6
+	t : ID TIMES . t  (3)
+
+	ID  shift 3
+	.  error
+
+	t  goto 8
+
+
+state 7
+	e : t PLUS . e  (1)
+
+	ID  shift 3
+	.  error
+
+	e  goto 9
+	t  goto 5
+
+
+state 8
+	t : ID TIMES t .  (3)
+
+	.  reduce 3
+
+
+state 9
+	e : t PLUS e .  (1)
+
+	.  reduce 1
+
+
+6 terminals, 4 nonterminals
+6 grammar rules, 10 states
+
+\fi
+
+% $
+
+\newsavebox{\rightmostDerivation}
+\begin{lrbox}{\rightmostDerivation}
+  \begin{tikzpicture}[every node/.style={anchor=base,inner sep=2pt},
+                      node distance=0pt]
+  \node (t1) {$e$};
+  \node [below=of t1,matrix of math nodes,inner sep=0pt] (t2) {
+    t & + & |(t3)| e \\ };
+  \node [below=of t2,matrix of math nodes] (t4) {
+    t & + & |(t5)| t \\ };
+  \node [below=of t4,matrix of math nodes] (t6) {
+    |(t8)| t & + & |(t7)| \id \\ };
+  \node [below=of t6,matrix of math nodes] (t9) {
+    |(t10)| \id & * & |(t10a)| t & + & \id \\ };
+  \node [below=of t9,matrix of math nodes] (t11) {
+    \id & * & |(t12)| \id & + & \id \\ };
+  \begin{pgfonlayer}{background}
+    \expand{t1}{t2}{t2}
+    \expand{t3}{t5}{t5}
+    \expand{t5}{t7}{t7}
+    \expand{t8}{t10}{t10a}
+    \expand{t10a}{t12}{t12}
+  \end{pgfonlayer}
+      \end{tikzpicture}
+\end{lrbox}
+
+\begin{frame}[t,fragile]{Rightmost Derivation of $\id * \id + \id$}
+
+\begin{columns}
+  \begin{column}{0.3\textwidth}
+    \grammarone
+  \end{column}
+  \begin{column}{0.7\textwidth}
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={anchor=base,inner sep=2pt},
+  node distance=0.3pc]
+  \node (t1) {$e$};
+  \pause
+  \node [below=of t1,matrix of math nodes,inner sep=0pt] (t2) {
+    t & + & |(t3)| e \\ };
+  \pause
+  \node [below=of t2,matrix of math nodes] (t4) {
+    t & + & |(t5)| t \\ };
+  \pause
+  \node [below=of t4,matrix of math nodes] (t6) {
+    |(t8)| t & + & |(t7)| \id \\ };
+  \pause
+  \node [below=of t6,matrix of math nodes] (t9) {
+    |(t10)| \id & * & |(t10a)| t & + & \id \\ };
+  \pause
+  \node [below=of t9,matrix of math nodes] (t11) {
+    \id & * & |(t12)| \id & + & \id \\ };
+  \begin{pgfonlayer}{background}
+    \onslide<2->{\expand{t1}{t2}{t2}}
+    \onslide<3->{\expand{t3}{t5}{t5}}
+    \onslide<4->{\expand{t5}{t7}{t7}}
+    \onslide<5->{\expand{t8}{t10}{t10a}}
+    \onslide<6->{\expand{t10a}{t12}{t12}}
+  \end{pgfonlayer}
+\end{tikzpicture}
+\end{center}
+  \end{column}
+\end{columns}
+
+\begin{center}
+
+At each step, expand the \emph{rightmost} nonterminal.
+
+\vspace{0.5pc}
+
+\begin{tikzpicture}[node distance=0.5pc]
+  \node (nt) {nonterminal};
+  \node [below=of nt] (h)
+        {``handle'': The right side of a production};
+  \begin{pgfonlayer}{background}
+    \expand{nt}{h}{h}
+  \end{pgfonlayer}
+\end{tikzpicture}
+
+\only<1-6>{
+Fun and interesting fact: there is exactly one rightmost expansion if
+the grammar is unambigious.
+}
+
+\only<7>{
+%Dragon-book style: underline handles
+$e
+\rightarrow
+\underline{t + e}
+\rightarrow
+t + \underline{t}
+\rightarrow
+t + \underline{\id}
+\rightarrow 
+\underline{\id * t} + \id
+\rightarrow 
+\id * \underline{\id} + \id
+$
+}
+
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t,fragile]{Rightmost Derivation: What to Expand}
+
+\begin{columns}
+  \begin{column}{0.3\textwidth}
+    \grammarone
+  \end{column}
+  \begin{column}{0.7\textwidth}
+    \begin{center}
+      \usebox{\rightmostDerivation}
+    \end{center}
+  \end{column}
+\end{columns}
+
+\begin{center}
+  \begin{tikzpicture}[every node/.style={inner sep=2pt}]
+  \node [anchor=east] (t1) {$e$};
+  \node [anchor=east,matrix of math nodes,inner sep=0pt] at (0,-1.5pc) (t2) {
+    t & + & |(t3)| e \\ };
+  \node [anchor=east,matrix of math nodes] at (0,-3pc) (t4) {
+    t & + & |(t5)| t \\ };
+  \node [anchor=t8.east,matrix of math nodes] at (0,-4.5pc) (t6) {
+    |(t8)| t & + & |(t7)| \id \\ };
+  \node [anchor=t10a.east,matrix of math nodes] at (0,-6pc) (t9) {
+    |(t10)| \id & * & |(t10a)| t & + & \id \\ };
+  \node [anchor=west,matrix of math nodes] at (0,-7.5pc) (t11) {
+    \id & * & |(t12)| \id & + & \id \\ };
+  \begin{pgfonlayer}{background}
+    \fill [black!10] (t1.north east) [rounded corners] rectangle +(-6pc,-9pc)
+          node [black,below right] {Expand here $\uparrow$};
+    \fill [black!10] ($(t1.north east) + (2pt,0)$)
+          [rounded corners] rectangle +(6pc,-9pc)
+          node [black,below] {Terminals only};
+    \expand{t1}{t2}{t2}
+    \expand{t3}{t5}{t5}
+    \expand{t5}{t7}{t7}
+    \expand{t8}{t10}{t10a}
+    \expand{t10a}{t12}{t12}
+  \end{pgfonlayer}
+  \end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t,fragile]{Reverse Rightmost Derivation}
+
+\begin{columns}
+  \begin{column}{0.3\textwidth}
+    \grammarone
+  \end{column}
+  \begin{column}{0.7\textwidth}
+    \begin{center}
+      \usebox{\rightmostDerivation}
+    \end{center}
+  \end{column}
+\end{columns}
+
+\begin{center}
+  \begin{tikzpicture}[every node/.style={inner sep=1pt}]
+  \node [anchor=west,matrix of math nodes] at (0,0) (t11) {
+    \id & * & |(t12)| \id & + & \id \\ };
+  \pause
+  \node (h10) at (9.8pc,0pc) {\id};
+  \node (h9) at (9.8pc,-1.5pc) {$t$};
+  \draw (h10) to (h9);
+  \node [anchor=t10a.east,matrix of math nodes] at (0,-1.5pc) (t9) {
+    |(t10)| \id & * & |(t10a)| t & + & \id \\ };
+  \pause
+  \node (h8) at (8.8pc,-1.5pc) {$*$};
+  \node (h7) at (7.8pc,-1.5pc) {\id};
+  \node (h6) at (8.8pc,-3pc) {$t$};
+  \draw (h6) to (h7)
+        (h6) to (h8)
+        (h6) to (h9);
+  \node [anchor=t8.east,matrix of math nodes] at (0,-3pc) (t6) {
+    |(t8)| t & + & |(t7)| \id \\ };
+  \pause
+  \node (h5) at (10.6pc,-3pc) {\id};
+  \node (h4) at (10.6pc,-4.5pc) {$t$};
+  \draw (h4) to (h5);
+  \node [anchor=east,matrix of math nodes] at (0,-4.5pc) (t4) {
+    t & + & |(t5)| t \\ };
+  \pause
+  \node (h3) at (10.6pc,-6pc) {$e$};
+  \draw (h3) to (h4);
+  \node [anchor=east,matrix of math nodes] at (0,-6pc) (t2) {
+    t & + & |(t3)| e \\ };
+  \pause
+  \node (h1) at (8.8pc,-7.5pc) {$e$};
+  \node (h2) at (9.6pc,-6pc) {$+$};
+  \draw (h1) to (h2)
+        (h1) to (h3)
+        (h1) to (h6);
+  \node [anchor=east] (t1) at (0,-7.5pc) {$e$};
+  \begin{pgfonlayer}{background}
+    \fill [black!10] (t11.north west) [rounded corners] rectangle +(-6pc,-9pc)
+          node [black,below right] {viable prefixes};
+    \fill [black!10] ($(t11.north west) + (2pt,0)$)
+          [rounded corners] rectangle +(6pc,-9pc)
+          node [black,below left] {terminals};
+    \onslide<6->{\expandup{t1}{t2}{t2}}
+    \onslide<5->{\expandup{t3}{t5}{t5}}
+    \onslide<4->{\expandup{t5}{t7}{t7}}
+    \onslide<3->{\expandup{t8}{t10}{t10a}}
+    \onslide<2->{\expandup{t10a}{t12}{t12}}
+  \end{pgfonlayer}
+  \end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Shift/Reduce Parsing Using an Oracle}
+\vspace{-10pt}
+\begin{columns}
+  \begin{column}{0.3\textwidth}
+    \grammarone
+  \end{column}
+  \begin{column}{0.7\textwidth}
+    \begin{center}
+      \usebox{\rightmostDerivation}
+    \end{center}
+  \end{column}
+\end{columns}
+
+\vspace{-10pt}
+\begin{center}
+  \begin{tikzpicture}[every node/.style={inner sep=1pt}]
+  \node [anchor=west,matrix of math nodes] at (0,0) (t0) {
+    \id & * & \id & + & \id \\ };
+  \node [anchor=west] at (6.5pc,0pc) {shift};
+  \pause
+  \node [anchor=t1.east,matrix of math nodes] at (0,-1pc) {
+    |(t1)| \id & * & \id & + & \id \\ };
+  \node [anchor=west] at (6.5pc,-1pc) {shift};
+  \pause
+  \node [anchor=t2.east,matrix of math nodes] at (0,-2pc) {
+    \id & |(t2)| * & \id & + & \id \\ };
+  \node [anchor=west] at (6.5pc,-2pc) {shift};
+  \pause
+  \node [anchor=t3.east,matrix of math nodes] at (0,-3pc) {
+    \id & * &  |(t3)| \id & + & \id \\ };
+  \node [anchor=west] at (6.5pc,-3pc) {reduce 4};
+  \pause
+  \node [anchor=t4.east,matrix of math nodes] at (0,-4pc) {
+    |(t5)| \id & * &  |(t4)| t & + & \id \\ };
+  \node [anchor=west] at (6.5pc,-4pc) {reduce 3};
+  \pause
+  \node [anchor=t6.east,matrix of math nodes] at (0,-5pc) {
+    |(t6)| t & + & \id \\ };
+  \node [anchor=west] at (6.5pc,-5pc) {shift};
+  \pause
+  \node [anchor=t7.east,matrix of math nodes] at (0,-6pc) {
+    t & |(t7)| + & \id \\ };
+  \node [anchor=west] at (6.5pc,-6pc) {shift};
+  \pause
+  \node [anchor=t8.east,matrix of math nodes] at (0,-7pc) {
+    t & + & |(t8)| \id \\ };
+  \node [anchor=west] at (6.5pc,-7pc) {reduce 4};
+  \pause
+  \node [anchor=t9.east,matrix of math nodes] at (0,-8pc) {
+    t & + & |(t9)| t \\ };
+  \node [anchor=west] at (6.5pc,-8pc) {reduce 2};
+  \pause
+  \node [anchor=t10.east,matrix of math nodes] at (0,-9pc) {
+    |(t11)| t & + & |(t10)| e \\ };
+  \node [anchor=west] at (6.5pc,-9pc) {reduce 1};
+  \pause
+  \node [anchor=east] at (0,-10pc) (t12) {$e$};
+  \node [anchor=west] at (6.5pc,-10pc) {accept};
+  \begin{pgfonlayer}{background}
+    \fill [black!10] (t0.north west) [rounded corners] rectangle +(-6pc,-11pc)
+          node [black,below right] {stack};
+    \fill [black!10] ($(t0.north west) + (2pt,0)$)
+          [rounded corners] rectangle +(6pc,-11pc)
+          node [black,below left] {input};
+    \onslide<5->{\expandup{t4}{t3}{t3}}
+    \onslide<6->{\expandup{t6}{t5}{t4}}
+    \onslide<9->{\expandup{t9}{t8}{t8}}
+    \onslide<10->{\expandup{t10}{t9}{t9}}
+    \onslide<11->{\expandup{t12}{t11}{t10}}
+  \end{pgfonlayer}
+  \end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Handle Hunting}
+
+\textbf{Right Sentential Form:} any step in a rightmost derivation
+
+\textbf{Handle:} in a sentential form, a RHS of a rule that, when
+rewritten, yields the previous step in a rightmost derivation.
+
+The big question in shift/reduce parsing:
+
+\begin{center}
+When is there a handle on the top of the stack?
+\end{center}
+
+Enumerate all the right-sentential forms and pattern-match against
+them? \emph{Usually infinitely many; let's try anyway.}
+
+\end{frame}
+
+\newcommand{\handle}[3]{$#1\underline{#2}#3$}
+
+\begin{frame}[t]{Some Right-Sentential Forms and Their Handles}
+\vbox to 7pc{
+  \vrule height 20pt depth 4pt width 0pt
+  \grammarone
+  \vss
+}
+{
+\footnotesize
+\begin{tikzpicture}[level distance=1.5pc,
+  inner sep=1pt,
+  level 1/.style={sibling distance=12pc},
+  level 2/.style={sibling distance=2pc},
+  level 3/.style={sibling distance=3pc},
+  level 4/.style={sibling distance=3pc},
+  level 5/.style={sibling distance=4.5pc},
+  level 6/.style={sibling distance=6pc},
+  ]
+  \node {$e$}
+    child {node {\handle{}{t}{}}
+      child {node {\handle{}{\id * t}{}}
+        child {node {\handle{\id *}{\id * t}{}}
+          child [sibling distance=4pc] {node {\handle{\id * \id *}{\id * t}{}}
+            child [sibling distance=1pc]
+            child [sibling distance=1pc]
+          }
+          child [sibling distance=5pc] {node {\handle{\id * \id *}{\id}{}}}
+        }
+        child {node {\handle{\id * }{\id}{}}}
+      }
+      child {node {\handle{}{\id}{}}}
+    }
+    child
+  ;
+\end{tikzpicture}
+}
+\end{frame}
+
+\begin{frame}[t]{Some Right-Sentential Forms and Their Handles}
+\vbox to 7pc{
+  \vrule height 20pt depth 4pt width 0pt
+  \grammarone
+  \vss
+}
+{
+\footnotesize
+\begin{tikzpicture}[level distance=1.5pc,
+  inner sep=1pt,
+  level 1/.style={sibling distance=12pc},
+  level 2/.style={sibling distance=2pc},
+  level 3/.style={sibling distance=3pc},
+  level 4/.style={sibling distance=3pc},
+  level 5/.style={sibling distance=4.5pc},
+  level 6/.style={sibling distance=6pc},
+  ]
+  \node {$e$}
+    child {node {\handle{}{t}{}}
+      child {node {\handle{}{\id * t}{}}
+        child {node {\handle{\id *}{\id * t}{}}
+          child [sibling distance=4pc] {node {\handle{\id * \id *}{\id * t}{}}
+            child [sibling distance=1pc]
+            child [sibling distance=1pc]
+          }
+          child [sibling distance=5pc] {node {\handle{\id * \id *}{\id}{}}}
+        }
+        child {node {\handle{\id * }{\id}{}}}
+      }
+      child {node {\handle{}{\id}{}}}
+    }
+    child {node {\handle{}{t+e}{}}
+      child [sibling distance=12pc] {node {\handle{t+}{t+e}{}}
+        child {node {\handle{t+t+}{t+e}{}}
+          child [sibling distance=2pc]
+          child [sibling distance=2pc] {node {\handle{t+t+t+}{t}{}}
+            child [sibling distance=1pc]
+            child [sibling distance=1pc]
+          }
+        }
+        child [sibling distance=1pc]
+      }
+      child
+    }
+  ;
+\end{tikzpicture}
+}
+\end{frame}
+
+\newcommand{\sentineltree}{
+\footnotesize
+\begin{tikzpicture}[level distance=1.5pc,
+  inner sep=1pt,
+  level 1/.style={sibling distance=12pc},
+  level 2/.style={sibling distance=2pc},
+  level 3/.style={sibling distance=3pc},
+  level 4/.style={sibling distance=3pc},
+  level 5/.style={sibling distance=4.5pc},
+  level 6/.style={sibling distance=6pc},
+  ]
+  \node {$e$}
+    child {node {\handle{}{t}{}}
+      child {node {\handle{}{\id * t}{}}
+        child {node {\handle{\id *}{\id * t}{}}
+          child [sibling distance=4pc] {node {\handle{\id * \id *}{\id * t}{}}
+            child [sibling distance=1pc]
+            child [sibling distance=1pc]
+          }
+          child [sibling distance=5pc] {node {\handle{\id * \id *}{\id}{}}}
+        }
+        child {node {\handle{\id * }{\id}{}}}
+      }
+      child {node {\handle{}{\id}{}}}
+    }
+    child {node {\handle{}{t+e}{}}
+      child [sibling distance=12pc] {node {\handle{t+}{t+e}{}}
+        child {node {\handle{t+t+}{t+e}{}}
+          child [sibling distance=2pc]
+          child [sibling distance=2pc] {node {\handle{t+t+t+}{t}{}}
+            child [sibling distance=1pc]
+            child [sibling distance=1pc]
+          }
+        }
+        child [sibling distance=1pc]
+      }
+      child {node {\handle{t+}{t}{}}
+        child [sibling distance=6pc] {node {\handle{t+}{\id*t}{}}
+          child [sibling distance=1pc]
+          child [sibling distance=1pc]
+        }
+        child {node {\handle{t+}{\id}{}}
+          child {node {\handle{}{\id * t}{+ \id}}
+            child {node {\handle{\id * }{\id * t}{ + \id}}
+              child {node {\handle{\id * \id * }{\id * t}{ + \id}}
+                child [sibling distance=1pc]
+                child [sibling distance=1pc]
+              }
+              child {node {\handle{\id * \id * }{\id}{ + \id}}}
+            }
+            child {node {\handle{\id * }{\id}{+ \id}}}
+          }
+          child {node {\handle{}{\id}{ + \id}}}
+        }        
+%        child {node {\handle{\id * }{\id}{}}}
+      }
+    }
+  ;
+\end{tikzpicture}
+}
+
+\newsavebox{\automataPatterns}
+\begin{lrbox}{\automataPatterns}
+\footnotesize%\renewcommand{\arraystretch}{0.1}
+\begin{tabular}[t]{l}
+\handle{\id * \id * \cdots * }{\id * t}{\cdots} \\
+\handle{\id * \id * \cdots * }{\id}{\cdots} \\
+\handle{t + t + \cdots + }{t+e}{} \\
+\handle{t + t + \cdots + t + }{\id}{} \\
+\handle{t + t + \cdots + t + \id * \id * \cdots * }{\id * t}{} \\
+\handle{t + t + \cdots + }{t}{} \\
+e \\
+\end{tabular}
+\end{lrbox}
+
+\begin{frame}[t]{Some Right-Sentential Forms and Their Handles}
+\vbox to 7pc{
+  \vrule height 20pt depth 4pt width 0pt
+  \grammarone
+  \hfill
+  Patterns: \usebox{\automataPatterns}
+  \vss
+}
+\sentineltree
+\end{frame}
+
+\begin{frame}{The Handle-Identifying Automaton}
+
+Magical result, due to Knuth:  \emph{An automaton suffices to locate a handle
+  in a right-sentential form.}
+
+\vspace{-10pt}
+\begin{columns}
+  \begin{column}{0.6\textwidth}
+    \usebox{\automataPatterns}
+  \end{column}
+  \begin{column}{0.4\textwidth}
+\begin{tikzpicture}[node distance=1.2pc and 2pc,initial text={},
+    every state/.style={minimum size=28pt}]
+  \node [state,initial] (S0) {};
+  \node [state,below=of S0,accepting] (S1) {$\id$};
+  \node [state,right=of S0,accepting] (S2) {$t$};
+  \node [state,below=of S1] (S3) {};
+  \node [state,below=of S2] (S4) {};
+  \node [state,below=of S3,accepting] (S5) {$\id * t$};
+  \node [state,below=of S4,accepting] (S6) {$t + e$};
+  \node [state,above=of S0,accepting] (S7) {$e$};
+  \path [->]
+     (S0) edge node [above] {$t$} (S2)
+     (S2) edge [bend left] node [right] {$+$} (S4)
+     (S4) edge [bend left] node [left] {$t$} (S2)
+     (S4) edge node [right] {$e$} (S6)
+     (S4) edge node [above] {$\id$} (S1)
+     (S0) edge node [right] {$\id$} (S1)   
+     (S1) edge [bend left] node [right] {$*$} (S3)
+     (S3) edge [bend left] node [left] {$\id$} (S1)
+     (S3) edge node [right] {$t$} (S5)
+     (S0) edge node [right] {$e$} (S7)
+  ;
+\end{tikzpicture}
+  \end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Building the Initial State of the LR(0) Automaton}
+\parskip=2pt
+
+\mbox{}
+%\vspace{0.5\baselineskip}
+
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \grammarone
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \framebox{$\begin{array}{l}
+    e' \rightarrow \pac e \\
+    \onslide<2->{e \rightarrow \pac t + e \\
+    e \rightarrow \pac t \\}
+    \onslide<3->{t \rightarrow \pac \id * t \\
+    t \rightarrow \pac \id}
+  \end{array}$
+    }
+  \end{column}
+\end{columns}
+
+\small 
+
+Key idea: automata identify viable prefixes of right sentential forms.
+Each state is an equivalence class of possible places in productions.
+
+At the beginning, any viable prefix must be at the beginning of a
+string expanded from $e$.  We write this condition ``$e' \rightarrow
+\pac e$''
+
+\onslide<2->{There are two choices for what an $e$ may expand to:
+  $t+e$ and $t$.  So when $e' \rightarrow \pac e$, $e \rightarrow \pac
+  t+e$ and $e \rightarrow \pac t$ are also true, i.e., it must start
+  with a string expanded from $t$.}
+
+\onslide<3->{Also, $t$ must be $\id * t$ or $\id$, so $t
+  \rightarrow \pac \id * t$ and $t \rightarrow \pac \id$.
+
+This is a \emph{closure}, like $\epsilon$-closure
+in subset construction.
+}
+
+\end{frame}
+
+\begin{frame}{Building the LR(0) Automaton}
+
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+\small
+\begin{tikzpicture}[node distance=1.5pc]
+
+  \node [draw] (S0) {$\textbf{S0}: \begin{array}{@{}l@{}}
+    e' \rightarrow \pac e \\
+    e \rightarrow \pac t + e \\
+    e \rightarrow \pac t \\
+    t \rightarrow \pac \id * t \\
+    t \rightarrow \pac \id
+  \end{array}$};
+
+  \onslide<2->{
+
+    \node [draw,accepting,below=of S0] (S1) {$\textbf{S1}: \begin{array}{@{}l@{}}
+        t \rightarrow \id \pac * t \\
+        t \rightarrow \id \pac
+      \end{array}$};
+
+    \node [draw,accepting,above=of S0] (S7) {$\textbf{S7}:\ e'
+      \rightarrow e \pac$};
+
+    \node [draw,accepting,right=of S0] (S2) {$\textbf{S2}: \begin{array}{@{}l@{}}
+        e \rightarrow t \pac + e \\
+        e \rightarrow t \pac
+      \end{array}$};
+
+     \path [->]
+     (S0) edge node [right] {$e$} (S7)
+     (S0) edge node [right] {$\id$} (S1)
+     (S0) edge node [above] {$t$} (S2)
+     ;
+  }
+
+  \onslide <3->{
+    \node [draw,below=of S1] (S3) {$\textbf{S3}: \begin{array}{@{}l@{}}
+        t \rightarrow \id * \pac t \\
+        \onslide<4->{
+        t \rightarrow \pac \id * t \\
+        t \rightarrow \pac \id}
+      \end{array}$};
+
+    \node [draw,right=of S2] (S4)
+          {$\textbf{S4}: \begin{array}{@{}l@{}}
+              e \rightarrow t + \pac e \\
+              \onslide<4->{
+              e \rightarrow \pac t + e \\
+              e \rightarrow \pac t \\
+              t \rightarrow \pac \id * t \\
+              t \rightarrow \pac \id}
+            \end{array}$};
+
+    \path [->] (S1) edge [bend left=10] node [right] {$*$} (S3)
+               (S2) edge [bend left=10] node [above] {$+$} (S4);
+  }
+
+  \onslide<5->{
+
+    \node [draw,accepting,right=of S3] (S5) {$\textbf{S5}:\ t
+      \rightarrow \id * t \pac$};
+
+    \path [->]
+      (S3) edge node [above] {$t$} (S5)
+      (S3) edge [bend left=10] node [left] {$\id$} (S1);
+
+    \node [draw,accepting, below=of S4] (S6)
+          {$\textbf{S6}:\ e \rightarrow t + e \pac$};
+
+    \path [->] (S4) edge [bend left=10] node [below] {$t$} (S2)
+      (S4) edge [bend left=10] node [above] {$\id$} (S1)
+      (S4) edge node [right] {$e$} (S6);
+  }
+
+  \onslide<2>{
+
+    \node [above,text width=6.5pc,text ragged] at (S2.north)
+          {\footnotesize\emph{``Just passed a
+              prefix ending in a string derived from $t$''}};
+
+    \node [below,text width=8pc,text badly ragged] at (S1.south)
+          {\footnotesize\emph{``Just passed a prefix that ended in an \id''}};
+
+    \node [above,text width=8pc,text ragged] at (S7.north)
+          {\footnotesize\emph{ }};
+  }
+\end{tikzpicture}
+  \end{column}
+  \small
+  \begin{column}{0.4\textwidth}
+    \onslide<1-2>{%
+      The first state suggests a viable prefix can start as any string
+      derived from $e$, any string derived from $t$, or $\id$.
+      \medskip
+    }
+    \onslide<2>{
+      The items for these three states come from advancing the $\pac$
+      across each thing, then performing the closure operation
+      (vacuous here).
+    }
+    \onslide<3-4>{In S2, a $+$ may be next.  This gives $t + \pac e$.
+      \onslide<4>{Closure adds 4 more items.}
+
+      \medskip
+      In S1, $*$ may be next, giving $\id * \pac t$
+      \onslide<4>{and two others.}      
+    }
+  \end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{What to do in each state?}
+
+\begin{columns}
+\begin{column}{0.33\textwidth}
+\begin{tikzpicture}[node distance=1.5pc]
+
+    \node [draw,accepting] (S1) {$\textbf{S1}: \begin{array}{@{}l@{}}
+        t \rightarrow \id \pac * t \\
+        t \rightarrow \id \pac
+      \end{array}$};
+
+    \draw [->] (S1) -- node [right] {$*$} ($(down:1.3)$);
+    \draw [<-] (S1) -- node [right] {$\id$} ($(up:1.3)$);
+
+\end{tikzpicture}
+\end{column}%
+\begin{column}{0.23\textwidth}
+\grammarone
+\end{column}
+\begin{column}{0.43\textwidth}
+\usebox{\automataPatterns}
+\end{column}
+\end{columns}
+
+\begin{tabular}{rll}
+\toprule
+\multicolumn{1}{c}{\textbf{Stack}} & \textbf{Input} & \textbf{Action} \\
+\midrule
+$\id * \id * \cdots * \id$ & $* \cdots$ & Shift \\
+$\id * \id * \cdots * \id$ & $+ \cdots$ & Reduce 4 \\
+$\id * \id * \cdots * \id$ & & Reduce 4 \\
+$\id * \id * \cdots * \id$ & $\id \cdots$ & Syntax Error \\
+\bottomrule
+\end{tabular}
+
+
+\end{frame}
+
+\newcommand\first{\textsc{first}}
+\newcommand\follow{\textsc{follow}}
+
+\begin{frame}{The \first{} function}
+\footnotesize
+\parskip=5pt
+
+If you can derive a string that starts with terminal $t$ from a
+sequence of terminals and nonterminals $\alpha$, then $t \in
+\first(\alpha)$.
+
+\begin{enumerate}
+\item If $X$ is a terminal, $\first(X) = \{ X \}$.
+
+\item If $X \rightarrow \epsilon$, then add $\epsilon$ to $\first(X)$.
+
+\item If $X \rightarrow Y_1 \cdots Y_k$ and
+  $\epsilon \in \first(Y_1)$,
+  $\epsilon \in \first(Y_2)$, \ldots, and $\epsilon \in
+  \first(Y_{i-1})$ for $i=1,\ldots, k$ for some $k$, \\ \quad add
+  $\first(Y_i) - \{ \epsilon \}$ to $\first(X)$
+
+    \textcolor{red}{\emph{$X$ starts with anything that appears after
+      skipping empty strings. Usually just $\first(Y_1) \subset \first(X)$}}
+
+\item If $X \rightarrow Y_1 \cdots Y_K$ and
+  $\epsilon \in \first(Y_1)$,
+  $\epsilon \in \first(Y_2)$, \ldots, and $\epsilon \in \first(Y_k)$, add
+  $\epsilon$ to $\first(X)$
+
+    \textcolor{red}{\emph{If all of $X$ can be empty, $X$ can be empty}}  
+\end{enumerate}
+
+\hrule
+
+\vspace{5pt}
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+\grammarone
+\end{column}
+\begin{column}{0.7\textwidth}
+\parskip=5pt
+$\first(\id) = \{ \id \}$
+
+$\first(t) = \{ \id \}$ because $t \rightarrow \id\ * t$ and $t
+  \rightarrow \id$
+
+$\first(e) = \{ \id \}$ because $e \rightarrow t + e$, $e \rightarrow
+  t$, and $\first(t) = \{ \id \}$.
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{First and $\epsilon$}
+
+\footnotesize
+  $\epsilon \in \first(\alpha)$ means $\alpha$ can derive the empty
+  string.
+
+  \begin{enumerate}
+\item If $X$ is a terminal, $\first(X) = \{ X \}$.
+
+\item If $X \rightarrow \epsilon$, then add $\epsilon$ to $\first(X)$.
+
+\item If $X \rightarrow Y_1 \cdots Y_k$ and \\
+  $\epsilon \in \first(Y_1)$,
+  $\epsilon \in \first(Y_2)$, \ldots, and $\epsilon \in
+  \first(Y_{i-1})$ \\ for $i=1,\ldots, k$ for some $k$, \\ \quad add
+  $\first(Y_i) - \{ \epsilon \}$ to $\first(X)$
+
+\item If $X \rightarrow Y_1 \cdots Y_K$ and \\
+  $\epsilon \in \first(Y_1)$,
+  $\epsilon \in \first(Y_2)$, \ldots, and $\epsilon \in \first(Y_k)$, \\ \quad add
+  $\epsilon$ to $\first(X)$
+      \end{enumerate}
+
+  \begin{columns}
+    \begin{column}{0.15\textwidth}
+      $\begin{array}{l@{\,}l@{\,}l}
+        X & \rightarrow & Y Z a \\
+        Y & \rightarrow & \\
+        Y & \rightarrow & b \\
+        Z & \rightarrow & c \\
+        Z & \rightarrow & W \\
+        W & \rightarrow & \\
+        W & \rightarrow & d \\
+      \end{array}$
+    \end{column}
+    \begin{column}{0.85\textwidth}
+$\begin{array}{ll}
+
+\first(b) = \{ b \}\quad \first(c) = \{ c \}\quad \first(d) = \{ d \} & (1) \\
+  
+\first(W) = \{ \epsilon \} \cup \first(d) = \{ \epsilon, d \} & (2, 3) \\
+
+\first(Z) = \first(c) \cup (\first(W) - \{\epsilon\}) \cup \{ \epsilon \} = \{ \epsilon, c, d \} & (3, 3, 4) \\
+
+\first(Y) = \{ \epsilon \} \cup \{ b \} = \{ \epsilon, b \} & (2, 3) \\
+
+\first(X) = (\first(Y) - \{\epsilon\}) \cup (\first(Z) - \{\epsilon\}) \cup \\
+ \quad \quad \quad \quad \quad \first(a) = \{a, b, c, d\} & (3, 3, 3) \\
+      \end{array}$
+    \end{column}
+  \end{columns}
+  
+\end{frame}
+
+\begin{frame}{The \textsc{follow} function}
+
+\footnotesize
+
+If $t$ is a terminal, $A$ is a nonterminal, and $\cdots A t \cdots$
+can be derived, then $t \in \follow(A)$.
+
+\begin{enumerate}
+\item Add \$ (``end-of-input'') to $\follow(S)$ (start symbol).
+
+  \textcolor{red}{\emph{End-of-input comes after the start symbol}}
+
+\item For each prod.\ $\rightarrow \cdots A \alpha$, add
+  $\first(\alpha) - \{ \epsilon \}$ to $\follow(A)$.
+
+  \textcolor{red}{\emph{$A$ is followed by the first thing after it}}
+
+\item For each prod.\ $A \rightarrow \cdots B$ or $A \rightarrow
+  \cdots B \alpha$ where $\epsilon \in \first(\alpha)$, then add
+  everything in $\follow(A)$ to $\follow(B)$.
+
+  \textcolor{red}{\emph{If $B$ appears at the end of a production, it
+      can be followed by whatever follows that production}}
+
+\end{enumerate}
+
+\hrule
+
+\vspace{5pt}
+
+\begin{columns}
+\begin{column}[t]{0.3\textwidth}
+\grammarone
+
+$\first(t) = \{\id\}$
+
+$\first(e) = \{\id\}$
+\end{column}
+\begin{column}[t]{0.7\textwidth}
+$\follow(e) = \{ \$ \}$
+
+$\follow(t) = \{ \uncover<2->{+} \uncover<3->{, \$} \}$
+
+\medskip
+
+\only<1>{%
+\emph{1. Because $e$ is the start symbol}
+}%
+\only<2>{%
+\emph{2. Because $e \rightarrow \underbar{t} + e$ and $\first(+) = \{+\}$}
+}%
+\only<3>{%
+\emph{3. Because $e \rightarrow \underline{t}$ and $\$ \in \follow(e)$}
+}%
+\only<4>{%
+Fixed-point reached: applying any rule does not change any set
+}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\def\highlight<#1>#2{
+  {\temporal<#1>{\color{black!30}}{}{\color{black!30}}#2}
+}
+
+\def\pac{\cdot}
+
+\begin{frame}[t]{Converting the LR(0) Automaton to an SLR Table}
+\footnotesize
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+\begin{tikzpicture}[node distance=2pc,initial text={}]
+  \highlight<1>{\node [draw,initial] (S0) {\textbf{S0}};}
+  \highlight<1,2,4,5>{\node [draw,below=of S0,accepting] (S1)
+    {\textbf{S1}: $t \rightarrow \id\pac$};}
+  \highlight<1,3,5>{\node [draw,right=of S0,accepting] (S2)
+    {\textbf{S2}: $e \rightarrow t\pac$};}
+  \highlight<2,4>{\node [draw,below=of S1] (S3) {\textbf{S3}};}
+  \highlight<3,5>{\node [draw,below=of S2] (S4) {\textbf{S4}};}
+  \highlight<4,6>{\node [draw,below=of S3,accepting] (S5)
+        {\textbf{S5}: $t \rightarrow \id * t\pac$};}
+  \highlight<5,7>{\node [draw,below=of S4,accepting] (S6)
+        {\textbf{S6}: $e \rightarrow t + e\pac$};}
+  \highlight<1,8>{\node [draw,above=of S0,accepting] (S7)
+        {\textbf{S7}: $e' \rightarrow e\pac$};}
+ \highlight<1>{\path [->]
+  (S0) edge node [above] {$t$} (S2)
+  (S0) edge node [right] {$\id$} (S1)   
+  (S0) edge node [right] {$e$} (S7);}
+ \highlight<2>{\path [->] (S1) edge [bend left] node [right] {$*$} (S3);}
+ \highlight<3>{\path [->] (S2) edge [bend left] node [right] {$+$} (S4);}
+ \highlight<4>{\path [->]
+   (S3) edge [bend left] node [left] {$\id$} (S1)
+   (S3) edge node [right] {$t$} (S5);}
+ \highlight<5>{\path [->]
+   (S4) edge [bend left] node [left] {$t$} (S2)
+   (S4) edge node [right] {$e$} (S6)
+   (S4) edge node [above] {$\id$} (S1);}
+
+  \node [right=of S7] {\grammarone};
+\end{tikzpicture}
+
+$\follow(e) = \{ \$ \}$
+
+$\follow(t) = \{ +, \$ \}$
+  \end{column}
+  \begin{column}[t]{0.5\textwidth}
+    \small
+    \begin{tabular}{c|cccc|cc}
+      \toprule
+      \multicolumn{1}{c}{\textbf{State}} &
+      \multicolumn{4}{c}{\textbf{Action}} &
+      \multicolumn{2}{c}{\textbf{Goto}} \\
+      \cmidrule(lr){2-5}
+      \cmidrule(l){6-7}
+      \multicolumn{1}{c}{}
+      & \id & $+$ & $*$ & \multicolumn{1}{c}{\$} & $e$ & $t$ \\
+      \midrule
+             0 & s1 &    &    &    & 7 & 2 \\
+\onslide<2->{1 &    & r4 & s3 & r4 &   & }  \\
+\onslide<3->{2 &    & s4 &    & r2 &   & }  \\
+\onslide<4->{3 & s1 &    &    &    &   & 5} \\
+\onslide<5->{4 & s1 &    &    &    & 6 & 2} \\
+\onslide<6->{5 &    & r3 &    & r3 &   & }  \\
+\onslide<7->{6 &    &    &    & r1 &   & } \\
+\onslide<8->{7 &    &    &    & \checkmark & & } \\
+      \bottomrule
+    \end{tabular}
+
+    \onslide*<1>{
+      From S0, shift an $\id$ and go to S1;
+      or cross a $t$ and go to S2; or
+      cross an $e$ and go to S7.}
+    \onslide*<2>{
+      From S1, shift a $*$ and go to S3; or, if the next input $\in
+      \follow(t)$, reduce by rule 4.}
+    \onslide*<3>{
+      From S2, shift a $+$ and go to S4; or, if the next input $\in
+      \follow(e)$, reduce by rule 2.}
+    \onslide*<4>{
+      From S3, shift an $\id$ and go to S1; or cross a $t$ and go to
+      S5.}
+    \onslide*<5>{
+      From S4, shift an $\id$ and go to S1; or cross an $e$ or a $t$.}
+    \onslide*<6>{
+      From S5, reduce using rule 3 if the next symbol $\in \follow(t)$.}
+    \onslide*<7>{
+      From S6, reduce using rule 1 if the next symbol $\in \follow(e)$.}
+    \onslide*<8>{If, in S7, we just crossed an $e$, accept if we are at the
+      end of the input.}
+  \end{column}
+\end{columns}
+
+\end{frame}
+
+\def\st#1#2{\begin{tikzpicture}
+    \node [fill=mBlue!30,text width=9pt,text centered,inner sep=0pt,
+           font={\fontsize{9}{8}\selectfont},
+           minimum height=16pt]
+          {$#1$\break #2};
+  \end{tikzpicture}}
+
+\newsavebox{\reasonbox}
+\newenvironment{reason}
+   {\begin{lrbox}{\reasonbox}\begin{minipage}{12pc}\raggedright\parskip=5pt}
+   {\end{minipage}\end{lrbox}\vbox to 0pt{\rlap{\usebox{\reasonbox}}\vss}}
+
+\begin{frame}[t]{Shift/Reduce Parsing with an SLR Table}
+
+\begin{columns}
+  \begin{column}{0.45\textwidth}
+    \grammarone
+
+    \medskip
+
+    \footnotesize
+    \begin{tabular}{c|cccc|cc}
+      \toprule
+      \multicolumn{1}{c}{\textbf{State}} &
+      \multicolumn{4}{c}{\textbf{Action}} &
+      \multicolumn{2}{c}{\textbf{Goto}} \\
+      \cmidrule(lr){2-5}
+      \cmidrule(l){6-7}
+      \multicolumn{1}{c}{}
+      & \id & $+$ & $*$ & \multicolumn{1}{c}{\$} & $e$ & $t$ \\
+      \midrule
+             0 & s1 &    &    &    & 7 & 2 \\
+1 &    & r4 & s3 & r4 &   &   \\
+2 &    & s4 &    & r2 &   &   \\
+3 & s1 &    &    &    &   & 5 \\
+4 & s1 &    &    &    & 6 & 2 \\
+5 &    & r3 &    & r3 &   &   \\
+6 &    &    &    & r1 &   &  \\
+7 &    &    &    & \checkmark & &  \\
+      \bottomrule
+    \end{tabular}
+  
+  \end{column}
+  \begin{column}{0.55\textwidth}
+    \footnotesize
+    \begin{tabular}{r|ll}
+      \toprule
+      \multicolumn{1}{c}{\textbf{Stack}} &
+      \multicolumn{1}{c}{\textbf{Input}} & \textbf{Action} \\
+      \midrule
+  \hspace{42pt}
+      \st{ }0 & $\id * \id + \id \, \$$ & Shift, goto 1 \\
+      \begin{onlyenv}<1>
+        \begin{reason}
+          Look at the state on top of the stack and the next input
+          token.
+
+          Find the action (shift, reduce, or error) in the table.
+
+          In this case, shift the token onto the stack and mark it with
+          state 1.
+        \end{reason}
+      \end{onlyenv}
+\onslide<2->{%
+      \st{ }0 \st{\id}1 & $ *\, \id + \id \,\$$ & Shift, goto 3 \\}
+      \begin{onlyenv}<2>
+        \begin{reason}
+          Here, the state is 1, the next symbol is $*$, so shift and
+          mark it with state 3.
+        \end{reason}
+      \end{onlyenv}
+\onslide<3->{%
+      \st{ }0 \st{\id}1 \st{*}3 & $ \id + \id \,\$$ & Shift, goto 1 \\
+      \st{ }0 \st{\id}1 \st{*}3 \st{\id}1 & $ +\, \id \,\$$ & Reduce 4 \\}
+      \begin{onlyenv}<3>
+        \begin{reason}
+          Here, the state is 1, the next symbol is $+$.  The table
+          says reduce using rule 4.
+        \end{reason}
+      \end{onlyenv}
+\onslide<4->{%
+      \st{ }0 \st{\id}1 \st{*}3 \onslide<1-3,5->{\st{t}5} & $ +\, \id
+      \,\$$ & \onslide<5->{Reduce 3} \\}
+      \begin{onlyenv}<4>
+        \begin{reason}
+          Remove the RHS of the rule (the handle: here, just $\id$), observe the
+          state on the top of the stack, and consult the ``goto''
+          portion of the table.
+        \end{reason}
+      \end{onlyenv}
+      \begin{onlyenv}<5>
+        \begin{reason}
+          Here, we push a $t$ with state 5.  This effectively ``backs
+          up'' the LR(0) automaton and runs it over the newly added
+          nonterminal.
+
+          In state 5 with an upcoming $+$, the action is ``reduce 3.''
+        \end{reason}
+      \end{onlyenv}
+\onslide<6->{%
+      \st{ }0 \st{t}2 & $ +\, \id \,\$$ & Shift, goto 4 \\}
+      \begin{onlyenv}<6>
+        \begin{reason}
+          This time, we strip off the RHS for rule 3, the handle $\id * t$,
+          exposing state 0, so we push a $t$ with state 2.
+        \end{reason}
+      \end{onlyenv}
+\onslide<7->{
+      \st{ }0 \st{t}2 \st{+}4 & $ \id \,\$$ & Shift, goto 1 \\
+      \st{ }0 \st{t}2 \st{+}4 \st{\id}1 & $\$$ & Reduce 4 \\
+      \st{ }0 \st{t}2 \st{+}4 \st{t}2 & $\$$ & Reduce 2 \\
+      \st{ }0 \st{t}2 \st{+}4 \st{e}6 & $\$$ & Reduce 1 \\
+      \st{ }0 \st{e}7 & $\$$ & Accept} \\
+      \bottomrule
+    \end{tabular}
+  \end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{L, R, and all that}
+
+LR parser: ``Bottom-up parser'': \\
+L = Left-to-right scan, R = (reverse) Rightmost derivation
+
+LL parser: ``Top-down parser'': \\
+L = Left-to-right scan: L = (reverse) Leftmost derivation
+
+LR(1): LR parser that considers next token (lookahead of 1)
+
+LR(0): Only considers stack to decide shift/reduce
+
+SLR(1): Simple LR: lookahead from first/follow rules \\
+Derived from LR(0) automaton
+
+LALR(1): Lookahead LR(1): fancier lookahead analysis \\
+Uses same LR(0) automaton as SLR(1)
+
+Ocamlyacc builds LALR(1) tables.
+
+\end{frame}
+
+\begin{frame}{The Punchline}
+
+This is a tricky, but mechanical procedure.  The Ocamlyacc parser
+generator uses a modified version of this technique to generate fast
+bottom-up parsers.
+
+You need to understand it to comprehend error messages:
+
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+\raggedright
+
+Shift/reduce conflicts are caused by a state like
+
+\medskip
+
+$\begin{array}{@{}l@{}}
+t \rightarrow \pac\> \textbf{Else}\> s \\
+t \rightarrow \pac \\
+ \end{array}$
+
+\medskip
+
+If the next token is \textbf{Else}, do you reduce it since
+\textbf{Else} may follow a $t$, or shift it?
+  \end{column}
+  \begin{column}{0.5\textwidth}
+
+\raggedright
+
+Reduce/reduce conflicts are caused by a state like
+
+\medskip
+
+$\begin{array}{@{}l@{}}
+t \rightarrow \id * t\> \pac \\
+e \rightarrow \id * t\> \pac \\
+ \end{array}$
+
+\medskip
+
+Do you reduce by ``$t \rightarrow \id * t$'' or by ``$e \rightarrow \id * t$''?
+
+  \end{column}
+\end{columns}
+\end{frame}
+
+
+% http://jsmachines.sourceforge.net/machines/slr.html
+
+\begin{frame}{A Reduce/Reduce Conflict}
+
+\begin{columns}
+\begin{column}{0.25\textwidth}
+$\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
+1: & a & \rightarrow & \id\ \id \\
+2: & a & \rightarrow & b \\
+3: & b & \rightarrow & \id\ \id \\
+\end{array}$
+\end{column}
+\begin{column}{0.75\textwidth}
+\begin{tikzpicture}[node distance=1.5pc]
+
+\node [draw] (S0) {$\textbf{S0}:\begin{array}{@{}l@{}}
+   a' \rightarrow \pac\> a \\
+   a \rightarrow \pac\> \id\ \id \\
+   a \rightarrow \pac\> b \\
+   b \rightarrow \pac\> \id\ \id \\
+  \end{array}$};
+
+\node [draw,above=of S0] (S1) {$\textbf{S1}: a' \rightarrow a\ \pac$};
+
+\node [draw,right=of S0] (S2) {$\textbf{S2}: \begin{array}{@{}l@{}}
+   a \rightarrow \id\ \pac\ \id \\
+   b \rightarrow \id\ \pac\ \id \\
+  \end{array}$};
+
+\node [draw,accepting,below=of S0] (S3) {$\textbf{S3}: a \rightarrow b \ \pac$};
+
+\node [draw,fill=mBlue!50,below=of S2,accepting] (S4) {$\textbf{S4}: \begin{array}{@{}l@{}}
+   a \rightarrow \id\ \id\ \pac \\
+   b \rightarrow \id\ \id\ \pac \\
+  \end{array}$};
+
+\draw [->] (S0) -- node [right] {$a$} (S1);
+\draw [->] (S0) -- node [above] {$\id$} (S2);
+\draw [->] (S0) -- node [right] {$b$} (S3);
+\draw [->] (S2) -- node [right] {$\id$} (S4);
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\end{frame}
 \end{document}
 
 % Local Variables:

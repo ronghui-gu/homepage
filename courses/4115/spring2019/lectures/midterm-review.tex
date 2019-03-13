@@ -1,4 +1,5 @@
 \documentclass{plt}
+\usetheme{metropolis}           % Use metropolis theme
 
 % Make | a mathrel symbol: improves alternation (a | b) spacing
 \mathcode`\|="326A
@@ -32,11 +33,15 @@
 
 \newcommand{\pac}{\cdot}
 
-\title{Review for the Midterm}
-\author{Stephen A. Edwards}
+\author{Review for the Midterm}
 \institute{Columbia University}
-\date{Fall 2018}
-\titlegraphic{\includegraphics[width=0.5\textwidth]{dont-panic.jpg}}
+\date{Spring 2019}
+\titlegraphic{
+\vspace{220pt}
+{\tiny $^*$ Course website: \url{https://www.cs.columbia.edu/~rgu/courses/4115/spring2019}\vspace{-5pt}}\\
+{\tiny $^{**}$ These slides are borrowed from Prof. Edwards.}
+}
+
 
 \begin{document}
 
@@ -210,7 +215,7 @@ A stream of tokens.  Whitespace, comments removed.
 }
 
 \begin{frame}
-  \frametitlelogo{Parsing Gives an Abstract Syntax Tree}{6pc}{silhouette-tree.png}
+  \frametitle{Parsing Gives an Abstract Syntax Tree}
 
 \begin{tikzpicture}
   \theast
@@ -658,42 +663,6 @@ Show that the string ``$aabb$'' is accepted. Answer:
 
 \end{frame}
 
-\begin{frame}
-  \frametitle{Simulating NFAs}
-
-Problem: you must follow the ``right'' arcs to show that a string is
-accepted.  How do you know which arc is right?
-
-Solution: follow them all and sort it out later.
-
-``Two-stack'' NFA simulation algorithm:
-
-\begin{enumerate}
-\item Initial states: the $\epsilon$-closure of the start state
-\item For each character $c$,
-\begin{itemize}
-\item New states: follow all transitions labeled $c$
-\item Form the $\epsilon$-closure of the current states
-\end{itemize}
-\item Accept if any final state is accepting
-\end{enumerate}
-
-\end{frame}
-
-\def\step#1#2#3{
-\begin{frame}
-  \frametitle{Simulating an NFA: #3}
-\aabb #1
-\aabb #2
-\end{frame}
-}
-\def\point{\mathord{\cdot}}
-%     01234 567890
-\step{10000 000000}{11101 001000}{$\point aabb$, Start}
-\step{00010 000100}{01111 011100}{$a\point abb$}
-\step{00010 000100}{01111 011100}{$aa\point bb$}
-\step{00000 100010}{01101 111010}{$aab\point b$}
-\step{00000 100001}{01101 111001}{$aabb\point$, Done}
 
 \begin{frame}
   \frametitle{Deterministic Finite Automata}
@@ -1268,8 +1237,6 @@ $\begin{array}[t]{@{}l@{\,}r@{\,}c@{\,}l@{}}
 \begin{center}
 
 At each step, expand the \emph{rightmost} nonterminal.
-
-\vspace{1pc}
 
 \begin{tikzpicture}[node distance=0.5pc]
   \node (nt) {nonterminal};

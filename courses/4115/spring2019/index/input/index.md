@@ -67,10 +67,10 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Wed Feb 13  | 7  | " | [Proposal](./assignments/proposal.html) |
 | Mon Feb 18  | 8  | [Scanning](./lectures/scanner.pdf) | |
 | Wed Feb 20  | 9  | " | [HW1](./assignments/hw1.html) |
-| Mon Feb 25  | 10 | [Parsing I](./lectures/syntax.pdf) | |
-| Wed Feb 27  | 11 | [Parsing II](./lectures/syntax2.pdf) | |
-| Mon Mar 4   | 12 | [Types and Static Semantics](./lectures/semantics.pdf) | |
-| Wed Mar 6   | 13 | Types and Static Semantics | [LRM](./assignments/lrm.html) |
+| Mon Feb 25  | 10 | [Parsing](./lectures/syntax.pdf) | |
+| Wed Feb 27  | 11 | " | |
+| Mon Mar 4   | 12 | " | |
+| Wed Mar 6   | 13 | [Types and Static Semantics](./lectures/semantics.pdf) | [LRM](./assignments/lrm.html) |
 | Mon Mar 11  | 14 | " | [HW2](./assignments/hw2.pdf) |
 | **Wed Mar 13**  |    | **Midterm Exam** | |
 | **Mar 18 - 22** |    | **Spring Break** | |
