@@ -74,12 +74,12 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Mon Mar 11  | 14 | " | [HW2](./assignments/hw2.pdf) |
 | **Wed Mar 13**  |    | **Midterm Exam** | |
 | **Mar 18 - 22** |    | **Spring Break** | |
-| Mon Mar 25  | 15 | The MicroC Compiler | |
+| Mon Mar 25  | 15 | [Intermediate Code Generation](./lectures/ir.pdf) | |
 | Wed Mar 27  | 16 | " | |
-| Mon Apr 1   | 17 | Runtime Environment | Hello World |
+| Mon Apr 1   | 17 | The MicroC Compiler | Hello World |
 | Wed Apr 3   | 18 | " | |
 | Mon Apr 8   | 19 | " | |
-| Wed Apr 10  | 20 | Code Generation | |
+| Wed Apr 10  | 20 | Runtime Environment | |
 | Mon Apr 15  | 21 | " | |
 | Wed Apr 17  | 22 | Compiler Optimization | |
 | Mon Apr 22  | 23 | " | HW3 |
