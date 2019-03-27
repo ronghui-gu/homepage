@@ -1,10 +1,15 @@
 \documentclass{plt}
+\usetheme{metropolis}           % Use metropolis theme
 
 \title{Runtime Environments}
-\author{Stephen A. Edwards}
+\author{Ronghui Gu}
 \institute{Columbia University}
-\date{Fall 2018}
-\titlegraphic{\includegraphics[width=0.4\textwidth]{running-clock.png}}
+\date{Spring 2019}
+\titlegraphic{
+\vspace{220pt}
+{\tiny $^*$ Course website: \url{https://www.cs.columbia.edu/~rgu/courses/4115/spring2019}\vspace{-5pt}}\\
+{\tiny $^{**}$ These slides are borrowed from Prof. Edwards.}
+}
 
 \tikzset{
   byte/.style={fill=gray,minimum height=16pt,minimum width=20pt,text=white},
@@ -31,7 +36,7 @@
 
 % Work around a tikz bug
 \makeatletter
-\def\pgf@test{}
+\global\let\tikz@ensure@dollar@catcode=\relax
 \makeatother
 
 \begin{document}
@@ -40,35 +45,30 @@
 
 \frame{\titlepage}
 
-\begin{frame}
-\tableofcontents
-\end{frame}
-
 \part{Storage Classes}
-\frame{\partpage}
 
 \begin{frame}{Storage Classes and Memory Layout}
 
 \begin{tikzpicture}[x=1pc,y=1pc]
 \draw [thin,fill=black!30] (0,0) rectangle node {Code} (6,3);
 
-\draw [thin,fill=yellow!30] (0,3) rectangle node {Static} (6,5);
+\draw [thin,fill=mBlue!30] (0,3) rectangle node {Static} (6,5);
 \node [text width=15pc,anchor=north east,text badly ragged] at (0,5)
-      {Static: objects allocated at compile time; persist throughout run};
+      {\alert{Static}: objects allocated at compile time; persist throughout run};
 
-\node [arrow box,draw,thin,fill=yellow!30,arrow box arrows={north:1pc},
+\node [arrow box,draw,thin,fill=mBlue!30,arrow box arrows={north:1pc},
        minimum height=4pc,minimum width=6pc, anchor=south] at (3,5) {Heap};
 \node [text width=15pc,anchor=north east,text badly ragged] at (0,9)
-      {Heap: objects created/destroyed in any order; automatic garbage
+      {\alert{Heap}: objects created/destroyed in any order; automatic garbage
        collection optional};
 \draw [<-] (6,9) -- ++(right:1)
        node [anchor=north west,text width=5pc,yshift=8pt] {Program break};
 
 
-\node [arrow box, draw, thin, fill=yellow!30, arrow box arrows={south:1pc},
+\node [arrow box, draw, thin, fill=mBlue!30, arrow box arrows={south:1pc},
        minimum height=3pc,minimum width=6pc, anchor=north] at (3,15) {Stack};
 \node [text width=15pc,anchor=north east,text badly ragged] at (0,15)
-      {Stack: objects created/destroyed in last-in, first-out order};
+      {\alert{Stack}: objects created/destroyed in last-in, first-out order};
 \draw [<-] (6,12) -- ++(right:1)
        node [anchor=north west,text width=5pc,yshift=8pt] {Stack pointer};
 
@@ -82,8 +82,9 @@
 
 \begin{frame}[fragile]{Static Objects}
 
+\vspace{10pt}
 \begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.6\textwidth}
 \begin{java}
 class Example {
   public static final int a = 3;
@@ -94,13 +95,11 @@ class Example {
 }
 \end{java}
 \end{column}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.4\textwidth}
 \textbf{Examples}
 
-\parskip=0.25\baselineskip
+\parskip=0.3\baselineskip
 Static class variable
-
-Code for hello method
 
 String constant ``Hello''
 
@@ -136,7 +135,6 @@ Wasteful if sharing is possible
 \end{frame}
 
 \part{The Stack and Activation Records}
-\frame{\partpage}
 
 \begin{frame}{Stack-Allocated Objects}
 
@@ -172,17 +170,17 @@ int foo(int a, int b) {
 \fill [fill=black!20] (-1,12) rectangle (15,17);
 \node at (11.5,14.5) {From Caller};
 
-\draw [thin,fill=yellow!30] (0,15) rectangle node {b} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,14) rectangle node {a} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,13) rectangle node {Return addr.} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,12) rectangle node {Old frame ptr.} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,15) rectangle node {b} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,14) rectangle node {a} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,13) rectangle node {Return addr.} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,12) rectangle node {Old frame ptr.} ++(8,-1);
 \node [fill,circle,inner sep=1pt] at (7.5,11.5) (ofp) {};
-\draw [thin,fill=yellow!30] (0,11) rectangle node {Registers} ++(8,-3);
-\draw [thin,fill=yellow!30] (0,8) rectangle node {c} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,7) rectangle node {d} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,6) rectangle node {3} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,5) rectangle node {2} ++(8,-1);
-\draw [thin,fill=yellow!30] (0,4) rectangle node {1} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,11) rectangle node {Registers} ++(8,-3);
+\draw [thin,fill=mBlue!30] (0,8) rectangle node {c} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,7) rectangle node {d} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,6) rectangle node {3} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,5) rectangle node {2} ++(8,-1);
+\draw [thin,fill=mBlue!30] (0,4) rectangle node {1} ++(8,-1);
 
 \draw [<-] (8,12.5) -- ++(right:1) node [right] {Frame Ptr.};
 \draw [<-] (8,2.5) -- ++(right:1) node [right] {Stack Ptr.};
@@ -249,7 +247,7 @@ L3: tmp1 = tmp2 + tmp3;
     child [sibling distance=3pc] {node {fib(1)}}
   ;
 \end{tikzpicture}
-\includegraphics[width=0.3\textwidth]{russian-nesting-dolls.jpg}
+\alert{Executing fib(3)}
 \end{center}
 \end{frame}
 
@@ -271,7 +269,7 @@ L3: tmp1 = tmp2 + tmp3;
   at ($(#1.south west) + (0,-6pt)$) {\sffamily \bfseries SP};
 }
 
-\begin{frame}[fragile]{Executing fib(3)}
+\begin{frame}[fragile]
 
   \begin{columns}
     \begin{column}{0.5\textwidth}
@@ -477,60 +475,60 @@ Variables remain constant offset from frame pointer.
 
 \end{frame}
 
-
-
-
-\begin{frame}[fragile]{Nesting Function Definitions}
-
-\begin{columns}
-  \begin{column}{0.5\textwidth}
-\shadowstart
-\begin{lstlisting}[language=caml,morendkeywords={words},ndkeywordstyle={\itshape\color{red}}]
-let articles words =
-
-  let report w =
-
-    let count = List.length
-      (List.filter ((=) w) words)
-    in w ^ ": " ^
-       string_of_int count
-
-  in String.concat ", "
-    (List.map report ["a"; "the"])
-
-in articles
-    ["the"; "plt"; "class"; "is";
-     "a"; "pain"; "in";
-     "the"; "butt"]
-\end{lstlisting}
-\shadowend
-  \end{column}
-  \begin{column}{0.5\textwidth}
-\shadowstart
-\begin{lstlisting}[language=caml,morendkeywords={words},ndkeywordstyle={\itshape\color{red}}]
-let count words w = List.length
-  (List.filter ((=) w) words) in
-
-let report words w = w ^ ": " ^
-  string_of_int (count words w) in
-
-let articles words =
-  String.concat ", "
-    (List.map (report words)
-     ["a"; "the"]) in
-
-articles
-    ["the"; "plt"; "class"; "is";
-     "a"; "pain"; "in";
-     "the"; "butt"]
-\end{lstlisting}
-\shadowend
-  \end{column}
-\end{columns}
-
-Produces ``a: 1, the: 2''
-
-\end{frame}
+%
+%
+%
+%\begin{frame}[fragile]{Nesting Function Definitions}
+%
+%\begin{columns}
+%  \begin{column}{0.5\textwidth}
+%\shadowstart
+%\begin{lstlisting}[language=caml,morendkeywords={words},ndkeywordstyle={\itshape\color{red}}]
+%let articles words =
+%
+%  let report w =
+%
+%    let count = List.length
+%      (List.filter ((=) w) words)
+%    in w ^ ": " ^
+%       string_of_int count
+%
+%  in String.concat ", "
+%    (List.map report ["a"; "the"])
+%
+%in articles
+%    ["the"; "plt"; "class"; "is";
+%     "a"; "pain"; "in";
+%     "the"; "butt"]
+%\end{lstlisting}
+%\shadowend
+%  \end{column}
+%  \begin{column}{0.5\textwidth}
+%\shadowstart
+%\begin{lstlisting}[language=caml,morendkeywords={words},ndkeywordstyle={\itshape\color{red}}]
+%let count words w = List.length
+%  (List.filter ((=) w) words) in
+%
+%let report words w = w ^ ": " ^
+%  string_of_int (count words w) in
+%
+%let articles words =
+%  String.concat ", "
+%    (List.map (report words)
+%     ["a"; "the"]) in
+%
+%articles
+%    ["the"; "plt"; "class"; "is";
+%     "a"; "pain"; "in";
+%     "the"; "butt"]
+%\end{lstlisting}
+%\shadowend
+%  \end{column}
+%\end{columns}
+%
+%Produces ``a: 1, the: 2''
+%
+%\end{frame}
 
 \def\stackframe#1#2{
  \node [frame] (#1) {(access link)\\#2}
@@ -590,7 +588,6 @@ What does ``a 5 42'' give?
 \end{frame}
 
 \part{In-Memory Layout Issues}
-\frame{\partpage}
 
 
 \begin{frame}[fragile]{Layout of Records and Unions}
@@ -626,8 +623,6 @@ wider than a byte.
                             \node [byte] {1}; & \node [byte] {0}; \\
     };
 \end{tikzpicture}
-\hspace{3pc}
-\includegraphics[width=4pc]{byte-me-candy-heart.jpg}
 
 \end{frame}
 
@@ -635,6 +630,7 @@ wider than a byte.
 
 \begin{frame}[fragile]{Layout of Records and Unions}
 
+\small
 \begin{columns}
   \begin{column}{0.5\textwidth}
 \parskip=6pt
@@ -689,11 +685,10 @@ x86, 68k run more slowly with unaligned accesses
 \end{frame}
 
 \begin{frame}[fragile]{Padding}
+\small
 
 To avoid unaligned accesses, the C compiler pads the layout of unions
-and records.
-
-Rules:
+and records. Rules:
 
 \begin{itemize}
   \item Each $n$-byte object must start on a multiple of $n$ bytes (no
@@ -704,7 +699,7 @@ Rules:
 \end{itemize}
 
 \begin{columns}
-  \begin{column}[t]{0.5\textwidth}
+\begin{column}[t]{0.5\textwidth}
 \begin{C}
 struct padded {
   int x;   /* 4 bytes */
@@ -742,13 +737,67 @@ struct padded {
 
 \end{frame}
 
-\begin{frame}[fragile]{Unions}
 
+\begin{frame}[fragile]{Padding}
+\small
+
+To avoid unaligned accesses, the C compiler pads the layout of unions
+and records. Rules:
+
+\begin{itemize}
+  \item Each $n$-byte object must start on a multiple of $n$ bytes (no
+    unaligned accesses).
+
+   \item Any object containing an $n$-byte object must be of size $mn$ for some
+     integer $m$ (aligned even when arrayed).
+\end{itemize}
+
+\begin{columns}
+\begin{column}[t]{0.5\textwidth}
+\begin{C}
+struct padded {
+  int x;   /* 4 bytes */
+  char z;  /* 1 byte  */
+  char w;  /* 1 byte  */
+  short y; /* 2 bytes */
+};
+\end{C}
+
+\begin{tikzpicture}
+  \matrix [every node/.style=hbyte] {
+    \node {x}; & \node {x}; & \node {x}; & \node {x}; \\
+    \node {y}; & \node {y}; & \node  {w}; & \node {z}; \\
+    };
+\end{tikzpicture}
+  \end{column}
+  \begin{column}[t]{0.5\textwidth}
+\begin{C}
+struct padded {
+  char a;  /* 1 byte  */
+  short b; /* 2 bytes */
+  short c; /* 2 bytes */
+};
+\end{C}
+
+\begin{tikzpicture}
+  \matrix [every node/.style=hbyte] {
+    \node {b}; & \node {b}; & \node [byte] {}; & \node {a}; \\
+     & & \node {c}; & \node {c}; \\
+    };
+\end{tikzpicture}
+  \end{column}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Unions}
+\footnotesize
 A C \emph{struct} has a separate space for each field; a C
 \emph{union} shares one space among all fields
 
 \begin{columns}
-  \begin{column}[t]{0.5\textwidth}
+  \begin{column}[t]{0.45\textwidth}
 \begin{C}
 union intchar {
   int i;   /* 4 bytes */
@@ -807,11 +856,6 @@ union twostructs {
 \end{frame}
 
 \begin{frame}[t,fragile]{Arrays}
-
-\makebox[\textwidth][r]{\raisebox{-2pc}[0pt][0pt]{%
-  \includegraphics[width=0.35\textwidth]{ospedale-delgi-innocenti.jpg}}}
-
-\vspace{2pc}
 
 \begin{columns}
   \begin{column}{0.5\textwidth}
@@ -943,7 +987,6 @@ char a[3][4];
 \end{frame}
 
 \part{The Heap}
-\frame{\partpage}
 
 \begin{frame}
   \frametitle{Heap-Allocated Storage}
@@ -1169,26 +1212,26 @@ Segregation of objects by size
 More clever data structures
 
 \end{frame}
-
-\begin{frame}{Heap Variants}
-
-Memory pools: Differently-managed heap areas
-
-Stack-based pool: only free whole pool at once
-
-{\parindent=1em
-Nice for build-once data structures
-}
-
-Single-size-object pool:
-
-{\parindent=1em
-Fit, allocation, etc. much faster
-
-Good for object-oriented programs
-}
-
-\end{frame}
+%
+%\begin{frame}{Heap Variants}
+%
+%Memory pools: Differently-managed heap areas
+%
+%Stack-based pool: only free whole pool at once
+%
+%{\parindent=1em
+%Nice for build-once data structures
+%}
+%
+%Single-size-object pool:
+%
+%{\parindent=1em
+%Fit, allocation, etc. much faster
+%
+%Good for object-oriented programs
+%}
+%
+%\end{frame}
 
 \begin{frame}{Fragmentation}
 
@@ -1287,7 +1330,6 @@ Always reference memory through ``handles.''
 \end{frame}
 
 \part{Automatic Garbage Collection}
-\frame{\partpage}
 
 \begin{frame}{Automatic Garbage Collection}
 
@@ -1347,7 +1389,7 @@ What and when to free?
 \begin{tikzpicture}[cell/.style={rectangle split,
       rectangle split horizontal, fill=white, draw,
       anchor=west}]
-\fill [color=yellow!30] (-6pc,2.5pc) rectangle (9pc,-10pc);
+\fill [color=mBlue!30] (-6pc,2.5pc) rectangle (9pc,-10pc);
 \node [cell, rectangle split parts=2]
       (aa) {\only<1>{0}%
             \only<2>{1}%
@@ -1444,7 +1486,7 @@ b
 \begin{tikzpicture}[cell/.style={rectangle split,
       rectangle split horizontal, fill=white, draw,
       anchor=west}]
-\fill [color=yellow!30] (-6pc,2.5pc) rectangle (9pc,-10pc);
+\fill [color=mBlue!30] (-6pc,2.5pc) rectangle (9pc,-10pc);
 \only<1-4>{
 \node [cell, rectangle split parts=2]
       (aa) {\only<3>{$\bullet$}
@@ -1503,587 +1545,580 @@ Parallel garbage collection tricky
 Real-time garbage collection tricky
 
 \end{frame}
-
-\part{Shared Libraries and Dynamic Linking}
-\frame{\partpage
-\centerline{\includegraphics[width=0.5\textwidth]{trapeze.jpg}}
-}
-
-\begin{frame}
-  \frametitle{Shared Libraries and Dynamic Linking}
-
-The 1980s GUI/WIMP revolution required many large libraries
-(the Athena widgets, Motif, etc.)
-
-Under a \emph{static linking} model, each executable using a library
-gets a copy of that library's code.
-
-Address 0:
-\begin{tabular}[b]{|c|}
-\hline
-libXaw.a \\
-\hline
-libX11.a \\
-\hline
-xeyes \\
-\hline
-\end{tabular}
-\begin{tabular}[b]{|c|}
-\hline
-libXaw.a \\
-\hline
-libX11.a \\
-\hline
-xterm \\[3pc]
-\hline
-\end{tabular}
-\begin{tabular}[b]{|c|}
-\hline
-libXaw.a \\
-\hline
-libX11.a \\
-\hline
-xclock \\[5pt]
-\hline
-\end{tabular}
-
-\pause
-
-Wasteful: running many GUI programs at once fills memory with
-\hlt{nearly identical} copies of each library.
-
-Something had to be done: another level of indirection.
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Shared Libraries: First Attempt}
-
-Most code makes assumptions about its location.
-
-First solution (early Unix System V R3) required each shared library
-to be located at a unique address:
-
-Address 0:
-\begin{tabular}[b]{|c|@{}c@{\hspace{2pt}}|c|@{}c@{\hspace{2pt}}|c|}
-\cline{1-1}\cline{3-3}\cline{5-5}
- && && libXm.so \\[1pc]
-\cline{1-1}\cline{3-3}\cline{5-5}
-libXaw.so && libXaw.so && \\
-\cline{1-1}\cline{3-3}\cline{5-5}
-libX11.so && libX11.so && libX11.so \\
-\cline{1-1}\cline{3-3}\cline{5-5}
-\multicolumn{1}{c}{}\\[-5pt]
-\cline{5-5}
-\multicolumn{4}{c|}{} & netscape \\
-\cline{3-3}
-\multicolumn{2}{c|}{} & xterm && \\
-\cline{1-1}
-xeyes && && \\
-\cline{1-1}\cline{3-3}\cline{5-5}
-\end{tabular}
-
-\pause
-
-Obvious disadvantage: must ensure each new shared library located at a
-new address.
-
-Works fine if there are only a few libraries; tended to discourage
-their use.
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Shared Libraries}
-
-Problem fundamentally is that each program may need to see different
-libraries \hlt{each at a different address}.
-
-\begin{tabular}[b]{|c|}
-\hline
-libXaw.so \\
-\hline
-libX11.so \\
-\hline
-\multicolumn{1}{c}{}\\
-\hline
-xeyes \\
-\hline
-\end{tabular}
 %
-\begin{tabular}[b]{|c|}
-\hline
-libXaw.so \\
-\hline
-libX11.so \\
-\hline
-\multicolumn{1}{c}{}\\
-\hline
-xterm \\[2pc]
-\hline
-\end{tabular}
+%\part{Shared Libraries and Dynamic Linking}
+%\begin{frame}
+%  \frametitle{Shared Libraries and Dynamic Linking}
 %
-\begin{tabular}[b]{|c|}
-\hline
-libXm.so \\[0.5pc]
-\hline
-libX11.so \\ 
-\hline
-\multicolumn{1}{c}{}\\
-\hline
-netscape \\[3pc]
-\hline
-\end{tabular}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Position-Independent Code}
-
-Solution: Require the code for libraries to be
-position-independent. \hlt{Make it so they can run anywhere in
-memory.}
-
-As always, add another level of indirection:
-
-\begin{itemize}
-\item All branching is PC-relative
-
-\item All data must be addressed relative to a base register.
-
-\item All branching to and from this code must go through a jump table.
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Position-Independent Code for bar()}
-
-  \begin{columns}
-    \begin{column}[b]{0.3\textwidth}
-\hlt{Normal unlinked code}
-
-\fontsize{8}{8}\selectfont
-\begin{semiverbatim}
-save  %sp, -112, %sp
-sethi  %hi(0), %o0
-  \hlt{R_SPARC_HI22 .bss}
-mov  %o0, %o0
-  \hlt{R_SPARC_LO10 .bss}
-sethi  %hi(0), %o1
-  \hlt{R_SPARC_HI22 a}
-mov  %o1, %o1
-  \hlt{R_SPARC_LO10 a}
-call  14
-  \hlt{R_SPARC_WDISP30 strcpy}
-nop 
-sethi  %hi(0), %o0
-  \hlt{R_SPARC_HI22 .bss}
-mov  %o0, %o0
-  \hlt{R_SPARC_LO10 .bss}
-call  24
-  \hlt{R_SPARC_WDISP30 baz}
-nop 
-ret 
-restore 
-\end{semiverbatim}
-    \end{column}
-    \begin{column}[b]{0.5\textwidth}
-\hlt{gcc -fpic -shared}
-\fontsize{8}{8}\selectfont
-\begin{semiverbatim}
-save  %sp, -112, %sp
-sethi  %hi(0x10000), %l7
-call  8e0   \hlt{! add PC to %l7}
-add  %l7, 0x198, %l7
-ld  [ %l7 + 0x20 ], %o0
-ld  [ %l7 + 0x24 ], %o1
-
-
-
-call  10a24\lab{0.5pc}{1.5pc}{Actually just a stub} ! strcpy
-
-nop 
-ld  [ %l7 + 0x20 ], %o0
-
-
-
-call\lab{0.5pc}{1.5pc}{call is PC-relative}  10a3c ! baz
-
-nop 
-ret 
-restore
-\end{semiverbatim}
-  \end{column}
-  \end{columns}
-
-\end{frame}
+%The 1980s GUI/WIMP revolution required many large libraries
+%(the Athena widgets, Motif, etc.)
+%
+%Under a \emph{static linking} model, each executable using a library
+%gets a copy of that library's code.
+%
+%Address 0:
+%\begin{tabular}[b]{|c|}
+%\hline
+%libXaw.a \\
+%\hline
+%libX11.a \\
+%\hline
+%xeyes \\
+%\hline
+%\end{tabular}
+%\begin{tabular}[b]{|c|}
+%\hline
+%libXaw.a \\
+%\hline
+%libX11.a \\
+%\hline
+%xterm \\[3pc]
+%\hline
+%\end{tabular}
+%\begin{tabular}[b]{|c|}
+%\hline
+%libXaw.a \\
+%\hline
+%libX11.a \\
+%\hline
+%xclock \\[5pt]
+%\hline
+%\end{tabular}
+%
+%\pause
+%
+%Wasteful: running many GUI programs at once fills memory with
+%\hlt{nearly identical} copies of each library.
+%
+%Something had to be done: another level of indirection.
+%
+%\end{frame}
+%
+%\begin{frame}
+%  \frametitle{Shared Libraries: First Attempt}
+%\small
+%Most code makes assumptions about its location.
+%
+%First solution (early Unix System V R3) required each shared library
+%to be located at a unique address:
+%
+%Address 0:
+%\begin{tabular}[b]{|c|@{}c@{\hspace{2pt}}|c|@{}c@{\hspace{2pt}}|c|}
+%\cline{1-1}\cline{3-3}\cline{5-5}
+% && && libXm.so \\[1pc]
+%\cline{1-1}\cline{3-3}\cline{5-5}
+%libXaw.so && libXaw.so && \\
+%\cline{1-1}\cline{3-3}\cline{5-5}
+%libX11.so && libX11.so && libX11.so \\
+%\cline{1-1}\cline{3-3}\cline{5-5}
+%\multicolumn{1}{c}{}\\[-5pt]
+%\cline{5-5}
+%\multicolumn{4}{c|}{} & netscape \\
+%\cline{3-3}
+%\multicolumn{2}{c|}{} & xterm && \\
+%\cline{1-1}
+%xeyes && && \\
+%\cline{1-1}\cline{3-3}\cline{5-5}
+%\end{tabular}
+%
+%\pause
+%
+%Obvious disadvantage: must ensure each new shared library located at a
+%new address.
+%
+%Works fine if there are only a few libraries; tended to discourage
+%their use.
+%
+%\end{frame}
+%
+%\begin{frame}
+%  \frametitle{Shared Libraries}
+%
+%Problem fundamentally is that each program may need to see different
+%libraries \hlt{each at a different address}.
+%
+%\begin{tabular}[b]{|c|}
+%\hline
+%libXaw.so \\
+%\hline
+%libX11.so \\
+%\hline
+%\multicolumn{1}{c}{}\\
+%\hline
+%xeyes \\
+%\hline
+%\end{tabular}
+%%
+%\begin{tabular}[b]{|c|}
+%\hline
+%libXaw.so \\
+%\hline
+%libX11.so \\
+%\hline
+%\multicolumn{1}{c}{}\\
+%\hline
+%xterm \\[2pc]
+%\hline
+%\end{tabular}
+%%
+%\begin{tabular}[b]{|c|}
+%\hline
+%libXm.so \\[0.5pc]
+%\hline
+%libX11.so \\ 
+%\hline
+%\multicolumn{1}{c}{}\\
+%\hline
+%netscape \\[3pc]
+%\hline
+%\end{tabular}
+%
+%\end{frame}
+%
+%\begin{frame}
+%  \frametitle{Position-Independent Code}
+%
+%Solution: Require the code for libraries to be
+%position-independent. \hlt{Make it so they can run anywhere in
+%memory.}
+%
+%As always, add another level of indirection:
+%
+%\begin{itemize}
+%\item All branching is PC-relative
+%
+%\item All data must be addressed relative to a base register.
+%
+%\item All branching to and from this code must go through a jump table.
+%\end{itemize}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%  \frametitle{Position-Independent Code for bar()}
+%
+%  \begin{columns}
+%    \begin{column}[b]{0.3\textwidth}
+%\hlt{Normal unlinked code}
+%
+%\fontsize{8}{8}\selectfont
+%\begin{semiverbatim}
+%save  %sp, -112, %sp
+%sethi  %hi(0), %o0
+%  \hlt{R_SPARC_HI22 .bss}
+%mov  %o0, %o0
+%  \hlt{R_SPARC_LO10 .bss}
+%sethi  %hi(0), %o1
+%  \hlt{R_SPARC_HI22 a}
+%mov  %o1, %o1
+%  \hlt{R_SPARC_LO10 a}
+%call  14
+%  \hlt{R_SPARC_WDISP30 strcpy}
+%nop 
+%sethi  %hi(0), %o0
+%  \hlt{R_SPARC_HI22 .bss}
+%mov  %o0, %o0
+%  \hlt{R_SPARC_LO10 .bss}
+%call  24
+%  \hlt{R_SPARC_WDISP30 baz}
+%nop 
+%ret 
+%restore 
+%\end{semiverbatim}
+%    \end{column}
+%    \begin{column}[b]{0.5\textwidth}
+%\hlt{gcc -fpic -shared}
+%\fontsize{8}{8}\selectfont
+%\begin{semiverbatim}
+%save  %sp, -112, %sp
+%sethi  %hi(0x10000), %l7
+%call  8e0   \hlt{! add PC to %l7}
+%add  %l7, 0x198, %l7
+%ld  [ %l7 + 0x20 ], %o0
+%ld  [ %l7 + 0x24 ], %o1
+%
+%
+%
+%call  10a24\lab{0.5pc}{1.5pc}{Actually just a stub} ! strcpy
+%
+%nop 
+%ld  [ %l7 + 0x20 ], %o0
+%
+%
+%
+%call\lab{0.5pc}{1.5pc}{call is PC-relative}  10a3c ! baz
+%
+%nop 
+%ret 
+%restore
+%\end{semiverbatim}
+%  \end{column}
+%  \end{columns}
+%
+%\end{frame}
 
 % \fi % FIXME
 
-\part{Objects and Inheritance}
-\frame{\partpage}
-
-\begin{frame}[fragile]{Single Inheritance}
-
-Simple: Add new fields to end of the object
-
-Fields in base class always at same offset in derived class (compiler
-never reorders)
-
-Consequence: Derived classes can never remove fields
-
-\vskip 2\baselineskip
-
-\begin{columns}
-\begin{column}[t]{0.5\textwidth}
-\textbf{C++}
-
-\begin{cpp}
-class Shape {
-  double x, y;
-};
-
-class Box : Shape {
-  double h, w;
-};
-
-
-class Circle : Shape {
-  double r;
-};
-
-\end{cpp}
-\end{column}
-\begin{column}[t]{0.5\textwidth}
-\textbf{Equivalent C}
-
-\begin{C}
-struct Shape {
-  double x, y;
-};
-
-struct Box {
-  double x, y;
-  double h, w;
-};
-
-struct Circle {
-  double x, y;
-  double r;
-};
-\end{C}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Virtual Functions}
-
-\begin{cpp}
-class Shape {
-  virtual void draw(); // Invoked by object's run-time class
-};                     // not its compile-time type.
-
-class Line : public Shape {
-  void draw();
-}
-
-class Arc : public Shape {
-  void draw();
-};
-
-Shape *s[10];
-s[0] = new Line;
-s[1] = new Arc;
-s[0]->draw();   // Invoke Line::draw()
-s[1]->draw();   // Invoke Arc::draw()
-\end{cpp}
-
-\end{frame}
-
-\begin{frame}[fragile]{Virtual Functions}
-
-Trick: add to each object a pointer to the virtual table for its type,
-filled with pointers to the virtual functions.
-
-Like the objects themselves, the virtual table for each derived type
-begins identically.
-
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{cpp}
-struct A {
-  int x;
-  virtual void Foo();
-  virtual void Bar();
-};
-
-struct B : A {
-  int y;
-  virtual void Foo();
-  virtual void Baz();
-};
-
-A a1;
-A a2;
-B b1;
-\end{cpp}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{tikzpicture}[%
-  show background rectangle,
-  background rectangle/.style={fill, color=yellow!30},
-  object/.style={rectangle split,
-                 fill=white,
-                 draw
-  }
-]
-\node [object, rectangle split parts=2] (Avtbl) {
-   A::Foo
-   \nodepart{two} A::Bar
-   };
-\node [above] at (Avtbl.north) {A's Vtbl};
-\node [object, rectangle split parts=3, anchor=north] (Bvtbl)
-   at ($(Avtbl.north) + (right:6pc)$) {
-   B::Foo
-   \nodepart{two} A::Bar
-   \nodepart{three} B::Baz
-   };
-\node [above] at (Bvtbl.north) {B's Vtbl};
-
-\node [object, rectangle split parts=2, anchor=north] (a1)
-   at ($(Avtbl.south) + (down:2pc)$) { vptr
-    \nodepart{second} x};
-\node [above] at (a1.north) {a1};
-\draw [->] (a1.text east) to [bend right] (Avtbl.text east);
-
-\node [object, rectangle split parts=2, anchor=north] (a2)
-   at ($(a1.south) + (down:2pc)$) { vptr
-    \nodepart{second} x};
-\node [above] at (a2.north) {a2};
-\draw [->] (a2.text east) to [bend right] (Avtbl.text east);
-
-\node [object, rectangle split parts=3, anchor=north] (b1)
-   at ($(Bvtbl.south) + (down:2pc)$) { vptr
-    \nodepart{second} x
-    \nodepart{third} y
-    };
-\node [above] at (b1.north) {b1};
-\draw [->] (b1.text east) to [bend right] (Bvtbl.text east);
-
-
-   
-\end{tikzpicture}
-\end{column}
-\end{columns}
-
-\end{frame}
-
-\part{Exceptions}
-\frame{\partpage
-\centerline{\includegraphics[width=0.5\textwidth]{panic-key.jpg}}
-}
-
-\def\mynode#1#2{\tikz[remember picture,baseline]\node[inner sep=0pt,anchor=base] (#1) {#2};}
-
-\begin{frame}[fragile]{C++'s Exceptions}
-
-\lstset{escapechar=\^}
-\begin{cpp}
-struct Except {} ex;  // This struct functions as an exception
-
-void top(void) {
-  try {
-    ^\mynode{a}{child}^();
-  } ^\mynode{f}{\bfseries catch}^ (Except e) { // throw sends control here
-    printf("oops\n");
-  }
-}
-
-void ^\mynode{b}{child}^() {
-  ^\mynode{c}{child2}^();
-}
-
-void ^\mynode{d}{child2}^() {
-  ^\mynode{e}{\textbf{throw} ex;}^ // Pass control up to the catch block
-}
-\end{cpp}
-
-\begin{tikzpicture}[remember picture,overlay]
-\begin{scope}[very thick, red, ->, font={\scriptsize},
-              every node/.style={inner sep=2pt,draw,fill=white}]
-\draw (a.south west) to [bend right=20] node [pos=0.7] {1} (b.north west);
-\draw (c) to node [pos=0.35] {2} (d);
-\draw [blue] (e.north east) to [bend right=55,looseness=1.5]
-                            node [pos=0.25] {3} (f.south east);
-\end{scope}
-\end{tikzpicture}
-
-\end{frame}
-
-\begin{frame}[fragile]{C's setjmp/longjmp: Idiosyncratic Exceptions}
-
-\vskip0.5\baselineskip
-
-\lstset{escapechar=\^}
-\begin{C}
-#include <setjmp.h>
-
-jmp_buf closure;          /* return address, stack & frame ptrs. */
-
-void top(void) {
-  switch ( ^\mynode{a}{setjmp}^(closure) ) { /* normal: store closure, return 0 */
-                               /* longjmp jumps here, returns 1 */
-
-
-  case 0: ^\mynode{b}{child}^();             /* unexceptional case */
-          break;
-
-  case 1: ^\mynode{e}{\bfseries break}^;               /* longjmp( ,1) called */
-  }
-}
-
-void child() {
-  ^\mynode{c}{child2}^();
-}
-
-void child2() {
-  ^\mynode{d}{longjmp(closure, 1)}^;
-}
-\end{C}
-
-\begin{tikzpicture}[remember picture,overlay]
-\begin{scope}[very thick, red, ->, font={\scriptsize},
-              every node/.style={inner sep=2pt,draw,fill=white}]
-\draw (a.south) to node [pos=0.3] {1} (b.north);
-\draw (b.south west) to [bend right=20] node [pos=0.15] {2} (c);
-\draw (c) to node [pos=0.4] {3} ($(d.north west) + (right:1pc)$);
-\draw [blue] (d.north east) to [bend right=60] node [pos=0.25] {4} (a.south east);
-\draw [blue] (a.south east) to [bend left=45] node [pos=0.25] {5} (e.north east);
-\end{scope}
-\end{tikzpicture}
-
-\end{frame}
-
-\begin{frame}[fragile]{Implementing Exceptions}
-
-One way: maintain a stack of exception handlers
-
-\begin{columns}
-\begin{column}{0.25\textwidth}
-\begin{cpp}
-try {
-
-  child();
-
-
-} catch (Ex e) {
-  foo();
-}
-
-void child() {
-  child2();
-}
-
-void child2() {
-  throw ex;
-}
-\end{cpp}
-\end{column}
-\begin{column}{0.75\textwidth}
-\begin{cpp}
-  push(Ex, Handler); // Push handler on stack
-
-  child();
-  pop();             // Normal termination
-  goto Exit;         // Jump over "catch"
-Handler:
-  foo();             // Body of "catch"
-Exit:
-
-void child() {
-  child2();
-}
-
-void child2() {
-  throw(ex);       // Unroll stack; find handler
-}
-\end{cpp}
-\end{column}
-\end{columns}
-
-Incurs overhead, even when no exceptions thrown
-\end{frame}
-
-\begin{frame}[fragile]{Implementing Exceptions with Tables}
-
-Q: When an exception is \emph{throw}n, where was the last \emph{try}?
-
-A: Consult a table: relevant handler or ``pop'' for every PC
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-\lstset{numbers=left,escapechar=\^}
-\begin{cpp}
-void foo() {
-
-  try {
-    ^\mynode{e}{bar();}^
-  } catch (Ex1 e) {
-    ^\mynode{g}{a();}^
-  }
-}
-
-void bar() {
-  ^\mynode{c}{baz();}^
-}
-
-void baz() {
-
-  try {
-    ^\mynode{a}{\textbf{throw} ex1;}^
-  } catch (Ex2 e) {
-    b();
-  }
-}
-\end{cpp}
-\end{column}
-\begin{column}{0.5\textwidth}
-%\renewcommand\arraystretch{2.3}
-\begin{tabular}{rl}
-\toprule
-\textbf{Lines} & \textbf{Action} \\
-\midrule
-1--2 & Pop stack \\
-\mynode{f}{3--5} & Handler @ 5 for Ex1 \\
-\\
-\\
-\\
-\mynode{d}{6--15} & Pop stack \\
-\\
-\\
-\\
-\mynode{b}{16--18} & Handler @ 18 for Ex2\\
-\\
-19--21 & Pop stack \\
-\bottomrule
-\end{tabular}
-
-\end{column}
-\end{columns}
-
-\begin{tikzpicture}[remember picture,overlay]
-\begin{scope}[very thick, red, ->, font={\scriptsize},
-              every node/.style={inner sep=2pt,draw,fill=white}]
-\draw (a.east) to node {1: query} (b.west);
-\draw (b.west) to node [pos=0.4] {2: pop stack} (c.east);
-\draw (c.east) to node {3: query} (d.west);
-\draw (d.west) to node [pos=0.25] {4: pop stack} (e.east);
-\draw (e.east) to [bend left=20] node {5: query} (f.west);
-\draw (f.west) to node [pos=0.35] {6: handle} (g.east);
-\end{scope}
-\end{tikzpicture}
-\end{frame}
+%\part{Objects and Inheritance}
+%
+%\begin{frame}[fragile]{Single Inheritance}
+%
+%Simple: Add new fields to end of the object
+%
+%Fields in base class always at same offset in derived class (compiler
+%never reorders)
+%
+%Consequence: Derived classes can never remove fields
+%
+%%\vskip 2\baselineskip
+%
+%\begin{columns}
+%\begin{column}[t]{0.5\textwidth}
+%\textbf{C++}
+%
+%\begin{cpp}
+%class Shape {
+%  double x, y;
+%};
+%
+%class Box : Shape {
+%  double h, w;
+%};
+%
+%
+%class Circle : Shape {
+%  double r;
+%};
+%
+%\end{cpp}
+%\end{column}
+%\begin{column}[t]{0.5\textwidth}
+%\textbf{Equivalent C}
+%
+%\begin{C}
+%struct Shape {
+%  double x, y;
+%};
+%
+%struct Box {
+%  double x, y;
+%  double h, w;
+%};
+%
+%struct Circle {
+%  double x, y;
+%  double r;
+%};
+%\end{C}
+%\end{column}
+%\end{columns}
+%\end{frame}
+%
+%\begin{frame}[fragile]{Virtual Functions}
+%
+%\begin{cpp}
+%class Shape {
+%  virtual void draw(); // Invoked by object's run-time class
+%};                     // not its compile-time type.
+%
+%class Line : public Shape {
+%  void draw();
+%}
+%
+%class Arc : public Shape {
+%  void draw();
+%};
+%
+%Shape *s[10];
+%s[0] = new Line;
+%s[1] = new Arc;
+%s[0]->draw();   // Invoke Line::draw()
+%s[1]->draw();   // Invoke Arc::draw()
+%\end{cpp}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]{Virtual Functions}
+%
+%Trick: add to each object a pointer to the virtual table for its type,
+%filled with pointers to the virtual functions.
+%
+%Like the objects themselves, the virtual table for each derived type
+%begins identically.
+%
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%\begin{cpp}
+%struct A {
+%  int x;
+%  virtual void Foo();
+%  virtual void Bar();
+%};
+%
+%struct B : A {
+%  int y;
+%  virtual void Foo();
+%  virtual void Baz();
+%};
+%
+%A a1;
+%A a2;
+%B b1;
+%\end{cpp}
+%\end{column}
+%\begin{column}{0.5\textwidth}
+%\begin{tikzpicture}[%
+%  show background rectangle,
+%  background rectangle/.style={fill, color=mBlue!30},
+%  object/.style={rectangle split,
+%                 fill=white,
+%                 draw
+%  }
+%]
+%\node [object, rectangle split parts=2] (Avtbl) {
+%   A::Foo
+%   \nodepart{two} A::Bar
+%   };
+%\node [above] at (Avtbl.north) {A's Vtbl};
+%\node [object, rectangle split parts=3, anchor=north] (Bvtbl)
+%   at ($(Avtbl.north) + (right:6pc)$) {
+%   B::Foo
+%   \nodepart{two} A::Bar
+%   \nodepart{three} B::Baz
+%   };
+%\node [above] at (Bvtbl.north) {B's Vtbl};
+%
+%\node [object, rectangle split parts=2, anchor=north] (a1)
+%   at ($(Avtbl.south) + (down:2pc)$) { vptr
+%    \nodepart{second} x};
+%\node [above] at (a1.north) {a1};
+%\draw [->] (a1.text east) to [bend right] (Avtbl.text east);
+%
+%\node [object, rectangle split parts=2, anchor=north] (a2)
+%   at ($(a1.south) + (down:2pc)$) { vptr
+%    \nodepart{second} x};
+%\node [above] at (a2.north) {a2};
+%\draw [->] (a2.text east) to [bend right] (Avtbl.text east);
+%
+%\node [object, rectangle split parts=3, anchor=north] (b1)
+%   at ($(Bvtbl.south) + (down:2pc)$) { vptr
+%    \nodepart{second} x
+%    \nodepart{third} y
+%    };
+%\node [above] at (b1.north) {b1};
+%\draw [->] (b1.text east) to [bend right] (Bvtbl.text east);
+%
+%
+%   
+%\end{tikzpicture}
+%\end{column}
+%\end{columns}
+%
+%\end{frame}
+
+%\part{Exceptions}
+%
+%
+%\def\mynode#1#2{\tikz[remember picture,baseline]\node[inner sep=0pt,anchor=base] (#1) {#2};}
+%
+%\begin{frame}[fragile]{C++'s Exceptions}
+%
+%\lstset{escapechar=\^}
+%\begin{cpp}
+%struct Except {} ex;  // This struct functions as an exception
+%
+%void top(void) {
+%  try {
+%    ^\mynode{a}{child}^();
+%  } ^\mynode{f}{\bfseries catch}^ (Except e) { // throw sends control here
+%    printf("oops\n");
+%  }
+%}
+%
+%void ^\mynode{b}{child}^() {
+%  ^\mynode{c}{child2}^();
+%}
+%
+%void ^\mynode{d}{child2}^() {
+%  ^\mynode{e}{\textbf{throw} ex;}^ // Pass control up to the catch block
+%}
+%\end{cpp}
+%
+%\begin{tikzpicture}[remember picture,overlay]
+%\begin{scope}[very thick, red, ->, font={\scriptsize},
+%              every node/.style={inner sep=2pt,draw,fill=white}]
+%\draw (a.south west) to [bend right=20] node [pos=0.7] {1} (b.north west);
+%\draw (c) to node [pos=0.35] {2} (d);
+%\draw [blue] (e.north east) to [bend right=55,looseness=1.5]
+%                            node [pos=0.25] {3} (f.south east);
+%\end{scope}
+%\end{tikzpicture}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]{C's setjmp/longjmp: Idiosyncratic Exceptions}
+%
+%\vskip0.5\baselineskip
+%
+%\lstset{escapechar=\^}
+%\begin{C}
+%#include <setjmp.h>
+%
+%jmp_buf closure;          /* return address, stack & frame ptrs. */
+%
+%void top(void) {
+%  switch ( ^\mynode{a}{setjmp}^(closure) ) { /* normal: store closure, return 0 */
+%                               /* longjmp jumps here, returns 1 */
+%
+%
+%  case 0: ^\mynode{b}{child}^();             /* unexceptional case */
+%          break;
+%
+%  case 1: ^\mynode{e}{\bfseries break}^;               /* longjmp( ,1) called */
+%  }
+%}
+%
+%void child() {
+%  ^\mynode{c}{child2}^();
+%}
+%
+%void child2() {
+%  ^\mynode{d}{longjmp(closure, 1)}^;
+%}
+%\end{C}
+%
+%\begin{tikzpicture}[remember picture,overlay]
+%\begin{scope}[very thick, red, ->, font={\scriptsize},
+%              every node/.style={inner sep=2pt,draw,fill=white}]
+%\draw (a.south) to node [pos=0.3] {1} (b.north);
+%\draw (b.south west) to [bend right=20] node [pos=0.15] {2} (c);
+%\draw (c) to node [pos=0.4] {3} ($(d.north west) + (right:1pc)$);
+%\draw [blue] (d.north east) to [bend right=60] node [pos=0.25] {4} (a.south east);
+%\draw [blue] (a.south east) to [bend left=45] node [pos=0.25] {5} (e.north east);
+%\end{scope}
+%\end{tikzpicture}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]{Implementing Exceptions}
+%
+%One way: maintain a stack of exception handlers
+%
+%\begin{columns}
+%\begin{column}{0.25\textwidth}
+%\begin{cpp}
+%try {
+%
+%  child();
+%
+%
+%} catch (Ex e) {
+%  foo();
+%}
+%
+%void child() {
+%  child2();
+%}
+%
+%void child2() {
+%  throw ex;
+%}
+%\end{cpp}
+%\end{column}
+%\begin{column}{0.75\textwidth}
+%\begin{cpp}
+%  push(Ex, Handler); // Push handler on stack
+%
+%  child();
+%  pop();             // Normal termination
+%  goto Exit;         // Jump over "catch"
+%Handler:
+%  foo();             // Body of "catch"
+%Exit:
+%
+%void child() {
+%  child2();
+%}
+%
+%void child2() {
+%  throw(ex);       // Unroll stack; find handler
+%}
+%\end{cpp}
+%\end{column}
+%\end{columns}
+%
+%Incurs overhead, even when no exceptions thrown
+%\end{frame}
+%
+%\begin{frame}[fragile]{Implementing Exceptions with Tables}
+%
+%Q: When an exception is \emph{throw}n, where was the last \emph{try}?
+%
+%A: Consult a table: relevant handler or ``pop'' for every PC
+%
+%\begin{columns}
+%\begin{column}{0.4\textwidth}
+%\lstset{numbers=left,escapechar=\^}
+%\begin{cpp}
+%void foo() {
+%
+%  try {
+%    ^\mynode{e}{bar();}^
+%  } catch (Ex1 e) {
+%    ^\mynode{g}{a();}^
+%  }
+%}
+%
+%void bar() {
+%  ^\mynode{c}{baz();}^
+%}
+%
+%void baz() {
+%
+%  try {
+%    ^\mynode{a}{\textbf{throw} ex1;}^
+%  } catch (Ex2 e) {
+%    b();
+%  }
+%}
+%\end{cpp}
+%\end{column}
+%\begin{column}{0.5\textwidth}
+%%\renewcommand\arraystretch{2.3}
+%\begin{tabular}{rl}
+%\toprule
+%\textbf{Lines} & \textbf{Action} \\
+%\midrule
+%1--2 & Pop stack \\
+%\mynode{f}{3--5} & Handler @ 5 for Ex1 \\
+%\\
+%\\
+%\\
+%\mynode{d}{6--15} & Pop stack \\
+%\\
+%\\
+%\\
+%\mynode{b}{16--18} & Handler @ 18 for Ex2\\
+%\\
+%19--21 & Pop stack \\
+%\bottomrule
+%\end{tabular}
+%
+%\end{column}
+%\end{columns}
+%
+%\begin{tikzpicture}[remember picture,overlay]
+%\begin{scope}[very thick, red, ->, font={\scriptsize},
+%              every node/.style={inner sep=2pt,draw,fill=white}]
+%\draw (a.east) to node {1: query} (b.west);
+%\draw (b.west) to node [pos=0.4] {2: pop stack} (c.east);
+%\draw (c.east) to node {3: query} (d.west);
+%\draw (d.west) to node [pos=0.25] {4: pop stack} (e.east);
+%\draw (e.east) to [bend left=20] node {5: query} (f.west);
+%\draw (f.west) to node [pos=0.35] {6: handle} (g.east);
+%\end{scope}
+%\end{tikzpicture}
+%\end{frame}
 
 
 % FIXME

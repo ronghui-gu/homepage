@@ -75,11 +75,11 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | **Wed Mar 13**  |    | **Midterm Exam** | |
 | **Mar 18 - 22** |    | **Spring Break** | |
 | Mon Mar 25  | 15 | [Intermediate Code Generation](./lectures/ir.pdf) | |
-| Wed Mar 27  | 16 | " | |
+| Wed Mar 27  | 16 | [Runtime Environments](./lectures/runtime.pdf) | |
 | Mon Apr 1   | 17 | The MicroC Compiler | Hello World |
 | Wed Apr 3   | 18 | " | |
 | Mon Apr 8   | 19 | " | |
-| Wed Apr 10  | 20 | Runtime Environment | |
+| Wed Apr 10  | 20 | " | |
 | Mon Apr 15  | 21 | " | |
 | Wed Apr 17  | 22 | Compiler Optimization | |
 | Mon Apr 22  | 23 | " | HW3 |
