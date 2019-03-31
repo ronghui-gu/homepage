@@ -128,7 +128,7 @@ No out-of-memory danger
 
 Size and number must be known beforehand
 
-Wasteful if sharing is possible
+Wasteful
 \end{column}
 \end{columns}
 
@@ -138,17 +138,17 @@ Wasteful if sharing is possible
 
 \begin{frame}{Stack-Allocated Objects}
 
-Natural for supporting recursion. 
-\hfill\includegraphics[width=0.25\textwidth]{stack-of-papers.jpg}
-
-Idea: some objects persist from when a procedure is called to
+\alert{Idea}: some objects persist from when a procedure is called to
 when it returns.
 
 Naturally implemented with a stack: linear array of memory that grows
 and shrinks at only one boundary.
 
-Each invocation of a procedure gets its own \emph{frame}
-(\emph{activation record}) where it stores its own local variables and
+Natural for supporting recursion. 
+
+
+Each invocation of a procedure gets its own \alert{\emph{frame}}
+(\hlt{\emph{activation record}}) where it stores its own local variables and
 bookkeeping information.
 
 \end{frame}
