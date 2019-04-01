@@ -1,10 +1,17 @@
 \documentclass{plt}
 
+\usetheme{metropolis}           % Use metropolis theme
+
 \title{The MicroC Compiler}
-\author{Stephen A. Edwards}
+\author{Ronghui Gu}
 \institute{Columbia University}
-\date{Fall 2018}
-\titlegraphic{\includegraphics[width=0.35\textwidth]{davinci-vitruvian.jpg}}
+\date{Spring 2019}
+\titlegraphic{
+\vspace{220pt}
+{\tiny $^*$ Course website: \url{https://www.cs.columbia.edu/~rgu/courses/4115/spring2019}\vspace{-5pt}}\\
+{\tiny $^{**}$ These slides are borrowed from Prof. Edwards.}
+}
+
 
 \lstdefinelanguage{llvm}{
   columns=flexible,
@@ -22,22 +29,27 @@
 \lstnewenvironment{llvm-stretch}
   {\lstset{language=llvm,basicstyle={\fontsize{9}{16}\selectfont\sffamily}}\shadowstart}{\shadowend}
 
+\tikzset{
+    mymodule/.style={draw, fill=white, drop shadow},
+    code/.style={draw, fill=gray!15, drop shadow,minimum width=0},
+    emph/.style={draw, fill=mBlue!15, drop shadow},
+}
+
 \begin{document}
 
 \frame{\titlepage}
 
-\frame{\tableofcontents}
+%\frame{\tableofcontents}
 
 \begin{frame}[fragile=singleslide]{The MicroC Language}
 
 A very stripped-down dialect of C
 
-Functions, global variables, and most expressions and statements, but
-only integer, float, and boolean values.
+Functions, global variables, and some expressions and statements, but
+only integer, and boolean values.
 
 \begin{C}
 /* The GCD algorithm in MicroC */
-
 int gcd(int a, int b) {
   while (a != b) {
     if (a > b) a = a - b;
@@ -46,8 +58,7 @@ int gcd(int a, int b) {
   return a;
 }
 
-int main()
-{
+int main() {
   print(gcd(2,14));
   print(gcd(3,15));
   print(gcd(99,121));
@@ -58,16 +69,39 @@ int main()
 \end{frame}
 
 \part{Scanning and Parsing}
-\frame{\partpage
+
+\begin{frame}[fragile,t]{Scanning and Parsing}
 
 \begin{center}
-\large
-Tokenize and parse to produce \\
+\hspace{20pt}
+\begin{tikzpicture}
+  \matrix [matrix of nodes,
+           row sep=0.8pc,
+           column sep=2pc,
+           every node/.style={draw, fill=white, drop shadow,minimum width=5.5cm}] {
+     |[code] (b)| MicroC \\
+     |[emph] (a)| Lexical Analysis \\
+     |[emph] (aa)| Syntax  Analysis \\
+     |(aaa)| Semantic Analysis \\
+     |(a4)| Intermediate Code Generation \\
+     |[code] (a5)| LLVM IR \\
+  };
+  \begin{scope}[->]
+    \draw (b) -- (a);
+    \draw (a) -- (aa);
+    \draw (aa) -- (aaa);
+    \draw (aaa) -- (a4);
+    \draw (a4) -- (a5);
+  \end{scope};
+  \node at (9pc,0) {front-end};
+\end{tikzpicture}
+
+Tokenize and parse to produce 
 an Abstract Syntax Tree \\
 \medskip
 The first part of any compiler or interpreter
 \end{center}
-}
+\end{frame}
 
 \begin{frame}[fragile=singleslide]{The Scanner (scanner.mll)}
 
@@ -521,322 +555,8 @@ return f + f(3);    /* invalid */
 
 \end{frame}
 
-\begin{frame}[fragile]{What To Check}
-
-Examples from Java:
-
-Verify names are defined and are of the right type.
-
-\begin{java}
-int i = 5;
-int a = z;    /* Error: cannot find symbol */
-int b = i[3]; /* Error: array required, but int found */
-\end{java}
-
-Verify the type of each expression is consistent.
-
-\begin{java}
-int j = i + 53;
-int k = 3 + "hello";   /* Error: incompatible types */
-int l = k(42);         /* Error: k is not a method */
-if ("Hello") return 5; /* Error: incompatible types */
-String s = "Hello";
-int m = s;             /* Error: incompatible types */
-\end{java}
-
-\end{frame}
-
-\begin{frame}[fragile]{How To Check Expressions: Depth-first AST Walk}
-
-check: environment $\rightarrow$ node $\rightarrow$ typedNode
-
-\medskip
-
-\begin{columns}
-  \begin{column}{0.45\textwidth}
-\begin{center}
-\begin{C}
-1 - 5
-\end{C}
-
-\begin{tikzpicture}[level distance=2pc]
-  \node {\texttt{-}}
-  child {node {\texttt{1}}}
-  child {node {\texttt{5}}};
-\end{tikzpicture} 
-\end{center}
-
-\medskip
-
-\begin{tabbing}
-check($-$) \\
-\hspace{1pc} \=  check(1) = 1 : int \\
-\>  check(5) = 5 : int \\
-\>  int $-$ int = int \\
-\> = 1 $-$ 5 : int
-\end{tabbing}
-  \end{column}
-  \begin{column}{0.45\textwidth}
-\begin{center}
-\begin{C}
-1 + "Hello"
-\end{C}
-
-\begin{tikzpicture}[level distance=2pc]
-  \node {\texttt{+}}
-  child {node {\texttt{1}}}
-  child {node {\texttt{"Hello"}}};
-\end{tikzpicture} 
-\end{center}
-
-\medskip
-
-\begin{tabbing}
-check(+) \\
-\hspace{1pc} \= check(1) = 1 : int \\
-\>  check(``Hello'') = ``Hello'' : string \\
-\>  FAIL: Can't add int and string \\
-\end{tabbing}
-  \end{column}
-\end{columns}
-
-Ask yourself: at each kind of node, what must be true about the nodes
-below it?  What is the type of the node?
-
-\end{frame}
-
-\begin{frame}[fragile]{How To Check Symbols}
-
-check: environment $\rightarrow$ node $\rightarrow$ typedNode
-
-\begin{columns}
-  \begin{column}{0.45\textwidth}
-\begin{center}
-\begin{C}
-1 + a
-\end{C}
-
-\begin{tikzpicture}[level distance=2pc]
-  \node {\texttt{+}}
-  child {node {\texttt{1}}}
-  child {node {\texttt{a}}};
-\end{tikzpicture} 
-\end{center}
-
-\begin{tabbing}
-check(+) \\
-\hspace{1pc} \= check(1) = 1 : int \\
-\>  check(a) = a : lookup(a) = a : int \\
-\>  int + int = int \\
-\>  = 1 $+$ a : int \\
-\end{tabbing}
-  \end{column}
-\end{columns}
-
-The key operation: determining the type of a symbol.
-
-The environment provides a ``symbol table'' that holds information
-about each in-scope symbol.
-
-\end{frame}
-
-\begin{frame}[fragile]{Symbol Tables by Example: C-style}
-
-Scope: area of program where a name has meaning
-
-Implementing C-style scope (during walk over AST): 
-\begin{itemize}
-\uncover<2->{
-\item Reach a declaration: Add entry to current table 
-}
-\uncover<3->{
-\item Enter a ``block'': New symbol table; point to previous
-}
-\uncover<6->{
-\item Reach an identifier: lookup in chain of tables
-}
-\uncover<7->{
-\item Leave a block: Local symbol table disappears 
-}
-\end{itemize}
-
-\begin{minipage}{0.5\textwidth}
-\shadowstart
-\lstdefinestyle{highlights}{
-language=c,
-moredelim=**[is][\only<2>{\color{red}}]{@2}{@},
-moredelim=**[is][\only<3>{\color{red}}]{@3}{@},
-moredelim=**[is][\only<4>{\color{red}}]{@4}{@},
-moredelim=**[is][\only<5>{\color{red}}]{@5}{@},
-moredelim=**[is][\only<6>{\color{red}}]{@6}{@},
-moredelim=**[is][\only<7>{\color{red}}]{@7}{@},
-}
-\begin{lstlisting}[style=highlights]
-@2int x; @
-@3int main() 
-{@
-  @4int a = 1; 
-  int b = 1;@
-  {
-    @5float b = 2;@
-    for (int i = 0; i < b; i++)
-    {
-      @6int b = i;@
-    }
-  }
-  @7b + x;@
-}
-
-\end{lstlisting}
-\shadowend
-\end{minipage}
-\hfill
-\begin{minipage}{0.46\textwidth}
-
-\begin{tikzpicture}[node distance=1.3pc and 1pc]                      
-
-\only<1>{\node[draw,rectangle,minimum height=14pt] at (0,0) (x) {};}
-\uncover<2->{
-\node[draw,rectangle] at (0,0) (x) {$x \mapsto \textbf{int}$};
-}
-\only<3>{
-\node[draw,below=of x,minimum height=14pt]  (main) {};
-\draw[->] (main.north) -- (x.south);
-}
-\uncover<4->{
-\node[draw,below=of x]  (ab) {$a \mapsto \textbf{int}$, $b \mapsto
-                              \textbf{int}$};
-\draw[->] (ab.north) -- (x.south);
-}
-\uncover<5-6>{
-\node[draw,below=of ab]  (fb) {$b \mapsto \textbf{float}$};
-\draw[->] (fb.north) -- (ab.south);
-}
-\uncover<6>{
-\node[draw,below=of fb]  (i) {$i \mapsto \textbf{int}$, $b \mapsto
-                              \textbf{int}$};
-\draw[->] (i.north) -- (fb.south);
-}
-\end{tikzpicture}
-\end{minipage}
-
-\end{frame}
-
-\begin{frame}[fragile]{The Type of Types}
-
-  Need an OCaml type to represent the type of something in your language.
-
-For MicroC, it's simple (from ast.ml):
-
-\begin{ocaml}
-type typ  = Int | Bool | Float | Void
-\end{ocaml}
-
-For a language with integer, structures, arrays, and exceptions:
-
-\begin{ocaml}
-type ty = (* can't call it "type" since that's reserved *)
-    Void
-  | Int
-  | Array of ty * int                        (* type, size *)
-  | Exception of string
-  | Struct of string * ((string * ty) array) (* name, fields *)
-\end{ocaml}
-
-\end{frame}
-
-
-\begin{frame}[fragile]{Implementing a Symbol Table and Lookup}
-
-It's a structured dictionary.  A map, hash, or some combination is typical.
-
-lookup: string $\rightarrow$ type.
-
-\begin{ocaml}
-module StringMap = Map.Make(String)
-
-type symbol_table = {
-  (* Variables bound in current block *)
-  variables : ty StringMap.t 
-  (* Enclosing scope *)
-  parent : symbol_table option;
-}
-\end{ocaml}
-
-\begin{ocaml}
-let rec find_variable (scope : symbol_table) name =
-  try
-     (* Try to find binding in nearest block *)
-     StringMap.find name scope.variables
-  with Not_found -> (* Try looking in outer blocks *)
-    match scope.parent with
-      Some(parent) -> find_variable parent name
-    | _ -> raise Not_found
-\end{ocaml}
-\end{frame}
-
-\begin{frame}[fragile]{Translation Environments}
-
-Whether an expression/statement/function is correct depends on its
-context.  Represent this as an object with named fields since you will
-invariably have to extend it.
-
-An environment type for a C-like language:
-
-\begin{ocaml}
-type translation_environment = {
-    scope : symbol_table;    (* symbol table for vars *)
-
-    return_type : ty option; (* Function's return type *)
-    in_switch : bool;        (* if we are in a switch stmt *)
-    labels : string list ;   (* labels on statements *)
-}
-\end{ocaml}
-
-\end{frame}
-
-
-\begin{frame}[fragile]{A Static Semantic Checking Function}
-
-check: ast $\rightarrow$ sast
-
-Converts a raw AST to a ``semantically checked AST''
-
-Names and types resolved
-
-\vspace{10pt}
-
-\begin{center}
-\begin{tabular}{rl}
-AST: &
-\begin{ocaml}
-type expr =
-   Literal of int
- | Id of string
- | Call of string * expr list
- | ...
-\end{ocaml}
-\\
-&
-\hspace{6pc} $\Downarrow$
-\vspace{10pt}
-\\
-SAST: &
-\begin{ocaml}
-type expr_detail =
-  SLiteral of int
-| SId of string 
-| SCall of string * sexpr list
-| ...
-
-type sexpr = expr_detail * typ
-\end{ocaml}
-\end{tabular}
-\end{center}
-\end{frame}
 
 \part{The MicroC Semantic Checker}
-\frame{\partpage}
 
 \begin{frame}[fragile=singleslide]{The Semantically-Checked AST}
 \begin{ocaml}
@@ -1264,628 +984,6 @@ in (globals, List.map check_function functions)
 
 \end{frame}
 
-\part{Code Generation}
-\frame{\partpage}
-
-
-\newcommand{\phase}[2]{
-$\llap{\textsf{#1}}\left\{
-\hbox to 10pc{\hfil
-\begin{tabular}{c}
-#2
-\end{tabular}\hfil}
-\right.$
-}
-\newcommand{\transform}[1]{
-$\downarrow$\rlap{\hspace{1pc}\textcolor{red}{#1}}
-}
-
-\begin{frame}{A Long K's Journey into Byte$^\dagger$}
-
-\parskip=0pt
-\begin{center}
-\phase{Compiler front end}{
-Source code \\
-\transform{Parser/Semantic Analysis} \\
-AST \\
-}
-
-\phase{Compiler back end}{
-\transform{Intermediate code generation} \\
-IR \\
-\transform{Optimization} \\
-Assembly Code \\
-}
-
-\phase{Assembler}{
-\transform{Assemble} \\
-Relocatable Object Code \\
-}
-
-\phase{Linker}{
-\transform{Link} \\
-Executable \\
-}
-
-\phase{Loader}{
-\transform{Relocate} \\
-In-memory image \\
-}
-
-\end{center}
-
-{\footnotesize $\dagger$Apologies to O'Neill}
-
-\end{frame}
-
-\begin{frame}
-  \frametitlelogo{Compiler Frontends and Backends}{0.3\textwidth}{pantohorse.png}
-
-The front end focuses on \emph{analysis}:
-
-\begin{itemize}
-\item Lexical analysis
-
-\item Parsing
-
-\item Static semantic checking
-
-\item AST generation
-\end{itemize}
-
-The back end focuses on \emph{synthesis}:
-
-\begin{itemize}
-\item Translation of the AST into intermediate code
-
-\item Optimization
-
-\item Generation of assembly code
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{Portable Compilers}
-
-Building a compiler a large undertaking; most try to leverage it by
-making it portable.
-
-\begin{center}
-\begin{tikzpicture}
-    \matrix (network)
-            [matrix of nodes,
-              column 1/.style={anchor=east},
-              column 2/.style={anchor=west},
-              column sep={8pc,between origins},
-              row sep={2pc,between origins}]
-            {
-              C & x86 \\
-              C++ & ARM \\
-              Java & MIPS \\
-              Go & PPC \\
-              Objective C & AVR \\
-              FORTRAN & 68000 \\
-            };
-\only<1>{
-  \foreach \a in {1,...,6}{
-    \foreach \b in {1,...,6}{
-      \draw (network-\a-1.east) -- (network-\b-2.west);
-    }
-  }
-}
-  \only<2>{
-    \node [anchor=west] at (network) (ir) {IR};
-    \foreach \a in {1,...,6}{
-        \draw (network-\a-1.east) -- (ir);
-        \draw (ir) -- (network-\a-2.west);
-    }
-  }
-  \end{tikzpicture}
-
-\onslide<2>{
-$\underbrace{\hspace{9pc}}_{\text{\begin{tabular}{c}Language-specific\\Frontends\end{tabular}}}$
-\hspace{1pc}
-$\underbrace{\hspace{8pc}}_{\text{\begin{tabular}{c}Processor-specific\\Backends\end{tabular}}}$
-}
-
-\end{center}
-
-\end{frame}
-
-
-\part{Intermediate Representations/Formats}
-\frame{\partpage}
-
-\begin{frame}[fragile]
-  \frametitle{Stack-Based IR: Java Bytecode}
-
-  \begin{columns}
-    \begin{column}{0.45\textwidth}
-
-\begin{java}
-int gcd(int a, int b) {
-  while (a != b) {
-    if (a > b)
-      a -= b;
-    else
-      b -= a;
-  }
-  return a;
-}
-\end{java}
-
-\vspace{2pc}
-
-\includegraphics[width=0.75\columnwidth]{stack-of-papers.jpg}
-    \end{column}
-    \begin{column}{0.55\textwidth}
-\fontsize{8}{8}\selectfont
-\begin{semiverbatim}
-# javap -c Gcd
-
-Method int gcd(int, int)
-   0 goto 19
-
-   3 iload_1      \hlt{\textrm{// Push a}}         
-   4 iload_2      \hlt{\textrm{// Push b}}
-   5 if_icmple 15 \hlt{\textrm{// if a <= b goto 15}}
-
-   8 iload_1      \hlt{\textrm{// Push a}}      
-   9 iload_2      \hlt{\textrm{// Push b}}
-  10 isub         \hlt{\textrm{// a - b}}
-  11 istore_1     \hlt{\textrm{// Store new a}}
-  12 goto 19
-
-  15 iload_2      \hlt{\textrm{// Push b}}
-  16 iload_1      \hlt{\textrm{// Push a}}  
-  17 isub         \hlt{\textrm{// b - a}}
-  18 istore_2     \hlt{\textrm{// Store new b}}
-
-  19 iload_1      \hlt{\textrm{// Push a}}
-  20 iload_2      \hlt{\textrm{// Push b}}
-  21 if_icmpne 3  \hlt{\textrm{// if a != b goto 3}}
-
-  24 iload_1      \hlt{\textrm{// Push a}}
-  25 ireturn      \hlt{\textrm{// Return a}}
-\end{semiverbatim}
-    \end{column}
-  \end{columns}
-
-\end{frame}
-
-\begin{frame}
-  \frametitlelogo{Stack-Based IRs}{0.3\textwidth}{pancake-stack.jpg}
-
-Advantages:
-
-\begin{itemize}
-\item Trivial translation of expressions
-
-\item Trivial interpreters
-
-\item No problems with exhausting registers
-
-\item Often compact
-\end{itemize}
-
-Disadvantages:
-
-\begin{itemize}
-\item Semantic gap between stack operations and modern register machines
-
-\item Hard to see what communicates with what
-
-\item Difficult representation for optimization
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{Register-Based IR: Mach SUIF}
-
-% c2s gcd.c
-% do_lower gcd.suif gcd.lsf
-% do_s2m gcd.lsf gcd.svm
-% do_print gcd.svm
-
-  \begin{columns}
-    \begin{column}{0.35\textwidth}
-\begin{java}
-int gcd(int a, int b) {
-  while (a != b) {
-    if (a > b)
-      a -= b;
-    else
-      b -= a;
-  }
-  return a;
-}
-\end{java}
-
-\vspace{2pc}
-
-\includegraphics[width=\columnwidth]{mailboxes.jpg}
-    \end{column}
-    \begin{column}{0.65\textwidth}
-\fontsize{8}{8}\selectfont
-\begin{semiverbatim}
-gcd:
-gcd._gcdTmp0:
-  sne   $vr1.s32 <- gcd.a,gcd.b
-  seq   $vr0.s32 <- $vr1.s32,0
-  btrue $vr0.s32,gcd._gcdTmp1  \hlt{\textrm{// if !(a != b) goto Tmp1}}
-
-  sl    $vr3.s32 <- gcd.b,gcd.a
-  seq   $vr2.s32 <- $vr3.s32,0
-  btrue $vr2.s32,gcd._gcdTmp4  \hlt{\textrm{// if !(a \(<\) b) goto Tmp4}}
-
-  mrk   2, 4   \hlt{\textrm{// Line number 4}}
-  sub   $vr4.s32 <- gcd.a,gcd.b
-  mov   gcd._gcdTmp2 <- $vr4.s32
-  mov   gcd.a <- gcd._gcdTmp2  \hlt{\textrm{// a = a - b}}
-  jmp   gcd._gcdTmp5
-gcd._gcdTmp4:
-  mrk   2, 6
-  sub   $vr5.s32 <- gcd.b,gcd.a
-  mov   gcd._gcdTmp3 <- $vr5.s32
-  mov   gcd.b <- gcd._gcdTmp3  \hlt{\textrm{// b = b - a}}
-gcd._gcdTmp5:
-  jmp   gcd._gcdTmp0
-
-gcd._gcdTmp1:
-  mrk   2, 8
-  ret   gcd.a  \hlt{\textrm{// Return a}}
-\end{semiverbatim}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitlelogo{Register-Based IRs}{0.25\textwidth}{cash-register.jpg}
-
-\hlt{\emph{Most common type of IR}}
-
-Advantages:
-
-\begin{itemize}
-\item Better representation for register machines
-
-\item Dataflow is usually clear
-\end{itemize}
-
-Disadvantages:
-
-\begin{itemize}
-\item Slightly harder to synthesize from code
-
-\item Less compact
-
-\item More complicated to interpret
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Three-Address Code \& Static Single Assignment}
-  
-  Most register-based IRs use \textbf{three-address code}: \\ Arithmetic
-  instructions have three operands: two sources and one destination.
-
-  \textbf{SSA Form}: each variable in an IR is assigned exactly once
-
-\vspace{10pt}
-
-\begin{columns}[t]
-  \begin{column}[t]{0.33\textwidth}   
-\center C code:
-\vspace{0.5pc}
-
-\begin{C}
-int gcd(int a, int b)
-{
-  while (a != b)
-    if (a < b)
-      b -= a;
-    else
-      a -= b;
-  return a;
-}
-\end{C}
-  \end{column}%
-  \begin{column}[t]{0.3\textwidth}
-\center Three-Address:
-\vspace{0.5pc}
-
-
-\begin{llvm}
-WHILE:   t = sne a, b
-         bz DONE, t
-         t = slt a, b
-         bz ELSE, t
-         b = sub b, a
-         jmp LOOP
-ELSE:    a = sub a, b
-LOOP:    jmp WHILE
-DONE:    ret a
-\end{llvm}
-  \end{column}%
-  \begin{column}[t]{0.33\textwidth}
-\center SSA:
-\vspace{0.5pc}
-
-\begin{llvm}
-WHILE:   t1 = sne a1, b1
-         bz DONE, t1
-         t2 = slt a1, b1
-         bz ELSE, t2
-         b1 = sub b1, a1
-         jmp LOOP
-ELSE:    a1 = sub a1, b1
-LOOP:    jmp WHILE
-DONE:    ret a1
-\end{llvm}
-  \end{column}
-\end{columns}
-
-\end{frame}
-
-\begin{frame}[fragile,t]
-  \frametitlelogo{Basic Blocks}{6pc}{blocks.jpg}
-
-  A \textbf{Basic Block} is a sequence of IR instructions \\
-  with two properties:
-
-\begin{enumerate}
-\item The first instruction is the only entry point \\ (no other branches
-  in; can only start at the beginning)
-\item Only the last instruction may affect control \\ (no other branches out)
-\end{enumerate}
-
-$\therefore$ If any instruction in a basic block runs, they all do
-
-Typically ``arithmetic and memory instructions, then branch''
-
-\begin{center}
-\begin{llvm}
-ENTER:   t2 = add t1, 1
-         t3 = slt t2, 10
-         bz NEXT, t3
-\end{llvm}
-\end{center}
-
-\end{frame}
-
-\def\split{\uncover<2->{\hrule}}
-\def\lead{\uncover<1->{\hfill\rlap{\hspace{4pt}\textcolor{red}{$\blacktriangleleft$}}}}
-
-\begin{frame}[fragile]{Basic Blocks and Control-Flow Graphs}
-
-\begin{columns}
-  \begin{column}{0.33\textwidth}
-    \lstset{escapechar=\#}
-\begin{llvm-stretch}
-WHILE:   t1 = sne a1, b1#\lead#
-         bz DONE, t1#\split#
-         t2 = slt a1, b1#\lead#
-         bz ELSE, t2#\split#         
-         b1 = sub b1, a1#\lead#
-         jmp LOOP#\split#
-ELSE:    a1 = sub a1, b1#\lead\split#
-LOOP:    jmp WHILE#\lead\split#
-DONE:    ret a1#\lead#
-\end{llvm-stretch} 
-  \end{column}
-  \begin{column}{0.7\textwidth}
-    \begin{uncoverenv}<3->
-    \begin{tikzpicture}
-      \matrix [nodes={font={\fontsize{9}{10}\selectfont\sffamily},
-          text width=5.5pc,
-          draw,fill=white,drop shadow},
-          column sep={3.5pc,between origins},
-          row sep=2pc] {
-        \node (entry) {WHILE:\\t1 = \textbf{sne} a1, b1\\\textbf{bz} DONE, t1}; &&
-        \node (a1) {t2 = \textbf{slt} a1, b1\\\textbf{bz} ELSE, t2}; &\\
-        & \node (a2) {b1 = \textbf{sub} b1, a1\\\textbf{jmp} LOOP}; &&
-        \node (b) {ELSE:\\a1 = \textbf{sub} a1, b1}; \\
-        \node (e) {DONE:\\\textbf{ret} a1}; &&
-        \node (c) {LOOP:\\\textbf{jmp} WHILE}; \\
-      };
-      \begin{scope}[every path/.style={draw,->}]
-        \path (entry.north) ++(0,2pc) -- (entry.north);
-        \path (entry) -- (a1);
-        \path (a1) -- (a2);
-        \path (a1) -- (b);
-        \path (a2) -- (c);
-        \path (b) -- (c);
-        \path (c) -- ++(7.5pc,0) |- ($(entry.65)+(0.5pc,1pc)$) -- (entry.65);
-        \path (entry) -- (e);
-      \end{scope}      
-    \end{tikzpicture}
-    \end{uncoverenv}
-  \end{column}
-\end{columns}
-
-\begin{itemize}
-\item<1->{Leaders: branch targets \& after conditional branch}
-\item<2->{Basic blocks: start at a leader; end before next}
-\item<3->{Basic Blocks are nodes of the Control-Flow Graph}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile=singleslide]{The LLVM IR}
-
-  Three-address code instructions; Static single-assignment; \\
-  Explicit control-flow graph; Local names start with \%; \\ Types
-  throughout; User-defined functions
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-\begin{C}
-int add(int x, int y)
-{
-  return x + y;
-}
-\end{C}
-\end{column}
-\begin{column}{0.6\textwidth}
-\begin{llvm}
-define i32 @add(i32 %x, i32 %y) {
-entry:
-  %x1 = alloca i32
-  store i32 %x, i32* %x1
-  %y2 = alloca i32
-  store i32 %y, i32* %y2
-  %x3 = load i32* %x1
-  %y4 = load i32* %y2
-  %tmp = add i32 %x3, %y4
-  ret i32 %tmp
-}
-\end{llvm}
-\end{column}
-\end{columns}
-
-\parskip=0pt
-
-\textbf{i32}: 32-bit signed integer type
-
-\textbf{alloca}: Allocate space on the stack; return a pointer
-
-\textbf{store}: Write a value to an address
-
-\textbf{load}: Read a value from an address
-
-\textbf{add}: Add two values to produce a third
-
-\textbf{ret}: Return a value to the caller
-
-\end{frame}
-
-\begin{frame}[fragile=singleslide]{Basic Blocks}
-
-An LLVM function: a control-flow graph of basic blocks.
-
-\begin{columns}
-\begin{column}{0.45\textwidth}
-\begin{C}
-int cond(bool b) {
-  int x;
-  if (b) x = 42;
-  else   x = 17;
-  return x;
-}
-\end{C}
-
-\includegraphics[width=\textwidth]{llvm-cond-cfg.pdf}
-\end{column}
-\begin{column}{0.55\textwidth}
-\begin{llvm}
-define i32 @cond(i1 %b) {
-entry:
-  %b1 = alloca i1
-  store i1 %b, i1* %b1
-  %x = alloca i32
-  %b2 = load i1* %b1
-  br i1 %b2, label %then, label %else
-
-merge:       ; preds = %else, %then
-  %x3 = load i32* %x
-  ret i32 %x3
-
-then:        ; preds = %entry
-  store i32 42, i32* %x
-  br label %merge
-
-else:        ; preds = %entry
-  store i32 17, i32* %x
-  br label %merge
-}
-\end{llvm}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile=singleslide]
-\begin{columns}
-\begin{column}{0.4\textwidth}
-\begin{C}
-int gcd(int a, int b) {
-  while (a != b)
-    if (a > b) a = a - b;
-    else b = b - a;
-  return a;
-}
-\end{C}
-\end{column}
-\begin{column}{0.6\textwidth}
-  \vspace{1pc}
-  
-\begin{llvm-small}
-define i32 @gcd(i32 %a, i32 %b) {
-entry:
-  %a1 = alloca i32
-  store i32 %a, i32* %a1
-  %b2 = alloca i32
-  store i32 %b, i32* %b2
-  br label %while
-while:                  ; preds = %merge, %entry
-  %a11 = load i32* %a1
-  %b12 = load i32* %b2
-  %tmp13 = icmp ne i32 %a11, %b12
-  br i1 %tmp13, label %while_body, label %merge14
-while_body:             ; preds = %while
-  %a3 = load i32* %a1
-  %b4 = load i32* %b2
-  %tmp = icmp sgt i32 %a3, %b4
-  br i1 %tmp, label %then, label %else
-merge:                  ; preds = %else, %then
-  br label %while
-then:                   ; preds = %while_body
-  %a5 = load i32* %a1
-  %b6 = load i32* %b2
-  %tmp7 = sub i32 %a5, %b6
-  store i32 %tmp7, i32* %a1
-  br label %merge
-else:                   ; preds = %while_body
-  %b8 = load i32* %b2
-  %a9 = load i32* %a1
-  %tmp10 = sub i32 %b8, %a9
-  store i32 %tmp10, i32* %b2
-  br label %merge
-merge14:                ; preds = %while
-  %a15 = load i32* %a1
-  ret i32 %a15
-}
-\end{llvm-small}
-\end{column}
-\end{columns}
-
-\end{frame}
-
-\begin{frame}[fragile=singleslide]
-
-% ./microc.native < tests/test-gcd.mc | llvm-as | opt -analyze -view-cfg
-% dot -Tps /tmp/cfggcd-d3f2dd.dot | ps2pdf -sPAPERSIZE=a3 - gcd.pdf
-% pdfcrop gcd.pdf
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-\begin{C}
-int gcd(int a, int b) {
-  while (a != b)
-    if (a > b) a = a - b;
-    else b = b - a;
-  return a;
-}
-\end{C}
-\vspace{8\baselineskip}
-\end{column}
-\begin{column}{0.6\textwidth}
-\hbox to \textwidth{\hss\includegraphics[width=1.35\textwidth]{llvm-gcd-cfg.pdf}}
-\end{column}
-\end{columns}
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

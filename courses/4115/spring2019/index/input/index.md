@@ -76,15 +76,15 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | **Mar 18 - 22** |    | **Spring Break** | |
 | Mon Mar 25  | 15 | [Intermediate Code Generation](./lectures/ir.pdf) | |
 | Wed Mar 27  | 16 | [Runtime Environments](./lectures/runtime.pdf) | |
-| Mon Apr 1   | 17 | The MicroC Compiler | Hello World |
+| Mon Apr 1   | 17 | The NanoC Compiler ([zip](./nano.zip)) | |
 | Wed Apr 3   | 18 | " | |
-| Mon Apr 8   | 19 | " | |
+| Mon Apr 8   | 19 | The MicroC Compiler | Hello World |
 | Wed Apr 10  | 20 | " | |
-| Mon Apr 15  | 21 | " | |
-| Wed Apr 17  | 22 | Compiler Optimization | |
-| Mon Apr 22  | 23 | " | HW3 |
-| Wed Apr 24  | 24 | The Lambda Calculus | |
-| Mon Apr 29  | 25 | " | |
+| Mon Apr 15  | 21 | IR Optimization | |
+| Wed Apr 17  | 22 | " | |
+| Mon Apr 22  | 23 | Code Generation | HW3 |
+| Wed Apr 24  | 24 | " | |
+| Mon Apr 29  | 25 | Compiler Optimization | |
 | Wed May 1   | 26 | Review for Final  | |
 | **Mon May 6**   |    | **Final Exam**  | |
 | **Wed May 15**  |    | **Project Presentation**  | Project Reports |
