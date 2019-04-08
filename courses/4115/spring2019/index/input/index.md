@@ -82,7 +82,7 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Wed Apr 10  | 20 | " | |
 | Mon Apr 15  | 21 | IR Optimization | |
 | Wed Apr 17  | 22 | " | |
-| Mon Apr 22  | 23 | Code Generation | HW3 |
+| Mon Apr 22  | 23 | Code Generation | [HW3](./assignments/hw3.pdf) |
 | Wed Apr 24  | 24 | " | |
 | Mon Apr 29  | 25 | Compiler Optimization | |
 | Wed May 1   | 26 | Review for Final  | |
