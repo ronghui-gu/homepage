@@ -76,9 +76,9 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | **Mar 18 - 22** |    | **Spring Break** | |
 | Mon Mar 25  | 15 | [Intermediate Code Generation](./lectures/ir.pdf) | |
 | Wed Mar 27  | 16 | [Runtime Environments](./lectures/runtime.pdf) | |
-| Mon Apr 1   | 17 | The NanoC Compiler ([zip](./nano.zip)) | |
+| Mon Apr 1   | 17 | The NanoC Compiler ([zip](./nanoc.zip)) | |
 | Wed Apr 3   | 18 | " | |
-| Mon Apr 8   | 19 | The MicroC Compiler | Hello World |
+| Mon Apr 8   | 19 | The MicroC Compiler ([zip](./microc.zip)) | Hello World |
 | Wed Apr 10  | 20 | " | |
 | Mon Apr 15  | 21 | IR Optimization | |
 | Wed Apr 17  | 22 | " | |
