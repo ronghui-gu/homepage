@@ -178,7 +178,8 @@
   {\lstset{language=ocamlyacc}\shadowstart}{\shadowend}
 
 \lstnewenvironment{C}
-  {\lstset{language=C,morekeywords={bool}}\shadowstart}{\shadowend}
+  {\lstset{language=C,morekeywords={bool},
+  moredelim=**[is][\color{mRed}]{@}{@}}\shadowstart}{\shadowend}
 
 \lstnewenvironment{C++}
   {\lstset{language=C++}\shadowstart}{\shadowend}

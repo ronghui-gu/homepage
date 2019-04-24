@@ -82,7 +82,7 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Wed Apr 10  | 20 | The MicroC Compiler ([zip](./microc.zip)) | |
 | Mon Apr 15  | 21 | " | |
 | Wed Apr 17  | 22 | [Runtime Environments II](./lectures/runtime2.pdf) | |
-| Mon Apr 22  | 23 | IR Optimization | [HW3](./assignments/hw3.pdf) |
+| Mon Apr 22  | 23 | [IR Optimization](./lectures/optimization.pdf) | [HW3](./assignments/hw3.pdf) |
 | Wed Apr 24  | 24 | " | |
 | Mon Apr 29  | 25 | Code Generation | |
 | Wed May 1   | 26 | Compiler Optimization  | |
