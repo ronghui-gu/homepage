@@ -87,7 +87,7 @@ You don't need to buy textbooks since all the materials will be covered by the l
 | Mon Apr 29  | 25 | Code Generation | |
 | Wed May 1   | 26 | Compiler Optimization  | |
 | **Mon May 6**   |    | **Final Exam**  | |
-| **Wed May 15**  |    | **Project Presentation**  | Project Reports |
+| **Wed May 15**  |    | **Project Presentation**  | [Project Reports](./assignments/project.html) |
 
 ### Sample Proposals
 - [GRAIL: A Graph-Construction Language](http://www.cs.columbia.edu/~sedwards/classes/2017/4115-spring/proposals/GRAIL.pdf)
