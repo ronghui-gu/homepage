@@ -143,7 +143,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
 #container #maincont a:hover {color: #444; text-decoration: underline;}
 #container #maincont p { line-height: 1.5; }
 #container #maincont #box p { line-height: 1.5; clear: both;}
-#container #maincont #box_black a {color: #444; font-weight: 100;}
+#container #maincont #box_black a {color: #444; font-weight: 100; font-style: italic;}
 #container #maincont h1, #container #maincont h2, #container #maincont h3, #container #maincont h4, #container #maincont h5 { margin: 0 0 10px 0; font-weight: normal; }
 #container #maincont h1 { font-family: 'Cabin Condensed', sans-serif; font-size: 30px; }
 #container #maincont h2 { font-family: 'Cabin Condensed', sans-serif; font-size: 28px; }
