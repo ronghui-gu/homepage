@@ -60,7 +60,7 @@ img.imgleft { float: left; margin: 0 15px 15px 0; padding: 5px; border: 0px dash
     font-size: 36px;
     color: #F0F0F0;
     font-family: 'Cabin Condensed', sans-serif;
-    letter-spacing: -1px;	
+    letter-spacing: -1px;
     margin: 20px;
     padding: 10px;
 }
@@ -92,8 +92,8 @@ img.imgleft { float: left; margin: 0 15px 15px 0; padding: 5px; border: 0px dash
 }
 
 #container #menucont ul ul li a
-{ 
-    float: none; 
+{
+    float: none;
     width: 160px;
     padding: 10px 20px;
     border: 0;
@@ -126,7 +126,7 @@ img.imgleft { float: left; margin: 0 15px 15px 0; padding: 5px; border: 0px dash
 ul.sf-menu li:hover li ul, ul.sf-menu li.sfHover li ul { top: -999em; }
 ul.sf-menu li li:hover ul, ul.sf-menu li li.sfHover ul { right: 200px; top: 0; }
 ul.sf-menu li li:hover li ul, ul.sf-menu li li.sfHover li ul { top: -999em; }
-ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top: 0; }		
+ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top: 0; }
 
 /** End SuckerFish Styles **/
 
@@ -177,9 +177,9 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
     margin: 6px;
     padding: 9px;
     /*background: #BBB;*/
-    background: #EEE; 
+    background: #EEE;
     border-left: 3px solid #444; /*padding: 15px; margin: 0 0 15px 0; font-style: italic; line-height: 18px; clear: both;*/
-    
+
 }
 
 #container #maincont #mainleft #box_black
@@ -189,9 +189,9 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
     margin: 6px;
     padding: 9px;
     /*background: #BBB;*/
-    background: #EEE; 
+    background: #EEE;
     border-left: 3px solid #444; /*padding: 15px; margin: 0 0 15px 0; font-style: italic; line-height: 18px; clear: both;*/
-    
+
 }
 
 #container #maincont #mainleft #box_short
@@ -202,9 +202,9 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul { right: 10em; top:
     margin: 6px;
     padding: 9px;
     /*background: #BBB;*/
-    background: #EEE; 
+    background: #EEE;
     border-left: 3px solid #444; /*padding: 15px; margin: 0 0 15px 0; font-style: italic; line-height: 18px; clear: both;*/
-    
+
 }
 
 #container #maincont #mainright
@@ -239,7 +239,7 @@ form input
     padding: 6px;
     color: #666666;
     width: 120px;
-    
+
 }
 
 form input.formbutton
@@ -258,3 +258,4 @@ form input.formbutton:hover
 }
 
 #paper a {color: #A63A3A!important; font-weight: 100; font-style: italic;}
+#black_link a {color: #444!important; font-weight: 100; font-style: italic;}
