@@ -21,3 +21,11 @@ open ./courses/4115/spring2019/index.html
 
 
 cd ~/secure_html/courses/4115/spring2019
+
+### 6998
+generate-md --layout mixu-page --input \
+./courses/e6998/fall2019/index/input \
+--output ./courses/e6998/fall2019/index/output
+cp ./courses/e6998/fall2019/index/output/index.html \
+./courses/e6998/fall2019/
+open ./courses/e6998/fall2019/index.html
