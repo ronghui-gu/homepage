@@ -89,12 +89,16 @@ My research goal is to make critical software systems truly reliable and secure 
 As the backbone of 
 modern software systems,
 operating system (OS) kernels
-  have great impacts on the reliability and security of today's computing hosts. OS kernels, however, are complicated, highly concurrent, and prone to bugs.  For the past several years,  my research was focused on investigating compositional programming language theories and developing scalable tools to verify concurrent OS kernels that are formally proved to be error-free and secure~\cite{popl15-gu, osdi16-gu, pldi16-security, pldi16-device, cav17-yuan, oopsla17-zhai, aplas17-kim, jar-device, pldi18-gu, sosp19-nelson, sosp19-zou,cacm-gu}.
-Broadly speaking, my research
-falls into 
-the subfield of programming languages,
-dealing with the principles and practice of  formal verification
-of  system software.
+factor heavily into the reliability and security of today's computing hosts. 
+Despite its importance,
+OS kernel implementations are complicated, highly concurrent, and prone to bugs---meaning that the programs built upon them, no matter how rigorous, have the same faint vulnerabilities.
+In the past several years,  my research was focused on compositional 
+verification theories and developing scalable tools to verify concurrent OS kernels that are formally proved to be error-free and secure~\cite{popl15-gu, osdi16-gu, pldi16-security, pldi16-device, cav17-yuan, oopsla17-zhai, aplas17-kim, jar-device, pldi18-gu, sosp19-nelson, sosp19-zou,cacm-gu}.
+%Broadly speaking, my research
+%falls into 
+%the subfield of programming languages,
+%dealing with the principles and practice of  formal verification
+%of  system software.
 %fundamental 
 %the real system verification.
 % principles and practice of :  
@@ -109,47 +113,54 @@ My research approach  is to explore clean and concise
 programming language theories that 
 reveal the fundamental insights of system design patterns,
 and to apply these theories
-in building practical systems that behave as required
+in building practical systems that behave as intended
 through formal verification. 
-While such mechanical ``formal verification" dates back to the 1960s, 
-complete formal proofs of sequential OS kernels only became feasible recently, as demonstrated by seL4 in 2009. This result was so encouraging that it seemed not too far away from building a fully verified concurrent kernel under reasonable proof efforts. However, 
-seven years have passed, and
-this last mile is still insurmountable.
-Even in the single-core setting, the cost of such verification is quite prohibitive
-(seL4 took 11 person-years to develop), and
- it is unclear how to quickly adapt such a verified system to support new features and enforce richer properties. 
-Furthermore, none of the previously verified systems have addressed the
-issues of concurrency.
+While such mechanical ``Formal Verification" dates back to the 1960s, 
+complete formal proofs of single-core OS kernels have only become feasible recently:
+most notably as demonstrated by seL4 in 2009. 
+While the seL4 example was encouraging, it was still prohibitively expensive to verify---its verification took 11 person-years to develop.
+Furthermore, 
+verification of multi-core OS kernels 
+remained out of reach.
+%
+%This result was so encouraging that it seemed not too far away from building a fully verified concurrent kernel under reasonable proof efforts. However, 
+%seven years have passed, and
+%this last mile is still insurmountable.
+%Even in the single-core setting, the cost of such verification is quite prohibitive
+%(seL4 took 11 person-years to develop), and
+% it is unclear how to quickly adapt such a verified system to support new features and enforce richer properties. 
+%Furthermore, none of the previously verified systems have addressed the
+%issues of concurrency.
 %~\cite{apsys}.
 %These problems severely limit
 %the applicability and power of today's formally verified
 %software systems.
 
 %[[An overview of my approach, and a summary of my results]]
- 
-We believe that these problems
-are caused by ignoring the \emph{layered structure} in the programming language theories.
-Although modern systems are implemented with
-well-designed layers, this layered structure has not been exploited by the verification techniques like program logics:  modules across different layers and multiple threads have to be reasoned about at 
-the same abstraction level. This makes system verification
+I hypothesized that these hurdles were caused by  
+ignoring the \emph{layered structure} in the programming language theories.
+While modern systems are implemented with
+well-designed layers, this layered structure had not been exploited by the verification techniques like program logic:  even with the most advanced methods, modules across different layers and multiple threads have to be reasoned about at 
+the same abstraction level. This made system verification
 difficult to untangle
 and costly to extend.
 
-My thesis research is among the first to address these challenges
-by realizing a novel class of specifications, named \emph{deep specifications}, through a layered approach.
+My work is among the first to address these challenges
+by creating a novel class of specifications, named \emph{deep specifications}, through a layered approach.
 In theory, these layered deep specifications uncover the 
 insights of  layered design patterns
 and are rich
-enough to fully characterize a system's functionality. In practice, they are ``live" enough to  connect   with an actual  implementation and to provide a modular approach to building
+enough to fully characterize a system's functionality. In practice, they are ``live" enough to  connect   with  actual  implementations, enabling a modular approach to building
 entirely trustworthy
  software system stacks.
 % even in the concurrent setting.
-These advances in both dimensions have resulted in a comprehensive
+These pioneering advances have resulted in the creation of 
+ a comprehensive
 verification framework, named CertiKOS, as well as
 a series of fully verified sequential and concurrent OS kernels.
-This CertiKOS work is used in high-profile DARPA programs~\cite{crash,hacms},
-is a core component of an NSF Expeditions in Computing project~\cite{deepspec}, and has been widely considered
- ``a real breakthrough" toward hacker-resistant systems~\cite{news, times, dnews}.
+CertiKOS  is used in high-profile DARPA programs~\cite{crash,hacms}
+and has been a core component of an NSF Expeditions in Computing project~\cite{deepspec}, being widely considered
+ ``a real breakthrough" toward creating hacker-resistant systems~\cite{news, times, dnews}.
 
 
 \subsubsection*{\small Deep Specifications and Certified Abstraction Layers}
@@ -221,7 +232,7 @@ and even if it is possible, the cost would far exceed that of
 verifying a single-core sequential kernel.
 
 We believe that the key to untangling this ``intractable" complexity is rooted in the
-strong contextual property of deep specifications~\cite{osdi16-gu, pldi18-gu}.
+strong contextual property of deep specifications~\cite{osdi16-gu, pldi18-gu,cacm-gu}.
 A deep specification, in the concurrent setting, must ensure    behavior preservation not only under any client context but also under
 any \emph{concurrent context} with any interleaving.
 A  concurrent context corresponds to
