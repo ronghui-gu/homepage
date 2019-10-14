@@ -149,12 +149,14 @@
 %
 % the picture will be flush right across from the name.
 
-\newcommand{\makeheading}[2][]%
+\newcommand{\makeheading}[3][]%
         { \begin{table} \centering
-        		{\LARGE\bfseries #2}\\[-0.15\baselineskip]%
+        		{\LARGE\bfseries #2}\\[0.5\baselineskip]%
+        		{ #3}\\[-0.15\baselineskip]%
                \rule{\columnwidth}{1pt} \vspace{-30pt}%
            \end{table}
          }
+
 
 % An itemize-style list with lots of space between items
 \newenvironment{outerlist}[1][\enskip\textbullet]%
@@ -222,7 +224,8 @@
 \rhead{\textcolor{gray}{\it Ronghui Gu ({ronghui.gu@columbia.edu})}}
 
 \begin{document}
-\makeheading{Ronghui Gu}
+
+\makeheading{Ronghui Gu}{\url{http://www.ronghuigu.com}}
 \thispagestyle{empty}
 
 %\section*{Contact Information}
@@ -236,9 +239,10 @@
 \\[-1.0em]
 Assistant Professor, Department of Computer Science, Columbia University \\
 500 West 120 Street, 515 CSB, New York, NY 10027\\ 
+Email: \email{ronghui.gu@columbia.edu} 
+ \qquad
 Phone: +1 (212) 939-7111 \qquad Fax: +1 (212) 666-0140 \\
-Email: \email{ronghui.gu@columbia.edu} \\
-Website: \url{http://guronghui.com}
+%Website: \url{http://guronghui.com}
 \end{tabular}
 
 %\vspace{5pt}
@@ -270,7 +274,7 @@ Website: \url{http://guronghui.com}
         \begin{innerlist}
 %%        \item Advisor: Prof. Yuan Dong and Prof. Shengyuan Wang
         \item Rank: {4 / 140}
-        \item Outstanding Undergraduate of Tsinghua University, top 1.9\% (3 among 140).
+        \item Graduation with Highest Distinction, top 1.9\% (3 among 140).
         \item Honors Undergraduate Thesis of Tsinghua University, top 4\% (5 among 140).
         \item Outstanding Student of Beijing City.
         \end{innerlist}
@@ -324,16 +328,20 @@ of \href{http://micrium.com/rtos/ucosii/overview/}{$\mu$C/OS-II}.
 %\vspace{.1in}
 %
 %\item[] Z. Shao, R. Gu,  V. Sj\"{o}berg, J. Kim, and J. Koenig, ``Systems and Methods for Formal Verification." \emph{International Patent No. PCT/US2018/062883}, Nov. 2018.
-\item[] R. Gu, Z. Shao, H. Chen, J. Kim, J. Koenig, X. Wu, V. Sj\"{o}berg, and D. Costanzo, ``Building Certified Concurrent OS Kernels." \emph{Communications of ACM (\textbf{CACM})}, 62(10), 89-99, 2019.
+\item[] R. Gu, Z. Shao, H. Chen, J. Kim, J. Koenig, X. Wu, V. Sj\"{o}berg, and D. Costanzo, ``Building Certified Concurrent OS Kernels." \emph{Communications of ACM (\textbf{CACM})}, 62(10), 89-99, 2019  (\textbf{Research Highlights}).
+
+\vspace{.1in}
+
+\item[] M. Liu, L. Rieg, Z. Shao, R. Gu, D. Costanzo, J. Kim, and M. Yoon, ``Virtual Timeline: A Formal Abstraction for Verifying Preemptive Schedulers with Temporal Isolation." \emph{Proceedings of the 47th ACM Symposium on Principles of Programming Languages (\textbf{POPL 2020})}, Jan. 2020.
 
 \vspace{.1in}
 
 \item[]  L. Nelson, J. Bornholt, R. Gu, A. Baumann, E. Torlak, and X. Wang. ``Serval: Scaling Symbolic Evaluation for Automated
-              Verification of Systems Code.'' \emph{Proceedings of the 27th ACM Symposium on Operating Systems Principles (\textbf{SOSP 2019})}, October, 2019.    
+              Verification of Systems Code.'' \emph{Proceedings of the 27th ACM Symposium on Operating Systems Principles (\textbf{SOSP 2019})}, Oct. 2019.    
             
 \vspace{.1in}
 
-\item[]  M. Zou, H. Ding, D. Du, M. Fu, R. Gu, and H. Chen. ``Using Concurrent Relational Logic with Helper for Verifying the AtomFS File System.'' \emph{Proceedings of the 27th ACM Symposium on Operating Systems Principles (\textbf{SOSP 2019})}, October, 2019.
+\item[]  M. Zou, H. Ding, D. Du, M. Fu, R. Gu, and H. Chen. ``Using Concurrent Relational Logic with Helper for Verifying the AtomFS File System.'' \emph{Proceedings of the 27th ACM Symposium on Operating Systems Principles (\textbf{SOSP 2019})}, Oct. 2019.
            
 \vspace{.1in}
 
@@ -382,8 +390,13 @@ of \href{http://micrium.com/rtos/ucosii/overview/}{$\mu$C/OS-II}.
 \begin{innerlist}
 
 
+
 \item[] Member of Program Committee,
 \emph{41st annual ACM SIGPLAN conference on Programming Language Design and Implementation ({PLDI 2020})}.
+\vspace{0.05in}
+
+\item[] Panelist,  Quantum Idea Incubator for Transformational Advances in Quantum Systems (QII-TAQS), \emph{National Science Foundation (NSF)},  Alexandria, VA, June 2019.
+
 \vspace{0.05in}
 
 \item[] Member of Program Committee,
@@ -427,30 +440,22 @@ Verification at the Hardware-software Interface ({ENTROPY 2019})}.
 
 \end{innerlist}
 
-
-
-\section{Teaching Experience}
-\begin{innerlist}
-\item[] COMS 4115 Programming Languages and Translators.
-\vspace{0.05in}
-
-\item[] COMS E6998 
-Formal Verification of System Software.
-\vspace{0.05in}
-
-\item[] COMS W3101 
-Programming Languages.
-\vspace{0.05in}
-
-\item[] Graduate Seminar on Systems.
-\end{innerlist}
-
 \section{Select Honors}
 \begin{innerlist}
-\item[] MIT Technology Review 35 Innovators Under 35 Semi-Finalist.  \hfill{Feb. 2019}
+
+\item[] 
+Communications of the ACM (CACM) Research Highlights.
+\hfill{Oct. 2019}
+
+ \vspace{0.05in}
+
+\item[] MIT Technology Review 35 Innovators Under 35 Semi-Finalist.  
+\hfill{Feb. 2019}
+
 \vspace{0.05in}
-%\item[] Columbia-IBM Center Seed Grant Award, Columbia University. \hfill{Dec. 2018}%
-%\vspace{0.05in}
+
+\item[] Columbia-IBM Center Seed Grant Award, Columbia University. \hfill{Dec. 2018}%
+\vspace{0.05in}
 
 \item[] Distinction Dissertation, Yale University. \hfill{Dec. 2016}
 
@@ -464,7 +469,7 @@ Programming Languages.
 
 \vspace{0.05in}
 
-\item[] Outstanding Undergraduate (top 1.9\%), Tsinghua University. \hfill Jul. 2011
+\item[] Graduation with Highest Distinction (top 1.9\%), Tsinghua University. \hfill Jul. 2011
 
 \vspace{0.05in}
 
@@ -486,6 +491,95 @@ Programming Languages.
 %
 %First Prize of National Mathematical Olympiad Competition, China.
 %\hfill Oct. 2006
+\end{innerlist}
+
+\section{Grants}
+\begin{innerlist}
+
+\item[] A Secure and Verifiable Commodity Hypervisor (with Jason Nieh), 
+National Science Foundation (NSF) Program on Formal Methods in the                                   
+Field (FMitF), CCF-1918400, \$750,000,  2019 - 2023.
+
+\vspace{0.1in}
+
+\item[] DeepSEA Framework for Building Certified Smart Contracts on IBM Hyperledger Platform, 
+Columbia-IBM Center Seed Grant Award, \$100,000,  2019 - 2020.
+
+\vspace{0.1in}
+
+
+
+\item[] {Ethereum Foundation Research Gift} (with Zhong Shao), 2019 - 2020.
+\vspace{0.1in}
+
+\item[] {Qtum Foundation Research Gift}, \$400,000, 2018 - 2020.
+\vspace{0.1in}
+
+\item[] {Baidu USA Research Gift}, 2017 - 2018.
+\end{innerlist}
+
+
+\section{Students}
+\begin{innerlist}
+
+\item[] \textbf{Ph.D. Students:} Runzhou Tao (2019 - present), John Zhuang Hui (2019 - present), Jianan Yao (2019 - present), and Xupeng Li (2019 - present).
+
+\vspace{0.1in}
+
+
+\item[] \textbf{Research Assistants:} Xupeng Li (2018 - 2019), Justin Wong (2019 - present), and River Dillon Keefer (2019 - present).
+
+
+
+\vspace{0.1in}
+
+\item[] \textbf{Undergraduate students (advising their senior projects):} 
+Justin Wong (2019)
+and Jerry Lin (2020).
+
+\vspace{0.1in}
+
+\item[] \textbf{Research Interns:}
+Han Zheng (2019),
+Amanda Liu (2019),
+and Linghan Kong (2019).
+
+\vspace{0.1in}
+
+\item[] \textbf{Member of the Ph.D. Thesis Committee:} 
+Xinhao Yuan (2019),
+Richard Townsend (2019),
+and Lucas Paul.
+
+\end{innerlist}
+
+\section{Teaching Experience}
+\begin{innerlist}
+\item[] COMS 4115 Programming Languages and Translators.
+\vspace{0.05in}
+
+\item[] COMS E6998 
+Formal Verification of System Software.
+\vspace{0.05in}
+
+\item[] COMS W3101 
+Programming Languages.
+\vspace{0.05in}
+
+\item[] Graduate Seminar on Systems.
+\end{innerlist}
+
+\section{University Activities}
+\begin{innerlist}
+
+\item[] Academic Advisor of SEAS Undergraduates, {Columbia University}, July 2019 - present.
+
+
+\vspace{0.05in}
+ 
+\item[] Cybersecurity Affiliated Member, {Data Science Institute}, {Columbia University}, Feb. 2019 - present.
+
+
 \end{innerlist}
 
 %\section{Five Synergistic Activities}
