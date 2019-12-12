@@ -15,6 +15,7 @@ a:hover { color: #222; text-decoration: none; }
 img.imgright { float: right; margin: 0 0 15px 15px; padding: 5px; border: 0px dashed #CCC; }
 img.imgleft { float: left; margin: 0 15px 15px 0; padding: 5px; border: 0px dashed #a63a3a; }
 
+video {border: 3px solid #444}
 /* Main Styles */
 
 #container
